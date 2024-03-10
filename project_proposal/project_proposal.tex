@@ -1,0 +1,119 @@
+\documentclass[12pt]{article}
+\usepackage[paper=letterpaper,margin=2cm]{geometry}
+
+%\usepackage{coffeestains} 
+
+\usepackage{amsmath}
+\usepackage{amsthm} %needed for the proofs 
+\usepackage{amssymb}
+\usepackage{titling}
+\usepackage{thmtools}
+\usepackage{mathptmx} %font
+\usepackage{verbatim} % for comments
+\usepackage{mdframed}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{lipsum}
+
+% --- NAMES --- %
+\newcommand{\nameone}{Alexandre St-Aubin}
+\newcommand{\nametwo}{, Jonathan Campana, Edmund Wu \& Elliot Elliot Forcier-Poirier.}
+%images
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+% to include an image, do: 
+%    \begin{center}
+%    \includegraphics[scale=0.20]{graph.jpg}
+%    \end{center}
+% OR: 
+%\begin{figure}
+%    \centering
+%    \includegraphics[scale=0.20]{IMG_1052.jpg}
+%    \caption{Your caption text here.}
+%\end{figure}
+
+%For plots
+\usepackage{pgfplots}
+\pgfplotsset{compat = newest}
+
+% --- Custom Math Commands --- %
+\newtheorem{theorem}{Theorem}
+\declaretheoremstyle{lemma}
+\declaretheorem[style=lemma, name=Lemma]{lemma}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+\declaretheoremstyle{example}
+\declaretheorem[style=example, name=Example]{example}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\declaretheoremstyle{proposition}
+\declaretheorem[style=proposition, name=Proposition]{proposition}
+
+\declaretheorem[name=Note]{note}
+\declaretheoremstyle{note}
+
+\newenvironment{ftheo}
+  {\begin{mdframed}\begin{theorem}}
+  {\end{theorem}\end{mdframed}}
+
+
+  % --- Special commands --- %
+\newcommand\sol{%
+  \\ 
+  \\
+  \textit{Solution:}\\%
+}
+
+\usepackage[T1]{fontenc} %header
+\usepackage[utf8]{inputenc}%header
+\usepackage{geometry} %header
+\usepackage{fancyhdr}%header
+\usepackage{blindtext}
+\usepackage{lastpage}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhfoffset[L]{1cm} % left extra length
+\fancyhfoffset[R]{1cm} % right extra length
+\rhead{\today}
+\lhead{\it \nameone \nametwo}
+\fancyfoot[R]{Page \thepage \hspace{1pt} of \pageref{LastPage}}
+
+% --- Title Page --- % 
+\setlength{\droptitle}{-6em}
+
+\title{\textsc{Project Proposal -- Math 563}}  
+\author{\it \nameone \nametwo}
+\date{\today}
+
+\begin{document}
+\maketitle 
+\thispagestyle{empty} %clear first page numbering
+%\coffeestainA{0.9}{0.85}{-25}{5cm}{1.3cm}
+
+\subsection*{Algorithm Allocation}
+We will for the most part work on all four deblurring algorithms collaboratively. As the deadline approaches, we will then allocate responsibilities to ensure that each algorithm is well done. Initial allocation, subject to change, will be as follows:
+
+\begin{enumerate}
+    \item Primal Douglas-Rachford Splitting (Spingarn’s Method) (Alexandre St-Aubin)
+    \item Primal-Dual Douglas Rachford Splitting (Jonathan Campagna)
+    \item ADMM (Dual Douglas-Rachford) (Edmund Wu)
+    \item Chambolle-Pock Method (Elliot Forcier-Poirier)
+\end{enumerate}
+
+\subsection*{Matlab Implementation}
+Matlab will be used for coding the deblurring algorithms, making use of its built-in functions for matrix operations, optimization routines, and powerful visualization tools.
+
+\subsection*{GitHub Repository Collaboration}
+We plan to use GitHub for collaborative coding and version control, creating a private repository exclusive to team members. This will facilitate an organized and overview of our collective work
+
+\subsection*{Final Report -- Overleaf Collaboration}
+The final report will be prepared using LaTeX, per the instructions. We will collaborate on Overleaf, allowing for simultaneous writing. Specific sections will be assigned to each team member, as in the coding portion.
+
+\end{document}
+
+
+
