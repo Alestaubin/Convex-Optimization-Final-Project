@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1710112901 "project_proposal.tex" "project_proposal.pdf" "project_proposal" 1710112902 0
+["pdflatex"] 1710119817 "project_proposal.tex" "project_proposal.pdf" "project_proposal" 1710119818 0
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmb7t.tfm" 1136768653 2172 fd0c924230362ff848a33632ed45dc23 ""
@@ -212,8 +212,8 @@
   "/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1693683507 4623355 b8cad38412faebe1ce5b780a45db67bd ""
   "/usr/local/texlive/2023/texmf-var/web2c/pdftex/pdflatex.fmt" 1693683423 7883466 0daf13f68d70d6b799279728d2d79159 ""
   "/usr/local/texlive/2023/texmf.cnf" 1678822455 577 1b2b1af17af2508fb20dd85783af4050 ""
-  "project_proposal.aux" 1710112902 186 2ae223e9d78f26d72888cd16d40267c4 "pdflatex"
-  "project_proposal.tex" 1710112898 3608 4cf96fa1163b590997447995c27a5704 ""
+  "project_proposal.aux" 1710119818 186 2ae223e9d78f26d72888cd16d40267c4 "pdflatex"
+  "project_proposal.tex" 1710119778 3601 c7f652a62854d1d40c8dad0b56a70307 ""
   (generated)
   "project_proposal.aux"
   "project_proposal.log"
