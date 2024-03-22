@@ -1,6 +1,4 @@
-% MAIN file for the project 
-% it will handle the user inputs and call the required algorithm
-
+% Function to handle the user inputs and call the required algorithm
 function x = DeblurGod(problem, algorithm, x_init, kernel, b, i)
     % Validate inputs
     validateInputs(problem, algorithm, x_init, kernel, b, i);
@@ -31,4 +29,6 @@ function validateInputs(problem, algorithm, x_init, kernel, b, i)
     if ~any(strcmpi(algorithm, valid_algorithms))
         error('Invalid algorithm specified.');
     end
+
+    % Validate the 'i' input, and add default fields if necessary
 end
