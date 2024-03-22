@@ -8,11 +8,5 @@
 - `fspecial` [documentation](https://www.mathworks.com/help/images/ref/fspecial.html)
 
 ## Usage 
-#### Display an image
-Type in the script window, from the directory "+TheProject"
-```[MATLAB]
->> I = imread('+TheProject/+image_files/cameraman.jpg'); % set I to the unblurred cameraman image
->> J = TheProject.image_handling.GaussianBlur(I,15,2); % set J to the Gaussian Blurred image
->> figure('Name','image after deblurring'); % sets the title of the figure
->> imshow(J,[]) % displays the image in the figure described above
+1. To display blurred images, see [this](/Matlab_code/+NotAllABlur/+testers/Blur.m) script.
 ```
