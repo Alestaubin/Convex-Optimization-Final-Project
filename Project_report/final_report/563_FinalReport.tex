@@ -25,7 +25,6 @@
 
 \usepackage[utf8]{inputenc} % allow utf-8 input
 \usepackage[T1]{fontenc}    % use 8-bit T1 fonts
-%\usepackage{hyperref}       % hyperlinks
 \usepackage{url}            % simple URL typesetting
 \usepackage{booktabs}       % professional-quality tables
 \usepackage{amsfonts}       % blackboard math symbols
@@ -52,9 +51,38 @@
 \usepackage[all]{xy}
 \usetikzlibrary{shapes}
 \usetikzlibrary{decorations.markings}
-%\usepackage{hyperref}
 \usepackage{multirow}
 \usepackage{bm}
+
+\usepackage{thmtools}
+\usepackage{mathptmx} %font
+\usepackage{pgfplots}
+\pgfplotsset{compat = newest}
+
+% --- Custom Math Commands --- %
+\newtheorem{theorem}{Theorem}
+\declaretheoremstyle{lemma}
+\declaretheorem[style=lemma, name=Lemma]{lemma}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+\declaretheoremstyle{example}
+\declaretheorem[style=example, name=Example]{example}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\declaretheoremstyle{proposition}
+\declaretheorem[style=proposition, name=Proposition]{proposition}
+
+\declaretheorem[name=Note]{note}
+\declaretheoremstyle{note}
+
+\newenvironment{ftheo}
+  {\begin{mdframed}\begin{theorem}}
+  {\end{theorem}\end{mdframed}}
+
 
 \definecolor{mydarkblue}{rgb}{0,0.08,0.45}
 \usepackage[colorlinks=true,
@@ -112,16 +140,98 @@
 
 
 \begin{abstract}
-  The abstract paragraph should be indented \nicefrac{1}{2}~inch (3~picas) on
-  both the left- and right-hand margins. Use 10~point type, with a vertical
-  spacing (leading) of 11~points.  The word \textbf{Abstract} must be centered,
-  bold, and in point size 12. Two line spaces precede the abstract. The abstract
-  must be limited to one paragraph.
+  give some background
 \end{abstract}
 
 
-\section{Submission of papers to NeurIPS 2023 and Math 463/563}
-hey
+\section{Introduction}
+\subsection{Notation}%
+  \label{sub:Notation}
+\subsection{Preleminaries}%
+  \label{sub:Preleminaries}
+  We first note an important relation between the proximal and subdifferential operators.\\
+  \begin{proposition}
+    Given a function $f\in\Gamma$, we have 
+    \begin{equation}
+      \prox_{\lambda f} =(I+ \lambda \partial f)^{-1},
+    \end{equation}  
+    where $(I + \lambda \partial f)^{-1}$, for $\lambda > 0$, is called the \textbf{resolvent} of the operator $\partial f$. In particular, the proximal operator is the resolvent of the subdifferential operator \cite{parikh_2014}.\\
+  \end{proposition}
+  \begin{definition}[Maximal Monotone operator]
+    A monotone operator is \textbf{maximal} if its graph is not properly contained in the graph of any other monotone operator. If A is monotone (resp. maximal monotone) then so are $A^{-1}$ and $\lambda A$ if $\lambda > 0$.
+  \end{definition}
+  The next proposition, given in \cite{ConnorVander}, will be useful in the construction of the optimizing algorithms.\\ 
+  \begin{proposition}     
+If $F$ is maximal monotone, then $(I + \lambda F)^{-1}(\hat x)$ exists and is unique for all $\hat x \in R^n$. The value $x = (I + \lambda F)^{-1}(\hat x)$ of the resolvent is the unique solution of the monotone inclusion
+ \begin{equation*}
+      \hat x \in x + \lambda {F}(x) 
+   \end{equation*}
+  \end{proposition}  
+
+\section{Algorithms}
+The algorithms we present are used to solve the non-blind image deblurring problem, which is a convex optimization problem of the form 
+\begin{equation}
+  \begin{split}
+    \min_{x,y} f(x) + g(y)\\ 
+    \text{subject to }Ax= y,
+  \end{split}
+\end{equation}
+where $f, g \in \Gamma$ have inexpensive prox-operators. We are given a vectorized, blurred image $b$, along with the kernel $K$ used to blur it using the model 
+\begin{equation}
+  Kx + \eta = b,
+\end{equation}
+where $x$ is the original image, and $\eta$ the added noise. Our goal is to recover the original image $x$. We formulate the problem in two ways, namely, one which uses the $L^1$ norm, and the other the $L^2$ norm. First,
+\begin{equation}\label{l1}
+    \min_x \|Kx - b\|_1 + \delta_S(x) + \gamma \|Dx \|_{\iso}, 
+\end{equation}
+and second,
+\begin{equation}\label{l2}
+    \min_x \|Kx - b\|_2^2 + \delta_S(x) + \gamma \|Dx \|_{\iso}, 
+\end{equation}
+where $S = \{x \mid 0 \leq x \leq 1\}$, so that $\delta_S$ aims to restrict the range of allowed pixels. The $\iso$ norm is defined as 
+$$\|(x,y) \|_{\iso} = \sum^{n}_{k=1} (x_k^2 + y^2_k )^{\frac{1}{2}} $$
+
+\subsection{Primal Douglas-Rachford splitting (Spingarn's method)}%
+  \label{sub:Primal Douglas-Rachford splitting (Spingarn's method)}
+  This first algorithm, which we will refer to by PDRS, was invented in the 1950s as a method to solve the heat equation \cite{douglas_rachford_1956}. Per (\ref{l1}), let 
+  \begin{equation}\label{gf}
+    \begin{split}
+      f(x) =& \delta_S(x)\\ 
+      g(x) =& \|Kx - b\|_1 + \gamma \|Dx\|_\iso
+    \end{split}
+  \end{equation}
+  and consider the minimization problem 
+  \begin{equation}
+    \begin{split}
+      \min_{x,y} f(x) + g(y) +\delta_0 \left( \begin{bmatrix}
+        A & -I
+      \end{bmatrix} \begin{bmatrix}
+        x\\y
+      \end{bmatrix} \right)
+    \end{split}
+  \end{equation}
+  with the optimality condition 
+  \begin{equation}
+    \begin{split}
+      0 \in \partial f(x) + \partial g(y) + \partial \delta_0 \left( \begin{bmatrix}
+        A & -I
+      \end{bmatrix} \begin{bmatrix}
+        x\\y
+      \end{bmatrix} \right) =: F(x,y) 
+    \end{split}
+  \end{equation}
+  Since this particular problem is too computationally expensive, the strategy is to split $F$ into $F= A+B$. Define 
+  \begin{equation}
+    \begin{split}
+      A(x,y)& = \partial f(x) + \partial g(y) = \partial (\delta_S (x)) +\partial (\|Ky - b\|_1 + \gamma \|Dy\|_{\iso})\\ 
+      B(x,y) &= \partial \delta_0 \left( \begin{bmatrix}
+        A & -I
+      \end{bmatrix} \begin{bmatrix}
+        x\\y
+      \end{bmatrix} \right)
+    \end{split}
+  \end{equation}
+\newpage
 \section*{Acknowledgments}
 Please include a list of each person (with student ID) in your group
 and write a paragraph \textbf{for each person} with exactly what they
@@ -134,14 +244,9 @@ Example Acknowledgments would look like:
 \paragraph{Jonathan Campana} (Student ID: ) We ball. 
 \paragraph{Elliot Forcier-Poirier} (Student ID: ) We ball. 
 \paragraph{Edmund Wu} (Student ID: ) We ball. 
-
 \bibliographystyle{plainnat}
-\bibliography{math463.bib}
-References follow the acknowledgments. Use unnumbered first-level heading for
-the references. Any choice of citation style is acceptable as long as you are
-consistent. It is permissible to reduce the font size to \verb+small+ (9 point)
-when listing the references.
-Note that the Reference section does not count towards the page limit.
+\bibliography{563_FinalReport.bib}
+
 \medskip
 
 
@@ -159,3 +264,4 @@ This section will often be part of the supplemental material.
 
 
 \end{document}
+
