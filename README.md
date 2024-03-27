@@ -9,4 +9,3 @@
 
 ## Usage 
 1. To display blurred images, see [this](/Matlab_code/+NotAllABlur/+testers/Blur.m) script.
-```
