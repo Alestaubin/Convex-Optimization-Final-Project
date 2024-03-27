@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.9.2)  26 MAR 2024 21:35
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.9.2)  27 MAR 2024 16:59
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -932,7 +932,7 @@ Package hyperref Info: Link coloring ON on input line 109.
 Package natbib Warning: Empty `thebibliography' environment on input line 8.
 
 )
-LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 146.
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 142.
  (/usr/local/texlive/2023/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2022/07/10 v2.5l Standard LaTeX font definitions
 )
@@ -948,18 +948,18 @@ Package rerunfilecheck Info: File `563_FinalReport.out' has not changed.
 (rerunfilecheck)             Checksum: 9A099AF8115501EC9F4C13E2556FB315;416.
  ) 
 Here is how much of TeX's memory you used:
- 30749 strings out of 476025
- 573305 string characters out of 5790018
- 1861388 words of memory out of 5000000
+ 30750 strings out of 476025
+ 573316 string characters out of 5790018
+ 1862388 words of memory out of 5000000
  50512 multiletter control sequences out of 15000+600000
- 541887 words of font info for 123 fonts, out of 8000000 for 9000
+ 541824 words of font info for 122 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,8n,80p,3249b,456s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmr8a.pfb>
-Output written on 563_FinalReport.pdf (1 page, 53907 bytes).
+Output written on 563_FinalReport.pdf (1 page, 52835 bytes).
 PDF statistics:
- 48 PDF objects out of 1000 (max. 8388607)
- 38 compressed objects within 1 object stream
- 8 named destinations out of 1000 (max. 500000)
+ 50 PDF objects out of 1000 (max. 8388607)
+ 40 compressed objects within 1 object stream
+ 10 named destinations out of 1000 (max. 500000)
  32285 words of extra memory for PDF output out of 35830 (max. 10000000)
 
