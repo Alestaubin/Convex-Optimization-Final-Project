@@ -152,7 +152,7 @@
   We first note an important relation between the proximal and subdifferential operators.\\
   \begin{proposition}
     Given a function $f\in\Gamma$, we have 
-    \begin{equation}
+    \begin{equation}\label{subProx}
       \prox_{\lambda f} =(I+ \lambda \partial f)^{-1},
     \end{equation}  
     where $(I + \lambda \partial f)^{-1}$, for $\lambda > 0$, is called the \textbf{resolvent} of the operator $\partial f$. In particular, the proximal operator is the resolvent of the subdifferential operator \cite{parikh_2014}.\\
@@ -220,7 +220,7 @@ $$\|(x,y) \|_{\iso} = \sum^{n}_{k=1} (x_k^2 + y^2_k )^{\frac{1}{2}} $$
       \end{bmatrix} \right) =: F(x,y) 
     \end{split}
   \end{equation}
-  Since this particular problem is too computationally expensive, the strategy is to split $F$ into $F= A+B$. Define 
+  Since this particular problem is too computationally expensive, the strategy is to split $F$ into $F= A+B$. Define,
   \begin{equation}
     \begin{split}
       A(x,y)& = \partial f(x) + \partial g(y) = \partial (\delta_S (x)) +\partial (\|Ky - b\|_1 + \gamma \|Dy\|_{\iso})\\ 
@@ -229,6 +229,25 @@ $$\|(x,y) \|_{\iso} = \sum^{n}_{k=1} (x_k^2 + y^2_k )^{\frac{1}{2}} $$
       \end{bmatrix} \begin{bmatrix}
         x\\y
       \end{bmatrix} \right)
+    \end{split}
+  \end{equation}
+  We now focus on finding the resolvents of $A$ and $B$,  
+  \begin{equation}
+    \begin{split}
+      J_A = (I + \lambda A)^{-1} &= \prox_{\lambda (f+g) }(x,y)\quad [\text{by (\ref{subProx})}] \\
+      &= (\prox_{\lambda f}(x) ,\prox_{\lambda g}(y))\quad [\text{by separability of variables}]
+    \end{split}
+  \end{equation}
+  where 
+  \begin{equation}
+    \begin{split}
+      \prox_{\lambda f} (x) =& \prox_{\lambda \delta_S}(x) = \argmin_x \frac{1}{2} \| u-x \|^2_2 + \delta_S(x)= \argmin_x \frac{1}{2} \| u-x \|^2_2,
+    \end{split}
+  \end{equation}
+  which is the euclidean projection operator onto $S.$ Furthermore, 
+  \begin{equation}
+    \begin{split}
+      \prox_{\lambda g}(y) = 
     \end{split}
   \end{equation}
 \newpage
