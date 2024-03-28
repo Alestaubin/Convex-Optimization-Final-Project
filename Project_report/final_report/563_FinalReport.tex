@@ -32,6 +32,7 @@
 \usepackage{microtype}      % microtypography
 \usepackage{xcolor}         % colors
 
+\usepackage[mathcal]{eucal} % for the good looking mathcal
 
 \usepackage{makeidx}
 \usepackage{amsmath,amsfonts,amssymb,amsthm}
@@ -147,7 +148,29 @@
 \section{Introduction}
 \subsection{Notation}%
   \label{sub:Notation}
-\subsection{Preleminaries}%
+  Throughout this paper, we will denote the \textit{proximal operator} of $f$ with parameter $\lambda$ by 
+  \begin{equation}
+    \begin{split}
+      \prox_{\lambda f}(v) := \argmin_x \left\{f(x) + \frac{1}{2\lambda} \| x - v\|_2^2 \right\}
+    \end{split}
+  \end{equation}
+  The \textit{indicator function} for a convex set $C$ will be defined as 
+  \begin{equation}
+    \begin{split}
+      \delta_C (x) := 
+      \begin{cases}
+        0, &\text{ if } x \in C\\
+        +\infty, &\text{ if } x \notin C
+      \end{cases}
+    \end{split}
+  \end{equation}
+  We also denote the \textit{Euclidean Projection} on a set $C$ by 
+  \begin{equation}
+    \begin{split}
+      \proj_C(v):= \argmin_{x\in C} \| x -v \|_2
+    \end{split}
+  \end{equation}
+  \subsection{Preleminaries}%
   \label{sub:Preleminaries}
   We first note an important relation between the proximal and subdifferential operators.\\
   \begin{proposition}
@@ -173,6 +196,26 @@ If $F$ is maximal monotone, then $(I + \lambda F)^{-1}(\hat x)$ exists and is un
     \prox_f (x,y) = (\prox_\varphi(x), \prox_\psi(y))
   \end{equation}
   Thus, evaluating the proximal operator of a separable function reduces to evaluating the proximal operators for each of the separable parts, which can be done independently \cite{parikh_2014}.
+\end{proposition}
+\begin{proposition}(Proximal operator of norms) \label{normprox}
+  If $f = \| \cdot \|$ is a general norm, then $f^*$ is the indicator function on the unit ball for the dual norm $\| \cdot \|_*$, namely 
+   \begin{equation*}
+    \begin{split}
+      \|\cdot \| ^* = \delta_{\|\cdot \|_* \leq 1}
+    \end{split}
+  \end{equation*}
+  where $\|\cdot \|_*$ is given by 
+\begin{equation*}
+  \begin{split}
+    \| v\|_* = \sup_x \{\langle v, x\rangle \mid \|x\|\leq 1\} 
+  \end{split}
+\end{equation*}
+In particular, the \textit{Moreau Decomposition Theorem} gives that 
+\begin{equation*}
+  \begin{split}
+    \prox_{\|\cdot \|}(v) = \proj_{\{x \;: \; \|x \|_* \leq 1\}} (v) - v
+  \end{split}
+\end{equation*}
 \end{proposition}
 \section{Algorithms}
 The algorithms we present are used to solve the non-blind image deblurring problem, which is a convex optimization problem of the form 
@@ -203,7 +246,7 @@ $$\|(x,y) \|_{\iso} = \sum^{n}_{k=1} (x_k^2 + y^2_k )^{\frac{1}{2}} $$
   \begin{equation}\label{gf}
     \begin{split}
       f(x) =& \delta_S(x)\\ 
-      g(x) =& \|Kx - b\|_1 + \gamma \|Dx\|_\iso
+      g(x) =& \|Kx - b\|_1 + \gamma \|Dx\|_{\iso}
     \end{split}
   \end{equation}
   and consider the minimization problem 
@@ -226,37 +269,47 @@ $$\|(x,y) \|_{\iso} = \sum^{n}_{k=1} (x_k^2 + y^2_k )^{\frac{1}{2}} $$
       \end{bmatrix} \right) =: F(x,y) 
     \end{split}
   \end{equation}
-  As stated in the literature \cite{ConnorVander}, $F$ is the subdifferential of closed, convex functions, hence is a maximal monotone operator. Thus, by (\ref{maxmon}), the zeros of $F$ are the fixed points of the resolvent of $F$. Therefore, if we can find the fixed points of $F$, we'll have found the optimal points. Unfortunately, this particular problem is too computationally expensive, so the strategy is to split $F$ into two maximal monotone operators $A$ and $B$ which have inexpensive proximal operators. Finding the fixed points of $A+B$ will be equivalent to finding that of $F.$ Define $A$ and $B$ as, 
+  As stated in the literature \cite{ConnorVander}, $F$ is the subdifferential of closed, convex functions, hence is a maximal monotone operator. Thus, by (\ref{maxmon}), the zeros of $F$ are the fixed points of the resolvent of $F$. Therefore, if we can find the fixed points of $F$, we'll have found the optimal points. Unfortunately, this particular problem is too computationally expensive, so the strategy is to split $F$ into two maximal monotone operators $\mathcal{A}$ and $\mathcal{B}$ which have inexpensive proximal operators. Finding the fixed points of $\mathcal{A}+ \mathcal{B}$ will be equivalent to finding that of $F.$ Define $\mathcal{A}$ and $\mathcal{B}$ as, 
   \begin{equation}
     \begin{split}
-      A(x,y)& = \partial f(x) + \partial g(y) = \partial (\delta_S (x)) +\partial (\|Ky - b\|_1 + \gamma \|Dy\|_{\iso})\\ 
-      B(x,y) &= \partial \delta_0 \left( \begin{bmatrix}
-        A & -I
+      \mathcal{A}(x,y)& = \partial f(x) + \partial g(y) = \partial (\delta_S (x)) +\partial (\|Ky - b\|_1 + \gamma \|Dy\|_{\iso})\\ 
+      \mathcal{B}(x,y) &= \partial \delta_0 \left( \begin{bmatrix}
+        \begin{bmatrix}
+          K \\D
+        \end{bmatrix} & -I
       \end{bmatrix} \begin{bmatrix}
         x\\y
       \end{bmatrix} \right)
     \end{split}
   \end{equation}
-  We now focus on finding the resolvents of $A$ and $B$,  
+  We now focus on finding the resolvents of $\mathcal{A}$ and $\mathcal{B}$,  
   \begin{equation}
     \begin{split}
-      J_A = (I + \lambda A)^{-1} &= \prox_{\lambda (f+g) }(x,y)\quad [\text{by (\ref{subProx})}] \\
+      J_{\mathcal{A}} = (I + \lambda \mathcal{A})^{-1} &= \prox_{\lambda (f+g) }(x,y)\quad [\text{by (\ref{subProx})}] \\
       &= (\prox_{\lambda f}(x) ,\prox_{\lambda g}(y))\quad [\text{by Prop. \ref{proxsplit}}]
     \end{split}
   \end{equation}
   where 
   \begin{equation}
     \begin{split}
-      \prox_{\lambda f} (x) =& \prox_{\lambda \delta_S}(x) = \argmin_x \frac{1}{2} \| u-x \|^2_2 + \delta_S(x)= \argmin_x \frac{1}{2} \| u-x \|^2_2,
+      \prox_{\lambda f} (x) =& \prox_{\lambda \delta_S}(x) = \argmin_u \frac{1}{2} \| x-u \|^2_2 + \delta_S(x)= \argmin_u \frac{1}{2} \| x-u \|^2_2 = \proj_S(x),
     \end{split}
   \end{equation}
-  which is the euclidean projection operator onto $S.$ Now, we observe that $g(y)$ described in  (\ref{gf}) can be written in a different form by letting $$y_1 = Ky\quad \text{ and }\quad (y_2,y_3) = Dy$$ to get
+  which is the euclidean projection operator onto $S.$ Now, we observe that $g(y)$ described in  (\ref{gf}) can be written in a different form by letting  
   \begin{equation}
     \begin{split}
-      $g(y_1, y_2, y_3) = \| y_1 -b \|_1 + \gamma \|(y_2, y_3) \|_{\iso}$
+      g(y_1, y_2, y_3) = \| y_1 -b \|_{1} + \gamma \|(y_2, y_3) \|_{\iso}
     \end{split}
   \end{equation}
-  Then, by Proposition \ref{proxsplit}, we notice that the proximal operator of $g$ may be obtained by splitting its components into 
+  subject to 
+  $$y_1 = Ky\quad \text{ and }\quad \begin{bmatrix}
+    y_2 \\ y_3 
+  \end{bmatrix} = Dy \iff \begin{bmatrix}
+    y_1\\ y_2 \\ y_3
+  \end{bmatrix} = \begin{bmatrix}
+    K\\ D 
+  \end{bmatrix} y  $$ 
+  Then, by Proposition \ref{proxsplit}, notice that the proximal operator of $g$ may be obtained by splitting its components into 
   \begin{equation*}
     \begin{split}
       \varphi(y_1) = \|y_1 -b \|_1 \quad \text{ and } \quad \psi(y_2, y_3)= \gamma \| (y_2, y_3)\|_{\iso}
@@ -268,12 +321,67 @@ $$\|(x,y) \|_{\iso} = \sum^{n}_{k=1} (x_k^2 + y^2_k )^{\frac{1}{2}} $$
       \prox_{\lambda g}(y_1, y_2, y_3) =&(\prox_{\lambda \varphi}(y_1), \prox_{\lambda \psi}(y_2, y_3))
     \end{split}
   \end{equation}
-  So, we find 
+  We know that the proximal operator of the $L^1$ norm is the soft-thresholding operator $T_\lambda$, so $\prox_{\lambda \varphi} (y_1)$ is given element-wise as follows, 
+  \begin{equation}
+       (\prox_{\lambda \varphi} (y_1))_i = (\prox_{\lambda \|\cdot\|_1}(y_1-b))_i= T_\lambda({(y_1-b)_i}) :=  
+      \begin{cases}
+        (y_1-b)_i - \lambda, &\text{ if } (y_1-b)_i >\lambda\\ 
+        (y_1-b)_i+ \lambda, &\text{ if }(y_1-b)_i <\lambda  \\ 
+        0, &\text{ otherwise. }
+      \end{cases}
+  \end{equation}
+  As a result of Proposition \ref{normprox}, $\prox_{\lambda \psi}(y_2, y_3)$, is given element-wise by 
   \begin{equation*}
     \begin{split}
-      \prox_{\lambda \varphi} (y_1) = \prox_{\lambda \| \cdot - b \|_1}(y_1)
+      (\prox_{\lambda \psi}(y_2, y_3))_i =  \alpha_i ((y_2)_i, (y_3)_i), 
     \end{split}
   \end{equation*}
+  where, \marginpar{\color{red}(provide a proof of this)}
+  \begin{equation*}
+    \begin{split}
+      \alpha_i = 
+      \begin{cases}
+        1 - \frac{\lambda }{\sqrt{(y_2)_i^2 + (y_3)_i^2}},  &\text{ if }\sqrt{(y_2)_i^2 + (y_3)_i^2}> \lambda \\ 
+         0, &\text{ otherwise. }
+      \end{cases}
+    \end{split}
+  \end{equation*}
+  As for the resolvent of $B$, it corresponds to the projection $(x, y)$ of a vector $(\bar x, \bar y)$ onto the subspace $\{(x, y) \mid
+Ax = y\}$, expressed as
+ \begin{equation*}
+  \begin{split}
+    J_{\mathcal{B}} = (I + \lambda \mathcal{B})^{-1} =\left(x=\left(I+ \begin{bmatrix}
+      K &D
+        \end{bmatrix} \begin{bmatrix}
+          K \\D
+        \end{bmatrix}\right)^{-1}\left(\bar x +  \begin{bmatrix}
+          K \\D
+        \end{bmatrix}\bar y\right), y= \begin{bmatrix}
+          K \\D
+        \end{bmatrix}x \right)
+  \end{split}
+ \end{equation*}
+
+\begin{algorithm}[ht!]
+ \SetKw{Null}{NULL}
+ \SetKw{Return}{return}
+ \Input{ Blurred image $b$, step size $t$, relaxation parameter $\rho$}
+ \Output{ Deblurred image $x$ }
+\Initialize{ $(z^0_1, z^0_2)$ }
+
+\For { $k = 1, 2, \hdots, $ } {
+  $x^k \leftarrow \prox_{tf}(z^{k-1}_1)$ \tcp*{Performs resolvent of $\mathcal{A}$} 
+  $y^k \leftarrow \prox_{tg}(z^{k-1}_2)$ \;
+  $u^k \leftarrow (I+A^TA)^{-1} \big ( 2x^k-z^{k-1}_1 +
+  A^T(2y^k-z^{k-1}_2) \big )$ \tcp*{Performs
+    resolvent of $\mathcal{B}$}
+  $v^k \leftarrow A(u^k)$ \;
+  $z^k_1 \leftarrow z^{k-1}_1 + \rho(u^k-x^k)$ \;
+  $z^k_2 \leftarrow z^{k-1}_2 + \rho(v^k-y^k)$ \;
+} 
+\Return $x\text{Sol} = \prox_{tf}(z^k)$\;
+\caption{Primal Douglas-Rachford Splitting}\label{alg: DRprimal} 
+\end{algorithm}
   \newpage
 \section*{Acknowledgments}
 Please include a list of each person (with student ID) in your group
@@ -305,6 +413,4 @@ Example Acknowledgments would look like:
 Optionally include extra information (complete proofs, additional experiments and plots) in the appendix.
 This section will often be part of the supplemental material.
 
-
 \end{document}
-
