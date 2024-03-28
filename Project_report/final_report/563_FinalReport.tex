@@ -163,11 +163,17 @@
   The next proposition, given in \cite{ConnorVander}, will be useful in the construction of the optimizing algorithms.\\ 
   \begin{proposition}     
 If $F$ is maximal monotone, then $(I + \lambda F)^{-1}(\hat x)$ exists and is unique for all $\hat x \in R^n$. The value $x = (I + \lambda F)^{-1}(\hat x)$ of the resolvent is the unique solution of the monotone inclusion
- \begin{equation*}
+    \begin{equation}\label{maxmon}
       \hat x \in x + \lambda {F}(x) 
-   \end{equation*}
+   \end{equation}
   \end{proposition}  
-
+\begin{proposition}[Proximal operator splitting] \label{proxsplit}
+  If $f$ is separable across two variables, so $f(x, y) = \varphi(x) + \psi(y)$, then
+  \begin{equation}
+    \prox_f (x,y) = (\prox_\varphi(x), \prox_\psi(y))
+  \end{equation}
+  Thus, evaluating the proximal operator of a separable function reduces to evaluating the proximal operators for each of the separable parts, which can be done independently \cite{parikh_2014}.
+\end{proposition}
 \section{Algorithms}
 The algorithms we present are used to solve the non-blind image deblurring problem, which is a convex optimization problem of the form 
 \begin{equation}
@@ -220,7 +226,7 @@ $$\|(x,y) \|_{\iso} = \sum^{n}_{k=1} (x_k^2 + y^2_k )^{\frac{1}{2}} $$
       \end{bmatrix} \right) =: F(x,y) 
     \end{split}
   \end{equation}
-  Since this particular problem is too computationally expensive, the strategy is to split $F$ into $F= A+B$. Define,
+  As stated in the literature \cite{ConnorVander}, $F$ is the subdifferential of closed, convex functions, hence is a maximal monotone operator. Thus, by (\ref{maxmon}), the zeros of $F$ are the fixed points of the resolvent of $F$. Therefore, if we can find the fixed points of $F$, we'll have found the optimal points. Unfortunately, this particular problem is too computationally expensive, so the strategy is to split $F$ into two maximal monotone operators $A$ and $B$ which have inexpensive proximal operators. Finding the fixed points of $A+B$ will be equivalent to finding that of $F.$ Define $A$ and $B$ as, 
   \begin{equation}
     \begin{split}
       A(x,y)& = \partial f(x) + \partial g(y) = \partial (\delta_S (x)) +\partial (\|Ky - b\|_1 + \gamma \|Dy\|_{\iso})\\ 
@@ -235,7 +241,7 @@ $$\|(x,y) \|_{\iso} = \sum^{n}_{k=1} (x_k^2 + y^2_k )^{\frac{1}{2}} $$
   \begin{equation}
     \begin{split}
       J_A = (I + \lambda A)^{-1} &= \prox_{\lambda (f+g) }(x,y)\quad [\text{by (\ref{subProx})}] \\
-      &= (\prox_{\lambda f}(x) ,\prox_{\lambda g}(y))\quad [\text{by separability of variables}]
+      &= (\prox_{\lambda f}(x) ,\prox_{\lambda g}(y))\quad [\text{by Prop. \ref{proxsplit}}]
     \end{split}
   \end{equation}
   where 
@@ -244,13 +250,31 @@ $$\|(x,y) \|_{\iso} = \sum^{n}_{k=1} (x_k^2 + y^2_k )^{\frac{1}{2}} $$
       \prox_{\lambda f} (x) =& \prox_{\lambda \delta_S}(x) = \argmin_x \frac{1}{2} \| u-x \|^2_2 + \delta_S(x)= \argmin_x \frac{1}{2} \| u-x \|^2_2,
     \end{split}
   \end{equation}
-  which is the euclidean projection operator onto $S.$ Furthermore, 
+  which is the euclidean projection operator onto $S.$ Now, we observe that $g(y)$ described in  (\ref{gf}) can be written in a different form by letting $$y_1 = Ky\quad \text{ and }\quad (y_2,y_3) = Dy$$ to get
   \begin{equation}
     \begin{split}
-      \prox_{\lambda g}(y) = 
+      $g(y_1, y_2, y_3) = \| y_1 -b \|_1 + \gamma \|(y_2, y_3) \|_{\iso}$
     \end{split}
   \end{equation}
-\newpage
+  Then, by Proposition \ref{proxsplit}, we notice that the proximal operator of $g$ may be obtained by splitting its components into 
+  \begin{equation*}
+    \begin{split}
+      \varphi(y_1) = \|y_1 -b \|_1 \quad \text{ and } \quad \psi(y_2, y_3)= \gamma \| (y_2, y_3)\|_{\iso}
+    \end{split}
+  \end{equation*}
+  which gives 
+  \begin{equation}
+    \begin{split}
+      \prox_{\lambda g}(y_1, y_2, y_3) =&(\prox_{\lambda \varphi}(y_1), \prox_{\lambda \psi}(y_2, y_3))
+    \end{split}
+  \end{equation}
+  So, we find 
+  \begin{equation*}
+    \begin{split}
+      \prox_{\lambda \varphi} (y_1) = \prox_{\lambda \| \cdot - b \|_1}(y_1)
+    \end{split}
+  \end{equation*}
+  \newpage
 \section*{Acknowledgments}
 Please include a list of each person (with student ID) in your group
 and write a paragraph \textbf{for each person} with exactly what they

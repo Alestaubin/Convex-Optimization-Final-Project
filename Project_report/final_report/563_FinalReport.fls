@@ -1508,14 +1508,8 @@ INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/base/t1cmtt.fd
 INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/base/t1cmtt.fd
 INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/base/t1cmtt.fd
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/jknappen/ec/ectt1000.tfm
-INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/psnfss/ts1ptm.fd
-INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/psnfss/ts1ptm.fd
-INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/psnfss/ts1ptm.fd
-INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/psnfss/ts1ptm.fd
-INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmri8c.tfm
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/vf/adobe/times/ptmri8t.vf
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc
-INPUT /usr/local/texlive/2023/texmf-dist/fonts/vf/adobe/times/ptmri8c.vf
 INPUT 563_FinalReport.aux
 INPUT ./563_FinalReport.out
 INPUT ./563_FinalReport.out
