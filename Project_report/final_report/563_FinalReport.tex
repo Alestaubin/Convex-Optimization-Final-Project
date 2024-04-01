@@ -292,7 +292,7 @@ $$\|(x,y) \|_{\iso} = \sum^{n}_{k=1} (x_k^2 + y^2_k )^{\frac{1}{2}} $$
   where 
   \begin{equation}
     \begin{split}
-      \prox_{\lambda f} (x) =& \prox_{\lambda \delta_S}(x) = \argmin_u \frac{1}{2} \| x-u \|^2_2 + \delta_S(x)= \argmin_u \frac{1}{2} \| x-u \|^2_2 = \proj_S(x),
+      \prox_{\lambda f} (x) =& \prox_{\lambda \delta_S}(x) = \argmin_u \frac{1}{2} \| x-u \|^2_2 + \delta_S(x)= \argmin_{u \in S} \frac{1}{2} \| x-u \|^2_2 = \proj_S(x),
     \end{split}
   \end{equation}
   which is the euclidean projection operator onto $S.$ Now, we observe that $g(y)$ described in  (\ref{gf}) can be written in a different form by letting  

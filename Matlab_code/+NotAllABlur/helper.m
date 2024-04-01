@@ -1,9 +1,9 @@
 %%%%%%%%%%%%%%%%%%%%
 % Image Set up
 %%%%%%%%%%%%%%%%%%%%
-
+clearvars, clc;
 % Import image
-I = imread('mcgill.jpg');
+I = imread('+NotAllABlur/+image_files/mcgill.jpg');
 I = rgb2gray(I);
 
 % Resize so each pixel is in between 0 and 1
@@ -14,8 +14,8 @@ mx = max(I(:));
 I = I/mx;
 
 % Show image
-% figure('Name','image before deblurring')
-% imshow(I,[])
+ figure('Name','image before deblurring')
+ imshow(I,[])
 
 
 %%%%%%%%%%%%%%%%%%%%
@@ -38,8 +38,8 @@ I = imresize(I, resizefactor);
 b = imfilter(I, kernel);
 b = imnoise(b, 'salt & pepper', d);
 
-% figure('Name','image after blurring')
-% imshow(b,[])
+ figure('Name','image after blurring')
+ imshow(b,[])
 
 
 %%%%%%%%%%%%%%%%%%%%
@@ -110,10 +110,12 @@ z1 = ivals.z1;
 z2 = ivals.z2;
 while (iter <= i.maxiter)
     % Resolvent of A
-    x = boxProx(z1);  
+
+    x = boxProx(z1); 
+
     y = cat(3, ...
         g(z1(:, :, 1), b, i.gammal1), ...
-        isoProx(z2(:, :, 2:3), i.gammal1) ...
+        NotAllABlur.utilities.prox.isoProx(z2(:, :, 2:3), i.gammal1) ...
         );
 
     % Resolvent of B
@@ -143,23 +145,6 @@ end
 %%%%%%%%%%%%%%%%%%%%
 % Helper functions
 %%%%%%%%%%%%%%%%%%%%
-% Prox operators
-function [ sol ] = l1Prox( y, b, gamma )
-sol = sign(y - b) .* max(abs(y - b) - gamma, 0);
-end
-
-
-function [ sol ] = l2Prox( y, b, gamma )
-sol = max(1 - gamma ./ norm(y - b), 0) .* (y - b);
-end
-
-
-function [ sol ] = isoProx( y, gamma )
-y2 = y(:, :, 1);
-y3 = y(:, :, 2);
-sol = y - gamma ./ (y2.^2 + y3.^2).^(1/2);
-end
-
 
 function [ sol ] = boxProx( x )
 % Creates a copy and transforms into a column vector
@@ -188,9 +173,9 @@ function apply = multiplyingmatrix(b, kernel, i)
 
 %computes the numRow x numCol matrix of the eigenvalues for K and D1 and
 %D2; Here D1 = I oplus D1 in the paper and D2 = D1 oplus I.
-eigArry_K = eigValsForPeriodicConvOp(kernel, numRows, numCols);
-eigArry_D1 = eigValsForPeriodicConvOp([-1,1]', numRows, numCols);
-eigArry_D2 = eigValsForPeriodicConvOp([-1,1], numRows, numCols);
+eigArry_K = NotAllABlur.utilities.eigValsForPeriodicConvOp(kernel, numRows, numCols);
+eigArry_D1 = NotAllABlur.utilities.eigValsForPeriodicConvOp([-1,1]', numRows, numCols);
+eigArry_D2 = NotAllABlur.utilities.eigValsForPeriodicConvOp([-1,1], numRows, numCols);
 
 %computes numRow x numCol matrix of the eigenvalues for K^T and D1^T and
 %D2^T;
@@ -202,13 +187,13 @@ eigArry_D2Trans = conj(eigArry_D2);
 %Note for all the x functions, the input x is in R^(m x n) and outputs into
 %R^(m x n) except for D which outputs into 2 concat. R^(m x n) matrices;
 %For D^Ty, y is two m x n matrices concatanated and outputs into R^(m x n)
-applyD1 = @(x) applyPeriodicConv2D(x, eigArry_D1);
-applyD2 = @(x) applyPeriodicConv2D(x, eigArry_D2);
-applyD1Trans = @(x) applyPeriodicConv2D(x, eigArry_D1Trans);
-applyD2Trans = @(x) applyPeriodicConv2D(x, eigArry_D2Trans);
+applyD1 = @(x) NotAllABlur.utilities.applyPeriodicConv2D(x, eigArry_D1);
+applyD2 = @(x) NotAllABlur.utilities.applyPeriodicConv2D(x, eigArry_D2);
+applyD1Trans = @(x) NotAllABlur.utilities.applyPeriodicConv2D(x, eigArry_D1Trans);
+applyD2Trans = @(x) NotAllABlur.utilities.applyPeriodicConv2D(x, eigArry_D2Trans);
 
-apply.K = @(x) applyPeriodicConv2D(x, eigArry_K);
-apply.KTrans = @(x) applyPeriodicConv2D(x, eigArry_KTrans);
+apply.K = @(x) NotAllABlur.utilities.applyPeriodicConv2D(x, eigArry_K);
+apply.KTrans = @(x) NotAllABlur.utilities.applyPeriodicConv2D(x, eigArry_KTrans);
 apply.D = @(x) cat(3, applyD1(x), applyD2(x));
 apply.DTrans = @(y) applyD1Trans(y(:,:,1)) + applyD2Trans(y(:, :, 2));
 

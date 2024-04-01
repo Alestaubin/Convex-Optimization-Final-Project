@@ -1,0 +1,250 @@
+%%%%%%%%%%%%%%%%%%%%
+% Image Set up
+%%%%%%%%%%%%%%%%%%%%
+clearvars, clc;
+% Import image
+I = imread('+NotAllABlur/+image_files/mcgill.jpg');
+I = rgb2gray(I);
+
+% Resize so each pixel is in between 0 and 1
+I = double(I(:, :, 1));
+mn = min(I(:));
+I = I - mn;
+mx = max(I(:));
+I = I/mx;
+
+% Show image
+ figure('Name','image before deblurring')
+ imshow(I,[])
+
+
+%%%%%%%%%%%%%%%%%%%%
+% Convolution kernels and noise (at least 2 variations of each)
+%%%%%%%%%%%%%%%%%%%%
+
+% Parameters
+hsize = [15, 15];
+sigma = 5;
+kernel = fspecial('gaussian', hsize, sigma);
+% fspecial('motion', len, theta);
+% b = imnoise(b,'gaussian', mean, vargauss);
+d = 0.5;
+
+% Shrink image
+resizefactor = 0.1;
+I = imresize(I, resizefactor);
+
+% b = kernel * I + noise
+b = imfilter(I, kernel);
+b = imnoise(b, 'salt & pepper', d);
+
+ figure('Name','image after blurring')
+ imshow(b,[])
+
+
+%%%%%%%%%%%%%%%%%%%%
+% Algorithm setups
+%%%%%%%%%%%%%%%%%%%%
+
+i.verbose = 1;
+i.maxiter = 500;
+i.gammal1 = 0.75;
+i.tprimaldr = 0.9;
+i.rhoprimaldr = 0.1;
+i.tprimaldualdr = 2.0;
+i.rhoprimaldualdr = 1.049;
+[numRows, numCols] = size(b);
+x = rand_init( numRows, numCols );
+[x, summary] = optsolve('l1', 'douglasrachfordprimal', x, kernel, b, i);
+% x = optsolve('l1', 'douglasrachfordprimal', x, kernel, b, i);
+% x = optsolve('l1', 'douglasrachfordprimaldual' , x, kernel, b, i);
+
+figure('Name','image after deblurring')
+imshow(x,[])
+
+%%%%%%%%%%%%%%%%%%%%
+% Solver
+%%%%%%%%%%%%%%%%%%%%
+
+function [ sol, summary ] = optsolve( problem, algo, xinit, kernel, b, i )
+% Set up the algorithm
+algo = algoname(algo);
+g = probname(problem);
+if ~isfield(i, 'maxiter'), i.maxiter=500 ; end
+
+% Initialize values
+ivals = algo.initialize( xinit, b, kernel, i );
+
+% Optimize
+[ sol, summary ] = algo.iterate( ivals, b, kernel, i, g );
+
+end
+
+
+%%%%%%%%%%%%%%%%%%%%
+% Algorithm 1: douglasrachfordprimal
+%%%%%%%%%%%%%%%%%%%%
+function algo = douglasrachfordprimal()
+algo.initialize =@(xinit, b, kernel, i) drfp_init( xinit, b, kernel, i );
+algo.iterate =@(ivals, b, kernel, i, g) drfp_run( ivals, b, kernel, i, g );
+end
+
+
+function ivals = drfp_init( xinit, b, kernel, i )
+i.algo = 'douglasrachfordprimal';
+if ~isfield(i, 'gammal1'), i.gammal1 = 0.049; end
+if ~isfield(i, 'tprimaldr'), i.tprimaldr = 2.0 ; end
+if ~isfield(i, 'rhoprimaldr'), i.rhoprimaldr = 0.05; end
+
+apply = multiplyingmatrix(b, kernel, i);
+ivals.z1 = xinit;
+ivals.z2 = cat(3, apply.K(xinit), apply.D(xinit));
+end
+
+
+function [ x, summary ] = drfp_run( ivals, b, kernel, i, g )
+apply = multiplyingmatrix(b, kernel, i);
+
+iter = 1;
+z1 = ivals.z1;
+z2 = ivals.z2;
+while (iter <= i.maxiter)
+    % Resolvent of A
+    x = boxProx(z1); 
+    y = cat(3, ...
+        g(z1(:, :, 1), b, i.gammal1), ...
+        NotAllABlur.utilities.isoProx(z2(:, :, 2:3), i.gammal1) ...
+        );
+
+    % Resolvent of B
+    u = apply.invertMatrix( ...
+        2*x - z1 + ...
+        apply.KTrans(2*y(:, :, 1) - z1(:, :, 1)) + ...
+        apply.DTrans(2*y(:, :, 2:3) - z2(:, :, 2:3)));
+    v = cat(3, apply.K(u), apply.D(u));
+    
+    % Update
+    z1 = z1 + i.rhoprimaldr*(u - x);
+    z2 = z2 + i.rhoprimaldr*(v - y);
+    iter = iter + 1;
+
+    if i.verbose == 1
+        fprintf('Iter %.2i   \n', iter);
+    end
+
+end
+
+x = boxProx(z1);  
+summary = "Algorithm Ended";
+
+end
+
+
+%%%%%%%%%%%%%%%%%%%%
+% Helper functions
+%%%%%%%%%%%%%%%%%%%%
+% Prox operators
+function [ sol ] = l1Prox( y, b, gamma )
+sol = sign(y - b) .* max(abs(y - b) - gamma, 0);
+end
+
+
+function [ sol ] = l2Prox( y, b, gamma )
+sol = max(1 - gamma ./ norm(y - b), 0) .* (y - b);
+end
+
+
+
+function [ sol ] = boxProx( x )
+% Creates a copy and transforms into a column vector
+sol = x;
+sol = sol(:);
+% Gets indices out of bounds
+g = sol > 1;
+l = sol < 0;
+% Performs box projection, and reshape to original size
+sol(g) = 1;
+sol(l) = 0;
+sol = reshape(sol, size(x));
+end
+
+
+% Random initialization
+function [ out ] = rand_init( numRows, numCols )
+out = rand(numRows, numCols);
+end
+
+
+% Struct for computations
+function apply = multiplyingmatrix(b, kernel, i)
+%Constructing the K and D matrices
+[numRows, numCols] = size(b); %numRows = m, numCols = n
+
+%computes the numRow x numCol matrix of the eigenvalues for K and D1 and
+%D2; Here D1 = I oplus D1 in the paper and D2 = D1 oplus I.
+eigArry_K = NotAllABlur.utilities.eigValsForPeriodicConvOp(kernel, numRows, numCols);
+eigArry_D1 = NotAllABlur.utilities.eigValsForPeriodicConvOp([-1,1]', numRows, numCols);
+eigArry_D2 = NotAllABlur.utilities.eigValsForPeriodicConvOp([-1,1], numRows, numCols);
+
+%computes numRow x numCol matrix of the eigenvalues for K^T and D1^T and
+%D2^T;
+eigArry_KTrans = conj(eigArry_K);
+eigArry_D1Trans = conj(eigArry_D1);
+eigArry_D2Trans = conj(eigArry_D2);
+
+%Functions which compute Kx, D1x, D2x, Dxt, K^Tx, D1^Tx, D2^Tx, and D^Ty.
+%Note for all the x functions, the input x is in R^(m x n) and outputs into
+%R^(m x n) except for D which outputs into 2 concat. R^(m x n) matrices;
+%For D^Ty, y is two m x n matrices concatanated and outputs into R^(m x n)
+applyD1 = @(x) NotAllABlur.utilities.applyPeriodicConv2D(x, eigArry_D1);
+applyD2 = @(x) NotAllABlur.utilities.applyPeriodicConv2D(x, eigArry_D2);
+applyD1Trans = @(x) NotAllABlur.utilities.applyPeriodicConv2D(x, eigArry_D1Trans);
+applyD2Trans = @(x) NotAllABlur.utilities.applyPeriodicConv2D(x, eigArry_D2Trans);
+
+apply.K = @(x) NotAllABlur.utilities.applyPeriodicConv2D(x, eigArry_K);
+apply.KTrans = @(x) NotAllABlur.utilities.applyPeriodicConv2D(x, eigArry_KTrans);
+apply.D = @(x) cat(3, applyD1(x), applyD2(x));
+apply.DTrans = @(y) applyD1Trans(y(:,:,1)) + applyD2Trans(y(:, :, 2));
+
+% Function which computes the (I + K^TK + D^TD)x where x in R^(m x n)
+% matrix and the eigenvalues of I + t*t*K^TK + t*t*D^TD; here t is the
+% stepsizes
+t = i.tprimaldr; % Need to change this for the various algorithms you are applying
+apply.Mat = @(x) x + apply.KTrans(apply.K(x)) + apply.DTrans(apply.D(x));
+apply.eigValsMat = ones(numRows, numCols) + t*t*eigArry_KTrans.*eigArry_K + t*t*eigArry_D1Trans.*eigArry_D1...
+    + t*t*eigArry_D2Trans.*eigArry_D2;
+
+%R^(m x n) Computing (I + K^T*K + D^T*D)^(-1)*x
+apply.invertMatrix = @(x) ifft2(fft2(x)./apply.eigValsMat); 
+end
+
+
+% Select algorithm
+function algo = algoname( name )
+switch lower(name)
+    case 'douglasrachfordprimal'
+        algo = douglasrachfordprimal();
+    case 'douglasrachfordprimaldual'
+        algo = douglasrachfordprimaldual();
+    case 'admm'
+        algo = admm();
+    case 'chambollepock'
+        algo = chambollepock();
+    otherwise
+        error('Unknown algorithm name');
+end
+end
+
+function problem = probname( name )
+switch lower(name)
+    case 'l1'
+        problem =@(y, b, t) l1Prox( y, b, t );
+    case 'l2'
+        problem =@(y, b, t) l2Prox( y, b, t );
+    otherwise
+        error('Unknown algorithm name');
+end
+end
+
+
+
