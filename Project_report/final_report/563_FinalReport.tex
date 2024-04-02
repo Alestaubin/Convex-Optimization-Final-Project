@@ -295,7 +295,20 @@ $$\|(x,y) \|_{\iso} = \sum^{n}_{k=1} (x_k^2 + y^2_k )^{\frac{1}{2}} $$
       \prox_{\lambda f} (x) =& \prox_{\lambda \delta_S}(x) = \argmin_u \frac{1}{2} \| x-u \|^2_2 + \delta_S(x)= \argmin_{u \in S} \frac{1}{2} \| x-u \|^2_2 = \proj_S(x),
     \end{split}
   \end{equation}
-  which is the euclidean projection operator onto $S.$ Now, we observe that $g(y)$ described in  (\ref{gf}) can be written in a different form by letting  
+  which is the euclidean projection operator onto $S.$ It can be computed element-wise by
+  \begin{equation}
+    \begin{split}
+      (\proj_S(x))_i = 
+      \begin{cases}
+        0, &\text{ if } x_i < 0\\
+        x_i, &\text{ if } x_i \in S\\ 
+        1, & \text{ if } x_i > 1 
+      \end{cases} = \max \{0 , \min\{x_i , 1\}\}
+          \end{split}
+  \end{equation}
+
+
+  Now, we observe that $g(y)$ described in  (\ref{gf}) can be written in a different form by letting  
   \begin{equation}
     \begin{split}
       g(y_1, y_2, y_3) = \| y_1 -b \|_{1} + \gamma \|(y_2, y_3) \|_{\iso}
@@ -326,7 +339,7 @@ $$\|(x,y) \|_{\iso} = \sum^{n}_{k=1} (x_k^2 + y^2_k )^{\frac{1}{2}} $$
        (\prox_{\lambda \varphi} (y_1))_i = (\prox_{\lambda \|\cdot\|_1}(y_1-b))_i= T_\lambda({(y_1-b)_i}) :=  
       \begin{cases}
         (y_1-b)_i - \lambda, &\text{ if } (y_1-b)_i >\lambda\\ 
-        (y_1-b)_i+ \lambda, &\text{ if }(y_1-b)_i <\lambda  \\ 
+        (y_1-b)_i+ \lambda, &\text{ if }(y_1-b)_i <-\lambda  \\ 
         0, &\text{ otherwise. }
       \end{cases}
   \end{equation}

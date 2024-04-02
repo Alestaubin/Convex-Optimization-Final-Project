@@ -1,8 +1,5 @@
-function [iso_prox_of_y] = isoprox(y,gamma)
-arguments
-    y {double}
-    gamma double
-end
+%% TESTED -- WORKS
+function [iso_prox_of_y] = isoprox(y,t)
 % returns the isotropic proximal operator of y. 
 
 % split y in 2
@@ -20,8 +17,8 @@ iso_prox_of_y = zeros(dim(1), dim(2), 2);
 for i = 1:dim(1)
     for j = 1:dim(2) 
         % get alpha
-        if sqrt(y2(i,j)^2 + y3(i,j)^2) > gamma
-            alpha = 1 - gamma / (sqrt(y2(i,j)^2 + y3(i,j)^2));
+        if sqrt(y2(i,j)^2 + y3(i,j)^2) > t
+            alpha = 1 - t / (sqrt(y2(i,j)^2 + y3(i,j)^2));
         else 
             alpha = 0;
         end
