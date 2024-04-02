@@ -123,7 +123,7 @@
   % examples of more authors
   \And
  Jonathan Campana \\
- Student ID: \\
+ Student ID: 260985613 \\
  \AND
  Edmund Wu\\
  Student ID: \\
@@ -399,6 +399,49 @@ $$\|(x,y) \|_{\iso} = \sum^{n}_{k=1} (x_k^2 + y^2_k )^{\frac{1}{2}} $$
 \end{algorithm}
   \newpage
 
+\subsection{Primal-Dual Douglas Rachford Splitting}\label{sub:Primal-Dual Douglas Rachford splitting}
+
+In this algorithm, we consider the dual problem, 
+\begin{equation}
+  \text{maximize}_y \ -f^*(-A^T y) - g^*(y)
+\end{equation}
+with the optimality conditions for both the primal and the dual problem 
+
+\[
+0 \in 
+\begin{bmatrix}
+  0 & 0 & A^T & I \\
+  0 & 0 & -I & 0 \\
+  -A & I & 0 & 0 \\
+  -I & 0 & 0 & 0 \\
+\end{bmatrix}
+\begin{bmatrix}
+  x \\
+  y \\ 
+  z \\
+  w \\
+\end{bmatrix} 
++ 
+\begin{bmatrix}
+  0 \\
+  \partial g(y) \\
+  0 \\
+  \partial f^*(w) \\
+\end{bmatrix}
+\]
+
+In the above, $w$ is the dual variable and $z$ is the dual multiplier for the constraint $y = Ax$, thus the dual problem is subject to
+\begin{equation*}
+  A^T z + w = 0
+\end{equation*}
+
+We reduce this to a smaller system, 
+
+
+
+
+
+
 
 \section*{Acknowledgments}
 Please include a list of each person (with student ID) in your group
@@ -409,7 +452,7 @@ page limit.
 Example Acknowledgments would look like:
 
 \paragraph{Alexandre St-Aubin} (Student ID: 261115785) We ball.
-\paragraph{Jonathan Campana} (Student ID: ) We ball. 
+\paragraph{Jonathan Campana} (Student ID: 260985613) We ball. 
 \paragraph{Elliot Forcier-Poirier} (Student ID: ) We ball. 
 \paragraph{Edmund Wu} (Student ID: ) We ball. 
 \bibliographystyle{plainnat}
