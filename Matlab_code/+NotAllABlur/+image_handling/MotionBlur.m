@@ -1,4 +1,4 @@
-function blurredImage = MotionBlur(unblurredImage, len, theta)
+function [kernel,blurredImage] = MotionBlur(unblurredImage, len, theta)
 % INPUTS: 
 % - unblurredImage is unambiguous. 
 % - len is linear motion of camera, specified as a numeric scalar, 
@@ -7,7 +7,7 @@ function blurredImage = MotionBlur(unblurredImage, len, theta)
 %   scalar. The angle is measured in a counter-clockwise direction from horizontal.
 % OUTPUT:
 % Applies a motion blur to unblurredImage and returns the result.
-H = fspecial('motion',len,theta);
-blurredImage = imfilter(unblurredImage,H, "replicate");
+kernel = fspecial('motion',len,theta);
+blurredImage = imfilter(unblurredImage,kernel, "replicate");
 end
 

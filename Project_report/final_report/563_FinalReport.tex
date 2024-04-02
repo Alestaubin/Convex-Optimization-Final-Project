@@ -266,10 +266,10 @@ $$\|(x,y) \|_{\iso} = \sum^{n}_{k=1} (x_k^2 + y^2_k )^{\frac{1}{2}} $$
         A & -I
       \end{bmatrix} \begin{bmatrix}
         x\\y
-      \end{bmatrix} \right) =: F(x,y) 
+      \end{bmatrix} \right) =: \mathcal{F}(x,y) 
     \end{split}
   \end{equation}
-  As stated in the literature \cite{ConnorVander}, $F$ is the subdifferential of closed, convex functions, hence is a maximal monotone operator. Thus, by (\ref{maxmon}), the zeros of $F$ are the fixed points of the resolvent of $F$. Therefore, if we can find the fixed points of $F$, we'll have found the optimal points. Unfortunately, this particular problem is too computationally expensive, so the strategy is to split $F$ into two maximal monotone operators $\mathcal{A}$ and $\mathcal{B}$ which have inexpensive proximal operators. Finding the fixed points of $\mathcal{A}+ \mathcal{B}$ will be equivalent to finding that of $F.$ Define $\mathcal{A}$ and $\mathcal{B}$ as, 
+  As stated in the literature \cite{ConnorVander}, $\mathcal{F}$ is the subdifferential of closed, convex functions, hence is a maximal monotone operator. Thus, by (\ref{maxmon}), the zeros of $\mathcal{F}$ are the fixed points of the resolvent of $\mathcal{F}$. Therefore, if we can find the fixed points of $\mathcal{F}$, we'll have found the optimal points. Unfortunately, this particular problem is too computationally expensive, so the strategy is to split $\mathcal{F}$ into two maximal monotone operators $\mathcal{A}$ and $\mathcal{B}$ which have inexpensive proximal operators. Finding the fixed points of $\mathcal{A}+ \mathcal{B}$ will be equivalent to finding that of $\mathcal{F}.$ Define $\mathcal{A}$ and $\mathcal{B}$ as, 
   \begin{equation}
     \begin{split}
       \mathcal{A}(x,y)& = \partial f(x) + \partial g(y) = \partial (\delta_S (x)) +\partial (\|Ky - b\|_1 + \gamma \|Dy\|_{\iso})\\ 

@@ -1,4 +1,4 @@
-function blurredImage = GaussianBlur(unblurredImage, hsize, sigma)
+function [kernel, blurredImage]= GaussianBlur(unblurredImage, hsize, sigma)
 % INPUTS: 
 % - unblurredImage is unambiguous. 
 % - hsize is the size of the filter, it should be significantly smaller
@@ -9,7 +9,7 @@ function blurredImage = GaussianBlur(unblurredImage, hsize, sigma)
 % - sigma is the standard deviation
 % OUTPUT:
 % Applies a gaussian blur to unblurredImage and returns the result.
-H = fspecial('gaussian',hsize,sigma);
-blurredImage = imfilter(unblurredImage,H, "replicate");
+kernel = fspecial('gaussian',hsize,sigma);
+blurredImage = imfilter(unblurredImage,kernel, "replicate");
 end
 

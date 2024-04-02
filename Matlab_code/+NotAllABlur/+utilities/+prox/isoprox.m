@@ -3,17 +3,20 @@ arguments
     y {double}
     gamma double
 end
+% returns the isotropic proximal operator of y. 
+
+% split y in 2
 y2 = y(:, :, 1);
 y3 = y(:, :, 2);
 
-%% Get size of y2 and y3 
+% Get size of y2 and y3 
 % dim(1) = # of rows, dim 2 = # of cols
 dim = size(y2);
 
 % initialize matrix with zeros
 iso_prox_of_y = zeros(dim(1), dim(2), 2);
 
-%% Iterate through each entry
+% Iterate through each entry
 for i = 1:dim(1)
     for j = 1:dim(2) 
         % get alpha
