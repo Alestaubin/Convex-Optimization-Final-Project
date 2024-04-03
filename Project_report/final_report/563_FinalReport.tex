@@ -403,7 +403,7 @@ $$\|(x,y) \|_{\iso} = \sum^{n}_{k=1} (x_k^2 + y^2_k )^{\frac{1}{2}} $$
 
 In this algorithm, we consider the dual problem, 
 \begin{equation}
-  \text{maximize}_y \ -f^*(-A^T y) - g^*(y)
+  \text{maximize} \ -f^*(-A^T z) - g^*(z)
 \end{equation}
 with the optimality conditions for both the primal and the dual problem 
 
@@ -435,13 +435,89 @@ In the above, $w$ is the dual variable and $z$ is the dual multiplier for the co
   A^T z + w = 0
 \end{equation*}
 
-We reduce this to a smaller system, 
+We reduce this to a smaller system by using the relationship $\partial g^* = {(\partial g)}^{-1}$, which follows from the fact that $g$ is closed and convex, and by the properties of the subgradient and conjugate. We can eliminate $y$ by using the above equality that $\partial g^* = {(\partial g)}^{-1}$, which would leave us with
+\[
+0 \in 
+\begin{bmatrix}
+  0 & A^T & I \\
+  -A & 0 & 0 \\
+  -I & 0 & 0 \\
+\end{bmatrix}
+\begin{bmatrix}
+  x \\
+  z \\
+  w \\
+\end{bmatrix}  
++
+\begin{bmatrix}
+  0 \\
+  \partial g^*(z) \\
+  \partial f^*(w) \\
+\end{bmatrix}
+\]
+
+We can further reduced this by eliminating $w$, using a similar equality that $\partial f = {(\partial f^*)}^{-1}$, we get
+
+\begin{equation}
+  0 \in 
+  \begin{bmatrix}
+    0 & A^T \\
+    -A & 0 \\
+  \end{bmatrix}
+  \begin{bmatrix}
+    x \\
+    z \\
+  \end{bmatrix}  
+  + 
+  \begin{bmatrix}
+    \partial f(x) \\
+    \partial g^*(z) \\
+  \end{bmatrix}
+\end{equation}
 
 
+We can now split the monotone operator we have above to a sum of two monotone operators given as 
+\begin{equation}
+  \mathcal{A}(x, z) = 
+  \begin{bmatrix}
+    \partial f(x) \\
+    \partial g^*(x) \\
+  \end{bmatrix}
+\quad
+\mathcal{B}(x, z) = 
+\begin{bmatrix}
+  0 & A^T \\
+  -A & 0 \\
+\end{bmatrix}
+\begin{bmatrix}
+  x \\
+  z \\
+\end{bmatrix}
+\end{equation}
 
+Similar to the previous algorithm, we now find the resolvents of $\mathcal{A}$ and $\mathcal{B}$. 
 
+Here is the Primal-Dual Douglas Rachford splitting algorithm,
 
-
+\begin{algorithm}[h!]
+  \SetKw{Null}{NULL}
+  \SetKw{Return}{return}
+  \Input{ Blurred image $b$, step size $t$, relaxation parameter $\rho$}
+  \Output{ Deblurred image $x$ }
+ \Initialize{ $p^0, q^0$ }
+ 
+ \For { $k = 1, 2, \hdots, $ } {
+   $x^k \leftarrow \prox_{tf}(p^{k-1}_1)$ \tcp*{Performs resolvent of $\mathcal{A}$} 
+   $z^k \leftarrow \prox_{tg^*}(q^{k-1})$ \;
+   $\begin{bmatrix} w^k\\ v^k  \end{bmatrix} = \begin{bmatrix} I &
+    t A^T\\ -t A & I \end{bmatrix}^{-1} \begin{bmatrix}
+     2x^k-p^{k-1}\\ 2z^k-p^{k-1} \end{bmatrix} $ \tcp*{Performs resolvent of $\mathcal{B}$} 
+   $p^k \leftarrow p^{k-1} + \rho(w^k-x^k)$ \;
+   $q^k \leftarrow q^{k-1} + \rho(v^k-z^k)$ \;
+ } 
+ \Return $x\text{Sol} = \prox_{tf}(p^k)$\;
+ \caption{Primal-Dual Douglas-Rachford Splitting}\label{alg: DRpd} 
+ \end{algorithm}
 
 \section*{Acknowledgments}
 Please include a list of each person (with student ID) in your group
