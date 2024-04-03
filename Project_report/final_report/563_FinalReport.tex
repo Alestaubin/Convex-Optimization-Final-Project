@@ -497,6 +497,80 @@ We can now split the monotone operator we have above to a sum of two monotone op
 
 Similar to the previous algorithm, we now find the resolvents of $\mathcal{A}$ and $\mathcal{B}$. 
 
+As seen before with the resolvent of $\mathcal{A}$, the value $(x, y) = {(I + At)}^{-1}(\hat{x}, \hat{z})$ is given by 
+\begin{equation*}
+  x = \prox_{\lambda f}(\hat{x}) \quad z = \prox_{tg^*}(\hat{z})
+\end{equation*}
+
+For $z$, we can apply moreau decomposition to get an alternate expression dealing with the conjugate $g^*$, thus we have, 
+\begin{equation*}
+  z = \hat{z} - t \prox_{t^{-1}g}(\frac{\hat{z}}{t})
+\end{equation*}
+Simplifying the above, we are left with, 
+\begin{equation*}
+  z = \hat{z} - \prox_{gt}(\hat{z})
+\end{equation*}
+
+This will be a similar computation to the prox operator in algorithm 1, but we have right scalar multiplication in this case. 
+
+
+
+
+
+The resolvent for $\mathcal{B}$ is a linear mapping, so considering resolvents for skew-symmetric linear operators 
+\begin{align*}
+  {(I + t\mathcal{B})}^{-1} &= 
+  {\begin{bmatrix}
+    I & tA^T \\
+    -tA & I \\
+  \end{bmatrix}}^{-1} \\
+  &=
+  \begin{bmatrix}
+    0 & 0 \\
+    0 & I \\
+  \end{bmatrix}
+  \begin{bmatrix}
+    I \\
+    tA \\
+  \end{bmatrix}
+  {(I + t^2A^T A)}^{-1}
+  {\begin{bmatrix}
+    I \\
+    -tA \\
+  \end{bmatrix}}^T \\
+  &=
+  \begin{bmatrix}
+    I & 0 \\
+    0 & 0 \\
+  \end{bmatrix}
+  \begin{bmatrix}
+    -tA^T \\
+    I \\
+  \end{bmatrix}
+  {(I + t^2A A^T)}^{-1}
+  {\begin{bmatrix}
+    tA^T \\
+    I \\
+  \end{bmatrix}}^T \\ 
+\end{align*}
+
+Letting $(x, z)$ be the value of the resolvent of $\mathcal{B}$, 
+\begin{equation*}
+  \begin{bmatrix}
+    x \\
+    z \\
+  \end{bmatrix} 
+  =
+  {\begin{bmatrix}
+    I & tA^T \\
+    -tA & I \\
+  \end{bmatrix}}^{-1}
+  \begin{bmatrix}
+    \hat{x} \\
+    \hat{z} \\
+  \end{bmatrix}
+\end{equation*}
+
 Here is the Primal-Dual Douglas Rachford splitting algorithm,
 
 \begin{algorithm}[h!]

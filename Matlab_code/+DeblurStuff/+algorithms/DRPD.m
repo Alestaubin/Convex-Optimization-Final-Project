@@ -1,6 +1,6 @@
 
 %%%%%%%%%%%%%%
-% 
+% Algorithm 2: douglasrachfordprimaldual
 %%%%%%%%%%%%%%
 
 

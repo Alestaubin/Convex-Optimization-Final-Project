@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.1.10)  3 APR 2024 14:25
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.1.10)  3 APR 2024 15:55
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1087,32 +1087,29 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmtt' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [3]
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[4]
+ [3] [4]
 No file 563_FinalReport.bbl.
+[5]
 
 Package natbib Warning: There were undefined citations.
 
-[5] (./563_FinalReport.aux)
+[6] (./563_FinalReport.aux)
 Package rerunfilecheck Info: File `563_FinalReport.out' has not changed.
 (rerunfilecheck)             Checksum: CD06C26887ABE13736C305075663B06C;1095.
  ) 
 Here is how much of TeX's memory you used:
- 41084 strings out of 478268
- 916000 string characters out of 5846347
+ 41088 strings out of 478268
+ 916030 string characters out of 5846347
  1408757 words of memory out of 5000000
  58266 multiletter control sequences out of 15000+600000
- 525361 words of font info for 201 fonts, out of 8000000 for 9000
+ 525491 words of font info for 203 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,28n,84p,3366b,609s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/euler/eusm10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/euler/eusm7.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on 563_FinalReport.pdf (5 pages, 147776 bytes).
+Output written on 563_FinalReport.pdf (6 pages, 149746 bytes).
 PDF statistics:
- 218 PDF objects out of 1000 (max. 8388607)
- 171 compressed objects within 2 object streams
- 72 named destinations out of 1000 (max. 500000)
+ 224 PDF objects out of 1000 (max. 8388607)
+ 176 compressed objects within 2 object streams
+ 73 named destinations out of 1000 (max. 500000)
  52805 words of extra memory for PDF output out of 61914 (max. 10000000)
 
