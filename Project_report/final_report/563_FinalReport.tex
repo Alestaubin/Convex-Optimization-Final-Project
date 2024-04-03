@@ -554,13 +554,13 @@ The resolvent for $\mathcal{B}$ is a linear mapping, so considering resolvents f
   \end{bmatrix}}^T \\ 
 \end{align*}
 
-Letting $(x, z)$ be the value of the resolvent of $\mathcal{B}$, 
-\begin{equation*}
+Letting $(w, v)$ be the value of the resolvent of $\mathcal{B}$, 
+\begin{align*}
   \begin{bmatrix}
-    x \\
-    z \\
+    w \\
+    v \\
   \end{bmatrix} 
-  =
+  &=
   {\begin{bmatrix}
     I & tA^T \\
     -tA & I \\
@@ -568,8 +568,26 @@ Letting $(x, z)$ be the value of the resolvent of $\mathcal{B}$,
   \begin{bmatrix}
     \hat{x} \\
     \hat{z} \\
+  \end{bmatrix} \\
+  &= 
+  \begin{bmatrix}
+    0 & 0 \\
+    0 & I \\
   \end{bmatrix}
-\end{equation*}
+  \begin{bmatrix}
+    I \\
+    tA \\
+  \end{bmatrix}
+  {(I + t^2A^T A)}^{-1}
+  {\begin{bmatrix}
+    I \\
+    -tA \\
+  \end{bmatrix}}^T 
+  \begin{bmatrix}
+    \hat{x} \\
+    \hat{z} \\
+  \end{bmatrix}\\
+\end{align*}
 
 Here is the Primal-Dual Douglas Rachford splitting algorithm,
 
