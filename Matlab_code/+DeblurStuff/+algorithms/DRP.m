@@ -10,7 +10,6 @@ end
 
 function ivals = drfp_init( xinit, b, kernel, i )
 
-    if ~isfield(i, 'gammal1'), i.gammal1 = 0.049; end
     if ~isfield(i, 'tprimaldr'), i.tprimaldr = 2.0 ; end
     if ~isfield(i, 'rhoprimaldr'), i.rhoprimaldr = 0.05; end
     
@@ -38,7 +37,7 @@ function [ x, summary ] = drfp_run( ivals, b, kernel, i, problem )
             prox_phi =@(y1) DeblurStuff.utilities.prox.l1prox( y1, b, t );
             gamma = i.gammal1;
         case 'l2'
-            prox_phi =@(y1) DeblurStuff.utilities.prox.l2Prox( y1, b, t );
+            prox_phi =@(y1) DeblurStuff.utilities.prox.l2prox( y1, b, t );
             gamma = i.gammal2;
         otherwise
             error('Unknown problem.');
@@ -73,8 +72,8 @@ function [ x, summary ] = drfp_run( ivals, b, kernel, i, problem )
         z2 = z2 + rho*(v - y);
         
         if i.verbose == 1
-            se = mse(x,b);
-            fprintf('Iter %.2i  and the mse is %.3f \n', j, se);
+            s = DeblurStuff.utilities.evalperf(x,b);
+            fprintf('Iter %.2i and the mse is %.3f \n', j, s);
         end
     
     end

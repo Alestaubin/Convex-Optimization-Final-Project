@@ -16,8 +16,6 @@ function ivals = admm_init( xinit, b, kernel, i)
     ivals.z1 = xinit;
     ivals.z2 = cat(3, apply.K(xinit), apply.D(xinit));
 
-
-
 end
 
 

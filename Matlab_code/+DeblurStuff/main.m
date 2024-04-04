@@ -36,16 +36,16 @@ imshow(b,[])
 i.verbose = 1;
 i.maxiter = 200;
 i.gammal1 = 0.025;
-i.tprimaldr = 0.05;
+i.gammal2 = 0.025;
+i.tprimaldr = 20;
 i.rhoprimaldr = 1.50;
 i.tprimaldualdr = 0.5;
 i.rhoprimaldualdr = 1.049;
 [numRows, numCols] = size(b);
 x = zeros( numRows, numCols );
-[x, summary] = DeblurStuff.DeblurGod('l1', 'douglasrachfordprimal', x, kernel, b, i);
+[x, summary] = DeblurStuff.DeblurGod('l2', 'douglasrachfordprimal', x, kernel, b, i);
 % x = optsolve('l1', 'douglasrachfordprimal', x, kernel, b, i);
 % x = optsolve('l1', 'douglasrachfordprimaldual' , x, kernel, b, i);
 
 figure('Name','image after deblurring')
 imshow(x,[])
-
