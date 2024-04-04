@@ -46,16 +46,10 @@ function [ x, summary ] = admm_run( ivals, b, kernel, i, problem )
     for j=1:i.maxiter
         x = apply.invertMatrix(u + apply.ATrans(y) - t^(-1)*(w + apply.ATrans(z)));
 
-        u = prox_f(rho*x + (1-rho)*u + w/t);
+        u = prox_f(rho*x + (1-rho)*u+w/t);
+        y = prox_g(rho*apply.A(x) + ())
 
-        y = prox_g(rho*apply.A(x) + (1-rho)*y + z/t);
-
-        w = w + t*(x - u);
-        z = z + t*(apply.A(x) - y);
     end
-
-    x = apply.invertMatrix(u + apply.ATrans(y) - t^(-1)*(w + apply.ATrans(z)));
-    summary = "Algorithm Ended";
 
 end
 

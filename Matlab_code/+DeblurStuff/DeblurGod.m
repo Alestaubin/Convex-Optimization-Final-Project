@@ -22,7 +22,7 @@ end
 
     if ~isfield(i, 'maxiter'), i.maxiter=500 ; end
     if ~isfield(i, 'gammal1'), i.gammal1 = 0.049; end
-    if ~isfield(i, 'gammal2'), i.gammal1 = 0.049; end
+    if ~isfield(i, 'gammal2'), i.gammal2 = 0.049; end
     
     % Initialize values
     ivals = algo.initialize( xinit, b, kernel, i );
