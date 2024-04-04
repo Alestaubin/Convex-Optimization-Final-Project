@@ -73,7 +73,8 @@ function [ x, summary ] = drfp_run( ivals, b, kernel, i, problem )
         z2 = z2 + rho*(v - y);
         
         if i.verbose == 1
-            fprintf('Iter %.2i   \n', j);
+            se = mse(x,b);
+            fprintf('Iter %.2i  and the mse is %.3f \n', j, se);
         end
     
     end
