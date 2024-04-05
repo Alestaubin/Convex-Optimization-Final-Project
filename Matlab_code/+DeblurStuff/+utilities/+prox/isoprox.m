@@ -1,7 +1,6 @@
-%% TESTED -- WORKS
-function [iso_prox_of_y] = isoprox(y,t)
 % returns the isotropic proximal operator of y. 
-
+% Note: this function assumes the input parameters are correct.
+function [iso_prox_of_y] = isoprox(y,t)
 % split y in 2
 y2 = y(:, :, 1);
 y3 = y(:, :, 2);

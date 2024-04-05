@@ -38,14 +38,12 @@ function [ x, summary ] = drfp_run( ivals, b, kernel, i, problem )
  %% Set up the proximal operators 
     % (the same notation as in the report is used).
     prox_f = @(x) DeblurStuff.utilities.prox.boxprox( x );
-
+    %prox_g = @(y) DeblurStuff.utilities.prox.prox_g(problem, b, i, y, t);
     prox_psi = @(y2) DeblurStuff.utilities.prox.isoprox(y2, gamma * t);
 
     prox_g = @(y) cat(3, ... % to concatenate the matrices in the 3rd dimension
         prox_phi(y(:,:,1)), ... % pass the top matrix of y to l1prox function
         prox_psi(y(:,:,2:3))); % pass the 2 bottom matrices of y to the isoprox function
-
-    
 
 %% Main loop
     for j=1:i.maxiter

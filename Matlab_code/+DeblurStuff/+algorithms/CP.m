@@ -1,6 +1,20 @@
-function [outputArg1,outputArg2] = CP(inputArg1,inputArg2)
-%UNTITLED8 Summary of this function goes here
-%   Detailed explanation goes here
-outputArg1 = inputArg1;
-outputArg2 = inputArg2;
+function algo = CP()
+    algo.initialize =@(xinit, b, kernel, i) CP_init( xinit, b, i );
+    algo.iterate =@(ivals, b, kernel, i, problem ) CP_run( ivals, b, i, problem );
+end
+
+function ivals = CP_init(xinit, b, i)
+    % initialize values 
+    
+end
+
+function CP_run(ivals, b, i, problem)
+    %initialize values
+    s = i.schambollepock;
+    t = i.tchambollepock;
+
+    prox_sgstar = @(y);
+    prox_tf = @(y); 
+
+    
 end
