@@ -580,7 +580,7 @@ Letting $(w, v)$ be the value of the resolvent of $\mathcal{B}$,
     \hat{x} \\
     \hat{z} \\
   \end{bmatrix} \\
-  &= 
+  &= \left(
   \begin{bmatrix}
     0 & 0 \\
     0 & I \\
@@ -593,12 +593,97 @@ Letting $(w, v)$ be the value of the resolvent of $\mathcal{B}$,
   {\begin{bmatrix}
     I \\
     -tA \\
-  \end{bmatrix}}^T 
+  \end{bmatrix}}^T \right)
   \begin{bmatrix}
     \hat{x} \\
     \hat{z} \\
   \end{bmatrix}\\
+  &= \begin{bmatrix}
+    0 & 0 \\
+    0 & I \\
+  \end{bmatrix}
+  \begin{bmatrix}
+    \hat{x} \\
+    \hat{z} \\
+  \end{bmatrix}
+  + 
+  \begin{bmatrix}
+    I \\
+    tA \\
+  \end{bmatrix}
+  {(I + t^2A^T A)}^{-1}
+  {\begin{bmatrix}
+    I \\
+    -tA \\
+  \end{bmatrix}}^T
+  \begin{bmatrix}
+    \hat{x} \\
+    \hat{z} \\
+  \end{bmatrix} \\
+  &= 
+  \begin{bmatrix}
+    0 \\
+    \hat{z} \\
+  \end{bmatrix}
+  + 
+  \begin{bmatrix}
+    I \\
+    tA \\
+  \end{bmatrix}
+  {(I + t^2A^T A)}^{-1}
+  \begin{bmatrix}
+    I & -tA^T \\
+  \end{bmatrix}
+  \begin{bmatrix}
+    \hat{x} \\
+    \hat{z} \\
+  \end{bmatrix} \\
+  &= 
+  \begin{bmatrix}
+    0 \\
+    \hat{z} \\
+  \end{bmatrix}
+  + 
+  \begin{bmatrix}
+    I \\
+    tA \\
+  \end{bmatrix}
+  {(I + t^2A^T A)}^{-1}
+  (\hat{x} - tA^T \hat{z}) \\
+  &= 
+  \begin{bmatrix}
+    0 \\
+    \hat{z} \\
+  \end{bmatrix}
+  + 
+  \begin{bmatrix}
+    I \\
+    tA \\
+  \end{bmatrix}
+  \frac{\hat{x} - tA^T \hat{z}}{(I + t^2A^T A)} \\
+  &=
+  \begin{bmatrix}
+    0 \\
+    \hat{z} \\
+  \end{bmatrix}
+  +
+  \begin{bmatrix}
+    \frac{\hat{x} - tA^T \hat{z}}{(I + t^2A^T A)} \\
+    tA \left(\frac{\hat{x} - tA^T \hat{z}}{(I + t^2A^T A)}\right) \\
+  \end{bmatrix} \\
+  &= 
+  \begin{bmatrix}
+    \frac{\hat{x} - tA^T \hat{z}}{(I + t^2A^T A)} \\
+    \hat{z} + tA \left(\frac{\hat{x} - tA^T \hat{z}}{(I + t^2A^T A)}\right) \\
+  \end{bmatrix} \\
 \end{align*}
+Thus we have the solution for both $w, \ v$, 
+\begin{align}
+  w = \frac{\hat{x} - tA^T \hat{z}}{(I + t^2A^T A)} = \frac{\hat{x}}{(I + t^2A^T A)} - \frac{tA^T \hat{z}}{(I + t^2A^T A)}
+\end{align}
+\begin{align}
+  v &= \hat{z} + tA \left(\frac{\hat{x} - tA^T \hat{z}}{(I + t^2A^T A)}\right) = \hat{z} + \frac{\hat{tAx}}{(I + t^2A^T A)} - \frac{t^2 A A^T \hat{z}}{(I + t^2A^T A)}
+\end{align}
 
 Here is the Primal-Dual Douglas Rachford splitting algorithm,
 

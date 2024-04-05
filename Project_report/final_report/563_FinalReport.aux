@@ -2,10 +2,13 @@
 \providecommand\hyper@newdestlabel[2]{}
 \providecommand\HyperFirstAtBeginDocument{\AtBeginDocument}
 \HyperFirstAtBeginDocument{\ifx\hyper@anchor\@undefined
+\global\let\oldcontentsline\contentsline
+\gdef\contentsline#1#2#3#4{\oldcontentsline{#1}{#2}{#3}}
 \global\let\oldnewlabel\newlabel
 \gdef\newlabel#1#2{\newlabelxx{#1}#2}
 \gdef\newlabelxx#1#2#3#4#5#6{\oldnewlabel{#1}{{#2}{#3}}}
 \AtEndDocument{\ifx\hyper@anchor\@undefined
+\let\contentsline\oldcontentsline
 \let\newlabel\oldnewlabel
 \fi}
 \fi}
@@ -43,13 +46,10 @@
 \newlabel{alg: DRprimal}{{1}{4}{Primal Douglas-Rachford splitting (Spingarn's method)}{algocf.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Primal-Dual Douglas Rachford Splitting}{4}{subsection.2.2}\protected@file@percent }
 \newlabel{sub:Primal-Dual Douglas Rachford splitting}{{2.2}{4}{Primal-Dual Douglas Rachford Splitting}{subsection.2.2}{}}
-\@writefile{loa}{\contentsline {algocf}{\numberline {2}{\ignorespaces Primal-Dual Douglas-Rachford Splitting}}{5}{algocf.2}\protected@file@percent }
-\newlabel{alg: DRpd}{{2}{5}{Primal-Dual Douglas Rachford Splitting}{algocf.2}{}}
 \bibstyle{plainnat}
 \bibdata{563_FinalReport.bib}
-\bibcite{douglas_rachford_1956}{{1}{1956}{{Douglas and Rachford}}{{}}}
-\bibcite{ConnorVander}{{2}{2014}{{O'Connor and Vandenberghe}}{{}}}
-\bibcite{parikh_2014}{{3}{2014}{{Parikh}}{{}}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {2}{\ignorespaces Primal-Dual Douglas-Rachford Splitting}}{6}{algocf.2}\protected@file@percent }
+\newlabel{alg: DRpd}{{2}{6}{Primal-Dual Douglas Rachford Splitting}{algocf.2}{}}
 \@writefile{toc}{\contentsline {paragraph}{Alexandre St-Aubin}{6}{section*.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Jonathan Campana}{6}{section*.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Elliot Forcier-Poirier}{6}{section*.4}\protected@file@percent }
