@@ -1,0 +1,17 @@
+%{ 
+function [ sol ] = boxprox( x )
+    % Creates a copy and transforms into a column vector
+    sol = x;
+    sol = sol(:);
+    % Gets indices out of bounds
+    g = sol > 1;
+    l = sol < 0;
+    % Performs box projection, and reshape to original size
+    sol(g) = 1;
+    sol(l) = 0;
+    sol = reshape(sol, size(x));
+end
+%}
+function x = boxprox(x)
+    x = max(min(x, 1), 0);
+end
