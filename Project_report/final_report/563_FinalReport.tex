@@ -525,10 +525,35 @@ The resolvent for $\mathcal{B}$ is a linear mapping, so considering resolvents f
     -tA & I \\
   \end{bmatrix}}^{-1} \\
   &=
+  \frac{1}{I - ((tA^T)(-tA))}
+  \begin{bmatrix}
+    I & -tA^T \\
+    tA & I \\
+  \end{bmatrix} \\
+  &=
+  \frac{1}{I + t^2A^T A}
+  \begin{bmatrix}
+    I & -tA^T \\
+    tA & I \\
+  \end{bmatrix} \\
+  &=
   \begin{bmatrix}
     0 & 0 \\
     0 & I \\
+  \end{bmatrix} + 
+  \frac{1}{I + t^2A^T A}
+  \begin{bmatrix}
+    I \\
+    tA \\
   \end{bmatrix}
+  \begin{bmatrix}
+    I & -tA^T \\
+  \end{bmatrix} \\
+  &=
+  \begin{bmatrix}
+    0 & 0 \\
+    0 & I \\
+  \end{bmatrix} +
   \begin{bmatrix}
     I \\
     tA \\
@@ -538,20 +563,6 @@ The resolvent for $\mathcal{B}$ is a linear mapping, so considering resolvents f
     I \\
     -tA \\
   \end{bmatrix}}^T \\
-  &=
-  \begin{bmatrix}
-    I & 0 \\
-    0 & 0 \\
-  \end{bmatrix}
-  \begin{bmatrix}
-    -tA^T \\
-    I \\
-  \end{bmatrix}
-  {(I + t^2A A^T)}^{-1}
-  {\begin{bmatrix}
-    tA^T \\
-    I \\
-  \end{bmatrix}}^T \\ 
 \end{align*}
 
 Letting $(w, v)$ be the value of the resolvent of $\mathcal{B}$, 
@@ -573,7 +584,7 @@ Letting $(w, v)$ be the value of the resolvent of $\mathcal{B}$,
   \begin{bmatrix}
     0 & 0 \\
     0 & I \\
-  \end{bmatrix}
+  \end{bmatrix} +
   \begin{bmatrix}
     I \\
     tA \\
