@@ -63,14 +63,10 @@ function [ x, summary ] = drfpd_run( ivals, b, kernel, i, problem )
         xk = prox_f( pk );
         zk = prox_gconj( qk );
         
-        u = apply.invertMatrix(2*x - z1 + apply.ATrans(2*y - z2));
-        
-        % v <-- A*u
-        v = apply.A(u);
-        
-        % Update
-        z1 = z1 + rho*(u - x);
-        z2 = z2 + rho*(v - y);
+        % Resolvent of B
+        %Updating variables
+        wk = 
+
         
         if i.verbose == 1
             s = DeblurStuff.utilities.evalperf(x,b);
@@ -79,7 +75,7 @@ function [ x, summary ] = drfpd_run( ivals, b, kernel, i, problem )
     
     end
 
-    x = prox_f( z1 );
+    x = prox_f( pk );
     summary = "Algorithm Ended";
 
 end

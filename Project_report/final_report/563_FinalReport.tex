@@ -685,6 +685,8 @@ Thus we have the solution for both $w, \ v$,
   v &= \hat{z} + tA \left(\frac{\hat{x} - tA^T \hat{z}}{(I + t^2A^T A)}\right) = \hat{z} + \frac{\hat{tAx}}{(I + t^2A^T A)} - \frac{t^2 A A^T \hat{z}}{(I + t^2A^T A)}
 \end{align}
 
+Notice in the algorithm, we will let $\hat{x} = 2x^k - p^{k-1}$ and $\hat{z} = 2z^k - p^{k-1}$. 
+
 Here is the Primal-Dual Douglas Rachford splitting algorithm,
 
 \begin{algorithm}[h!]

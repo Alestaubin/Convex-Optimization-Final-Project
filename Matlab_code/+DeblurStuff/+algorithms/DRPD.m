@@ -64,6 +64,8 @@ function [ x, summary ] = drfpd_run( ivals, b, kernel, i, problem )
         zk = prox_gconj( qk );
         
         % Resolvent of B
+        %Updating variables
+        wk = 
 
         
         if i.verbose == 1
