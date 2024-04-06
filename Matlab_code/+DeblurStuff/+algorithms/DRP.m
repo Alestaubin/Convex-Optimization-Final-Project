@@ -28,7 +28,7 @@ end
         prox_psi(y(:,:,2:3))); % pass the 2 bottom matrices of y to the isoprox function
 
 %% Main loop
-    for j=1:i.maxiter
+    for iter=1:i.maxiter
         % Resolvent of A
         % x is an n x m matrix 
         x = prox_f( z1 );
@@ -47,7 +47,7 @@ end
         
         if i.verbose == 1
             s = DeblurStuff.utilities.evalperf(x,b);
-            fprintf('Iter %.2i and the mse is %.3f \n', j, s);
+            fprintf('Iter %.3i and the mse is %.3f \n', iter, s);
         end
     
     end

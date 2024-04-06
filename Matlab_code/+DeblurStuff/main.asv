@@ -14,8 +14,8 @@ mx = max(I(:));
 I = I/mx;
 
 % Show image
-figure('Name','image before deblurring')
-imshow(I,[])
+% figure('Name','image before deblurring')
+% imshow(I,[])
 
 
 %%%%%%%%%%%%%%%%%%%%
@@ -34,19 +34,16 @@ b = DeblurStuff.image_handling.SaltnPepper(b, 0.01);
 %%%%%%%%%%%%%%%%%%%%
 % Decent/good parameters:
 % PDRS: gammal1 = 0.1, t = 2, rho = 1.5
-% ADMM l1: decent ones as PDRS
-% ADMM l2: ok baseline - gammal2 = 0.025, t = 2, rho = 1.5
+% ADMM l2: 
 
 i.verbose = 1;
 i.maxiter = 50;
 i.gammal1 = 0.1;
-i.gammal2 = 0.02;
+i.gammal2 = 20;
 i.tprimaldr = 2;
-i.rhoprimaldr = 1.5;
+i.rhoprimaldr = 1.50;
 i.tprimaldualdr = 0.5;
 i.rhoprimaldualdr = 1.049;
-i.tadmm = 2.2;
-i.rhoadmm = 1.5;
 i.scp = 0.2; 
 i.tcp = 0.2;
 [numRows, numCols] = size(b);
