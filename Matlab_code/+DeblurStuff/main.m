@@ -32,12 +32,14 @@ b = DeblurStuff.image_handling.SaltnPepper(b, 0.01);
 %%%%%%%%%%%%%%%%%%%%
 % Algorithm setups
 %%%%%%%%%%%%%%%%%%%%
+% Decent/good parameters:
+% PDRS: gammal1 = 1, t = 0.2, rho = 1.5
 
 i.verbose = 1;
 i.maxiter = 200;
-i.gammal1 = 0.1;
+i.gammal1 = 1;
 i.gammal2 = 0.1;
-i.tprimaldr = 2;
+i.tprimaldr = 0.2;
 i.rhoprimaldr = 1.50;
 i.tprimaldualdr = 0.5;
 i.rhoprimaldualdr = 1.049;

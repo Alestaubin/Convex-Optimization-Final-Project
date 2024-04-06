@@ -2,10 +2,10 @@
 function [p, gamma] = problemSelect( problem, b, i )
     switch lower(problem)
         case 'l1'
-            p =@(y) DeblurStuff.utilities.prox.l1prox( y, b );
+            p =@(y) DeblurStuff.utilities.prox.l1prox( y, b, i.gammal1 );
             gamma = i.gammal1;
         case 'l2'
-            p =@(y) DeblurStuff.utilities.prox.l2prox( y, b );
+            p =@(y) DeblurStuff.utilities.prox.l2prox( y, b, i.gammal2 );
             gamma = i.gammal2;
         otherwise
             error('Unknown problem.');
