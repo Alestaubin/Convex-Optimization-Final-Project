@@ -14,15 +14,14 @@ end
     rho = i.rhoprimaldr;
 
     apply = ivals.apply;
-
-    % select the norm (l1 or l2)
-    [ prox_phi, gamma ] = DeblurStuff.utilities.problemSelect(problem, b, t, i);
     
  %% Set up the proximal operators 
     % (the same notation as in the report is used).
     prox_f = @(x) DeblurStuff.utilities.prox.boxprox( x );
 
-    prox_psi = @(y2) DeblurStuff.utilities.prox.isoprox(y2, gamma * t);
+    % select the norm (l1 or l2)
+    [prox_phi, gamma] = DeblurStuff.utilities.problemSelect(problem, b, i);
+    prox_psi = @(y) DeblurStuff.utilities.prox.isoprox(y, t*gamma);
 
     prox_g = @(y) cat(3, ... % to concatenate the matrices in the 3rd dimension
         prox_phi(y(:,:,1)), ... % pass the top matrix of y to l1prox function

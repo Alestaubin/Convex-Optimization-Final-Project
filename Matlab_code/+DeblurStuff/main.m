@@ -14,8 +14,8 @@ mx = max(I(:));
 I = I/mx;
 
 % Show image
- figure('Name','image before deblurring')
- imshow(I,[])
+% figure('Name','image before deblurring')
+% imshow(I,[])
 
 
 %%%%%%%%%%%%%%%%%%%%
@@ -25,8 +25,8 @@ I = I/mx;
 %[kernel,b] = DeblurStuff.image_handling.GaussianBlur(I,5,2);
 [kernel, b] = DeblurStuff.image_handling.MotionBlur(I,10,0);
 b = DeblurStuff.image_handling.SaltnPepper(b, 0.01);
-figure('Name','image after blurring')
-imshow(b,[])
+% figure('Name','image after blurring')
+% imshow(b,[])
 
 
 %%%%%%%%%%%%%%%%%%%%
@@ -35,9 +35,9 @@ imshow(b,[])
 
 i.verbose = 1;
 i.maxiter = 200;
-i.gammal1 = 0.025;
-i.gammal2 = 0.025;
-i.tprimaldr = 20;
+i.gammal1 = 0.1;
+i.gammal2 = 0.1;
+i.tprimaldr = 2;
 i.rhoprimaldr = 1.50;
 i.tprimaldualdr = 0.5;
 i.rhoprimaldualdr = 1.049;
@@ -45,8 +45,8 @@ i.scp = 0.2;
 i.tcp = 0.2;
 [numRows, numCols] = size(b);
 x = zeros( numRows, numCols );
-%[x, summary] = DeblurStuff.DeblurGod('l1', 'douglasrachfordprimal', x, kernel, b, i);
-[x, summary] = DeblurStuff.DeblurGod('l1', 'chambollepock', x, kernel, b, i);
+[x, summary] = DeblurStuff.DeblurGod('l1', 'douglasrachfordprimal', x, kernel, b, i);
+% [x, summary] = DeblurStuff.DeblurGod('l1', 'chambollepock', x, kernel, b, i);
 
 % x = optsolve('l1', 'douglasrachfordprimal', x, kernel, b, i);
 % x = optsolve('l1', 'douglasrachfordprimaldual' , x, kernel, b, i);
