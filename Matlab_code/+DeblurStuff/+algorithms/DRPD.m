@@ -3,32 +3,16 @@
 % Algorithm 2: douglasrachfordprimaldual
 %%%%%%%%%%%%%%
 
-
-function algo = DRPD()
-    algo.initialize =@(xinit, b, kernel, i) drfpd_init( xinit, b, kernel, i );
-    algo.iterate =@(ivals, b, kernel, i, problem ) drfpd_run( ivals, b, kernel, i, problem );
+function [ x, summary ] = DRPD( ivals, b, i, problem )
+arguments
+    ivals 
+    b 
+    i 
+    problem 
 end
-
-
-function ivals = drfpd_init( xinit, b, kernel, i )
-
-    if ~isfield(i, 'tprimaldualdr'), i.tprimaldualdr = 2.0 ; end
-    if ~isfield(i, 'rhoprimaldualdr'), i.rhoprimaldualdr = 0.05; end
-    
-    apply = DeblurStuff.utilities.multiplyingmatrix(b, kernel);
-    ivals.p0 = xinit;
-    %ivals.p0 = b;
-    ivals.q0 = cat(3, apply.K(xinit), apply.D(xinit));
-    %dim = size(b);
-    %ivals.q0 = zeros(dim(1), dim(2), 3);
-end
-
-
-function [ x, summary ] = drfpd_run( ivals, b, kernel, i, problem )
-%% get the transformations
-    apply = DeblurStuff.utilities.multiplyingmatrix(b, kernel);
-    
 %% Initialize the values
+    apply = ivals.apply;
+
     pk = ivals.p0;
     qk = ivals.q0;
     

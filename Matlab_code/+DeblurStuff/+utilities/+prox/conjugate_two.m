@@ -1,5 +1,5 @@
 %Calculating the conjugate of the prox
-function output = conjugateprox(prox, y, t)
+function output = conjugate_two(prox, y, t)
     arguments
         prox function_handle
         y (:,:,3) double
