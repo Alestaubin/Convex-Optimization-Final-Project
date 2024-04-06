@@ -41,10 +41,13 @@ i.tprimaldr = 20;
 i.rhoprimaldr = 1.50;
 i.tprimaldualdr = 0.5;
 i.rhoprimaldualdr = 1.049;
-i.schambollepock = 0.1;
+i.schambollepock = 0.2; 
+i.tchambollepock = 0.2;
 [numRows, numCols] = size(b);
 x = zeros( numRows, numCols );
-[x, summary] = DeblurStuff.DeblurGod('l1', 'douglasrachfordprimal', x, kernel, b, i);
+%[x, summary] = DeblurStuff.DeblurGod('l1', 'douglasrachfordprimal', x, kernel, b, i);
+[x, summary] = DeblurStuff.DeblurGod('l1', 'chambollepock', x, kernel, b, i);
+
 % x = optsolve('l1', 'douglasrachfordprimal', x, kernel, b, i);
 % x = optsolve('l1', 'douglasrachfordprimaldual' , x, kernel, b, i);
 

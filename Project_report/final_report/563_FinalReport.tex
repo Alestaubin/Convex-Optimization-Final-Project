@@ -292,7 +292,7 @@ $$\|(x,y) \|_{\iso} = \sum^{n}_{k=1} (x_k^2 + y^2_k )^{\frac{1}{2}} $$
   where 
   \begin{equation}
     \begin{split}
-      \prox_{\lambda f} (x) =& \prox_{\lambda \delta_S}(x) = \argmin_u \frac{1}{2} \| x-u \|^2_2 + \delta_S(x)= \argmin_{u \in S} \frac{1}{2} \| x-u \|^2_2 = \proj_S(x),
+      \prox_{\lambda f} (x) =& \prox_{\lambda \delta_S}(x) = \argmin_u \frac{1}{2\lambda} \| x-u \|^2_2 + \delta_S(x)= \argmin_{u \in S} \frac{1}{2\lambda} \| x-u \|^2_2 =  \proj_S(x),
     \end{split}
   \end{equation}
   which is the euclidean projection operator onto $S.$ It can be computed element-wise by
@@ -346,7 +346,7 @@ $$\|(x,y) \|_{\iso} = \sum^{n}_{k=1} (x_k^2 + y^2_k )^{\frac{1}{2}} $$
   As a result of Proposition \ref{normprox}, $\prox_{\lambda \psi}(y_2, y_3)$, is given element-wise by 
   \begin{equation*}
     \begin{split}
-      (\prox_{\lambda \psi}(y_2, y_3))_i =  \alpha_i ((y_2)_i, (y_3)_i), 
+      (\prox_{\lambda \psi}(y_2, y_3))_i = \prox_{\gamma \lambda \| \cdot \|_{\iso}} (y_2, y_3)_{i}= \alpha_i ((y_2)_i, (y_3)_i), 
     \end{split}
   \end{equation*}
   where, \marginpar{\color{red}(provide a proof of this)}
@@ -354,7 +354,7 @@ $$\|(x,y) \|_{\iso} = \sum^{n}_{k=1} (x_k^2 + y^2_k )^{\frac{1}{2}} $$
     \begin{split}
       \alpha_i = 
       \begin{cases}
-        1 - \frac{\lambda }{\sqrt{(y_2)_i^2 + (y_3)_i^2}},  &\text{ if }\sqrt{(y_2)_i^2 + (y_3)_i^2}> \lambda \\ 
+        1 - \frac{\gamma \lambda }{\sqrt{(y_2)_i^2 + (y_3)_i^2}},  &\text{ if }\sqrt{(y_2)_i^2 + (y_3)_i^2}> \gamma \lambda \\ 
          0, &\text{ otherwise. }
       \end{cases}
     \end{split}
@@ -376,7 +376,7 @@ $$\|(x,y) \|_{\iso} = \sum^{n}_{k=1} (x_k^2 + y^2_k )^{\frac{1}{2}} $$
         \end{bmatrix}x \right)
   \end{split}
  \end{equation*}
-
+We now present the algorithm: 
 \begin{algorithm}[ht!]
  \SetKw{Null}{NULL}
  \SetKw{Return}{return}
@@ -456,7 +456,7 @@ We reduce this to a smaller system by using the relationship $\partial g^* = {(\
 \end{bmatrix}
 \]
 
-We can further reduced this by eliminating $w$, using a similar equality that $\partial f = {(\partial f^*)}^{-1}$, we get
+We can further reduce this by eliminating $w$, using a similar equality that $\partial f = {(\partial f^*)}^{-1}$, we get
 
 \begin{equation}
   0 \in 
@@ -504,7 +504,7 @@ As seen before with the resolvent of $\mathcal{A}$, the value $(x, y) = {(I + At
 
 For $z$, we can apply moreau decomposition to get an alternate expression dealing with the conjugate $g^*$, thus we have, 
 \begin{equation*}
-  z = \hat{z} - t \prox_{t^{-1}g}(\frac{\hat{z}}{t})
+  z = \hat{z} - t \prox_{t^{-1}g}(\nicefrac{\hat{z}}{t})
 \end{equation*}
 Simplifying the above, we are left with, 
 \begin{equation*}
@@ -512,10 +512,6 @@ Simplifying the above, we are left with,
 \end{equation*}
 
 This will be a similar computation to the prox operator in algorithm 1, but we have right scalar multiplication in this case. 
-
-
-
-
 
 The resolvent for $\mathcal{B}$ is a linear mapping, so considering resolvents for skew-symmetric linear operators 
 \begin{align*}
@@ -621,6 +617,8 @@ Here is the Primal-Dual Douglas Rachford splitting algorithm,
  \Return $x\text{Sol} = \prox_{tf}(p^k)$\;
  \caption{Primal-Dual Douglas-Rachford Splitting}\label{alg: DRpd} 
  \end{algorithm}
+\subsection{La pièce de résistance: Chambolle-Pock}%
+  \label{sub:La pièce de résistance: Chambolle-Pock}
 
 \section*{Acknowledgments}
 Please include a list of each person (with student ID) in your group
