@@ -20,7 +20,7 @@ end
     prox_f = @(x) DeblurStuff.utilities.prox.boxprox( x );
 
     % select the norm (l1 or l2)
-    [prox_phi, gamma] = DeblurStuff.utilities.problemSelect(problem, b, i);
+    [prox_phi, gamma] = DeblurStuff.utilities.problemSelect(problem, b, t, i);
     prox_psi = @(y) DeblurStuff.utilities.prox.isoprox(y, t*gamma);
 
     prox_g = @(y) cat(3, ... % to concatenate the matrices in the 3rd dimension
