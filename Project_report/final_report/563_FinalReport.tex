@@ -766,7 +766,7 @@ Here is the Primal-Dual Douglas Rachford splitting algorithm,
    $z^k \leftarrow \prox_{tg^*}(q^{k-1})$ \;
    $\begin{bmatrix} w^k\\ v^k  \end{bmatrix} = \begin{bmatrix} I &
     t A^T\\ -t A & I \end{bmatrix}^{-1} \begin{bmatrix}
-     2x^k-p^{k-1}\\ 2z^k-p^{k-1} \end{bmatrix} $ \tcp*{Performs resolvent of $\mathcal{B}$} 
+     2x^k-p^{k-1}\\ 2z^k-q^{k-1} \end{bmatrix} $ \tcp*{Performs resolvent of $\mathcal{B}$} 
    $p^k \leftarrow p^{k-1} + \rho(w^k-x^k)$ \;
    $q^k \leftarrow q^{k-1} + \rho(v^k-z^k)$ \;
  } 

@@ -52,8 +52,7 @@ end
         wk = apply.invertMatrix((2 * xk) - pk) - t * apply.invertMatrix(apply.ATrans((2 * zk) - pk));
         vk = ((2 * zk) - qk) + t * apply.invertMatrix((2 * xk) - pk) - (t^2) * apply.A(apply.invertMatrix(apply.ATrans((2 * zk) - qk)));
 
-        pk = pk + rho * (wk - xk);
-        qk = qk + rho * (vk - zk);
+        pk = pk + rho * (wk - )
         
         if i.verbose == 1
             s = DeblurStuff.utilities.evalperf(x,b);
