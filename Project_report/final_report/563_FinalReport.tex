@@ -126,7 +126,7 @@
  Student ID: 260985613 \\
  \AND
  Edmund Wu\\
- Student ID: \\
+ Student ID: 261033501 \\
  \And
  Elliot Forcier-Poirier\\
  Student ID: \\ 
@@ -170,7 +170,8 @@
       \proj_C(v):= \argmin_{x\in C} \| x -v \|_2
     \end{split}
   \end{equation}
-  \subsection{Preleminaries}%
+  
+\subsection{Preleminaries}%
   \label{sub:Preleminaries}
   We first note an important relation between the proximal and subdifferential operators.\\
   \begin{proposition}
@@ -217,6 +218,74 @@ In particular, the \textit{Moreau Decomposition Theorem} gives that
   \end{split}
 \end{equation*}
 \end{proposition}
+
+\subsection{Derivations of the proximal maps}
+We provide a quick proof of the proximal operators of the L1 norm, the L2 norm, the iso norm, and the box prox. Let $b \in \R^d$ be fixed.
+
+Let $ g: y \mapsto t \| y - b \|_1$. We have
+\begin{align*}
+    \prox_{g}(y) &:= \argmin_u \{ \: t \| u - b \|_1 + \frac{1}{2} \| y - u \|^2_2 \: \} =
+    \begin{cases}
+        b & y - b \in [-t, t] \\
+        y - \text{sign}(y-b) \cdot t &\text{otherwise}
+    \end{cases}
+\end{align*}
+We consider first-order optimality conditions, with the following cases:
+\begin{itemize}
+    \item If $u - b > 0$, then 
+    \begin{align*}
+        t - y + u = 0 \quad \Leftrightarrow \quad u = y - t
+    \end{align*}
+    \item If $u - b < 0$, then 
+    \begin{align*}
+        -t - y + u = 0 \quad \Leftrightarrow \quad u = y + t
+    \end{align*}
+    \item If $u - b = 0$, then $u = b$ under which by optimality conditions we have
+    \begin{align*}
+        0 \in t \cdot [-1, 1] - y + b \quad \Leftrightarrow \quad y - b \in [-t, t]
+    \end{align*}
+\end{itemize}
+
+\medskip
+
+Now consider $g: y \mapsto t \| y - b \|_2^2$. This $g$ is continuously differentiable so we can take its gradient directly and set it to zero, obtaining:
+$$
+\prox_{g}(y) = \frac{y + b}{2 t + 1}
+$$
+
+\medskip
+
+Consider now $g: (y_1, y_2) \mapsto t\gamma \| (y_1, y_2) \|_{\text{iso}}$ for the iso-norm defined below. To compute the proximal operator of $g$, we use Moreau decomposition (7.5.8), the generalized sum rule (7.5.4), and some subdifferential calculus (7.5.2). The Fenchel conjugate of $g$ is $g^*(y_1, y_2) = t \gamma \max_{1 \leq k \leq n} (y_{1k}^2 + y_{2k}^2)^{1/2}$ where $y_1, y_2 \in \mathbb{R}^n$. So we have
+\begin{align*}
+    \prox_{g}(y_1, y_2) = (y_1, y_2) - \prox_{g^*}(y_1, y_2)
+\end{align*}
+where
+\begin{align*}
+    \prox_{g^*}(y_1, y_2) = \argmin_{(u, v)} \bigg{\{} t \gamma \max_{1 \leq k \leq n} (u_k^2 + v_k^2)^{1/2}  + \frac{1}{2} \| (y_1, y_2) - (u, v) \|_2^2 \bigg{\}}
+\end{align*}
+By the generalized sum rule for the first line, 
+\begin{align*}
+    \partial \prox_{g^*}(y_1, y_2) &= \partial \bigg(t \gamma \max_{1 \leq k \leq n} (u_k^2 + v_k^2)^{1/2}\bigg)  + \partial \bigg(\frac{1}{2} \| (y_1, y_2) - (u, v) \|_2^2 \bigg) \\
+    &= \partial \bigg(t \gamma \max_{1 \leq k \leq n} (u_k^2 + v_k^2)^{1/2}\bigg)  + \nabla \bigg(\frac{1}{2} \| (y_1, y_2) - (u, v) \|_2^2 \bigg) \\
+    &= t \gamma \cdot \text{conv}\bigg( \nabla((u, v) \mapsto (u_k^2 + v_k^2)^{1/2}) \bigg) + \nabla \bigg(\frac{1}{2} \| (y_1, y_2) - (u, v) \|_2^2 \bigg) \quad \text{7.5.2} \\
+    &= \bigg( \frac{t \gamma \cdot u}{(y_{1k}^2 + y_{2k}^2)^{1/2}} - y_1 + u, \: \frac{t \gamma \cdot v}{(y_{1k}^2 + y_{2k}^2)^{1/2}} - y_2 + v\bigg) \quad \text{by def. of convex hull}
+\end{align*}
+which vanishes when
+\begin{align*}
+    u = \bigg(1 - \frac{t \gamma}{(y_{1k}^2 + y_{2k}^2)^{1/2}}\bigg) y_1 \qquad
+    v = \bigg(1 - \frac{t \gamma}{(y_{1k}^2 + y_{2k}^2)^{1/2}}\bigg) y_2
+\end{align*}
+as long as $(y_{1k}^2 + y_{2k}^2)^{1/2} > 0$. If $(y_{1k}^2 + y_{2k}^2)^{1/2} = 0$, then $y_{1k} = y_{2k} = 0$ so $(u, v) = (0, 0)$.
+
+\medskip
+
+For the box prox, $f : x \mapsto t \delta_S(x)$ where $S := \{x : x \in [0, 1]\}$, the proximal operator is the projection. That is, 
+\begin{align*}
+    \prox_{f}(x) &= \argmin_u \{ t \delta_S(u) + \frac{1}{2}\|x - u\|^2_2 \} \\
+    &= t \cdot \argmin_u \{ \delta_S(u) + \frac{1}{2t}\|x - u\|^2_2 \} \\
+    &= \argmin_{u \in S} \frac{1}{2}\|x - u\|^2_2
+\end{align*}
+
 \section{Algorithms}
 The algorithms we present are used to solve the non-blind image deblurring problem, which is a convex optimization problem of the form 
 \begin{equation}
@@ -292,7 +361,7 @@ $$\|(x,y) \|_{\iso} = \sum^{n}_{k=1} (x_k^2 + y^2_k )^{\frac{1}{2}} $$
   where 
   \begin{equation}
     \begin{split}
-      \prox_{\lambda f} (x) =& \prox_{\lambda \delta_S}(x) = \argmin_u \frac{1}{2} \| x-u \|^2_2 + \delta_S(x)= \argmin_{u \in S} \frac{1}{2} \| x-u \|^2_2 = \proj_S(x),
+      \prox_{\lambda f} (x) =& \prox_{\lambda \delta_S}(x) = \argmin_u \frac{1}{2\lambda} \| x-u \|^2_2 + \delta_S(x)= \argmin_{u \in S} \frac{1}{2\lambda} \| x-u \|^2_2 =  \proj_S(x),
     \end{split}
   \end{equation}
   which is the euclidean projection operator onto $S.$ It can be computed element-wise by
@@ -346,7 +415,7 @@ $$\|(x,y) \|_{\iso} = \sum^{n}_{k=1} (x_k^2 + y^2_k )^{\frac{1}{2}} $$
   As a result of Proposition \ref{normprox}, $\prox_{\lambda \psi}(y_2, y_3)$, is given element-wise by 
   \begin{equation*}
     \begin{split}
-      (\prox_{\lambda \psi}(y_2, y_3))_i =  \alpha_i ((y_2)_i, (y_3)_i), 
+      (\prox_{\lambda \psi}(y_2, y_3))_i = \prox_{\gamma \lambda \| \cdot \|_{\iso}} (y_2, y_3)_{i}= \alpha_i ((y_2)_i, (y_3)_i), 
     \end{split}
   \end{equation*}
   where, \marginpar{\color{red}(provide a proof of this)}
@@ -354,7 +423,7 @@ $$\|(x,y) \|_{\iso} = \sum^{n}_{k=1} (x_k^2 + y^2_k )^{\frac{1}{2}} $$
     \begin{split}
       \alpha_i = 
       \begin{cases}
-        1 - \frac{\lambda }{\sqrt{(y_2)_i^2 + (y_3)_i^2}},  &\text{ if }\sqrt{(y_2)_i^2 + (y_3)_i^2}> \lambda \\ 
+        1 - \frac{\gamma \lambda }{\sqrt{(y_2)_i^2 + (y_3)_i^2}},  &\text{ if }\sqrt{(y_2)_i^2 + (y_3)_i^2}> \gamma \lambda \\ 
          0, &\text{ otherwise. }
       \end{cases}
     \end{split}
@@ -376,7 +445,7 @@ $$\|(x,y) \|_{\iso} = \sum^{n}_{k=1} (x_k^2 + y^2_k )^{\frac{1}{2}} $$
         \end{bmatrix}x \right)
   \end{split}
  \end{equation*}
-
+We now present the algorithm: 
 \begin{algorithm}[ht!]
  \SetKw{Null}{NULL}
  \SetKw{Return}{return}
@@ -456,7 +525,7 @@ We reduce this to a smaller system by using the relationship $\partial g^* = {(\
 \end{bmatrix}
 \]
 
-We can further reduced this by eliminating $w$, using a similar equality that $\partial f = {(\partial f^*)}^{-1}$, we get
+We can further reduce this by eliminating $w$, using a similar equality that $\partial f = {(\partial f^*)}^{-1}$, we get
 
 \begin{equation}
   0 \in 
@@ -504,7 +573,7 @@ As seen before with the resolvent of $\mathcal{A}$, the value $(x, y) = {(I + At
 
 For $z$, we can apply moreau decomposition to get an alternate expression dealing with the conjugate $g^*$, thus we have, 
 \begin{equation*}
-  z = \hat{z} - t \prox_{t^{-1}g}(\frac{\hat{z}}{t})
+  z = \hat{z} - t \prox_{t^{-1}g}(\nicefrac{\hat{z}}{t})
 \end{equation*}
 Simplifying the above, we are left with, 
 \begin{equation*}
@@ -512,10 +581,6 @@ Simplifying the above, we are left with,
 \end{equation*}
 
 This will be a similar computation to the prox operator in algorithm 1, but we have right scalar multiplication in this case. 
-
-
-
-
 
 The resolvent for $\mathcal{B}$ is a linear mapping, so considering resolvents for skew-symmetric linear operators 
 \begin{align*}
@@ -709,6 +774,93 @@ Here is the Primal-Dual Douglas Rachford splitting algorithm,
  \caption{Primal-Dual Douglas-Rachford Splitting}\label{alg: DRpd} 
  \end{algorithm}
 
+
+
+\subsection{ADMM (Dual Douglas-Rachford)}  \label{sub: ADMM}
+\textcolor{red}{Copy-pasted from project outline}
+
+\medskip
+
+It can be shown that the alternating direction method of multipliers (ADMM) is exactly the Douglas-Rachford algorithm applied to the dual problem (\ref{eq: dual}), which we rewrite as
+\begin{equation}
+\text{minimize}_z \quad f^*(-A^Tz) + g^*(z)  := h(z) + k(z). \label{eq: dual2}
+\end{equation}
+The optimality conditions for (\ref{eq: dual2}) are precisely $0 \in \partial h(z) + \partial k(z).$ This is a sum of two maximal monotone operators $\mathcal{A}(z) = \partial h(z) $ and $\mathcal{B}(z) = \partial k(z)$, with resolvents $\prox_{th}(z)$ and $\prox_{tk}(z)$, respectively. An equivalent formulation of the Douglas-Rachford iteration for this problem, obtained by simply interchanging the order of the updates and performing a change of variables, is thus:
+\begin{align}
+v^k &= \prox_{th} (z^{k-1} - w^{k-1})\\
+z^k &= \prox_{tk} (v^k + w^{k-1} ) \\
+w^k &= w^{k-1}+ \rho v^k + (1-\rho)z^{k-1} - z^k.
+\end{align}
+
+\begin{proposition} If $h(z) = f^*(-A^Tz),$ then $\prox_{th}(z)$ can be computed by the following:
+\[ \hat{x} = \underset{x}{\arg \min} \left( f(x) + z^T Ax + \frac{t}{2} \|Ax \|^2 \right) \]
+\[ \prox_{th}(z) = z+ tA\hat{x}. \]
+\end{proposition}
+
+\begin{proof} 
+Notice that $\hat{x}$ as given above is optimal for
+\begin{align*}
+ \text{minimize} \quad & f(x) + \frac{t}{2} \|w\|_2^2 \\
+\text{subject to} \quad & w = Ax + z/t,
+\end{align*}
+where $z$ is fixed and $x,w$ are the variables. The optimality conditions for the above are $A\hat{x} + z/t = \hat{w},$ $-A^T\hat{u} \in \partial f(\hat{x}),$ and $t\hat{w}=\hat{u},$ where $u$ is the dual multiplier. Eliminating $x$ and $w$ and using the relationship $(\partial f)^{-1} = \partial f^*$, this is equivalent to the condition that $0 \in - A \partial f^*(-A^T \hat{u})+ \frac{1}{t}(\hat{u}-z) ,$ which is precisely the optimality condition that guarantees $\hat{u} = \prox_{th}(z) = \arg \min _u f^*(-A^Tu) + \frac{t}{2} \|u-z\|_2^2$. Combining these optimality conditions also leads to the relationship $\hat{u} = z+tA\hat{x},$ which proves the proposition.
+\end{proof}
+
+By this proposition (applied to both $h$ and $k$ in (\ref{eq: dual2})) the Douglas-Rachford algorithm on the dual can be rewritten as
+\begin{align*}
+\hat{x}^k &= \underset{x}{\arg \min} \left( f(x) + (z^{k-1} - w^{k-1})^T Ax + \frac{t}{2} \|Ax \|^2 \right) \\
+v^k &= z^{k-1} - w^{k-1} + tA \hat{x}^k \\
+\hat{y}^k &= \underset{y}{\arg \min} \left( g(y) -(v^k + w^{k-1})^T y + \frac{t}{2} \|y \|^2 \right) \\
+z^k &= v^k + w^{k-1} - t \hat{y}^k\\
+w^k &= w^{k-1}+ \rho v^k + (1-\rho)z^{k-1} - z^k.
+\end{align*}
+
+If $\rho = 1,$ the $w$ update simplifies to $w^k = t\hat{y}^k$ and the entire algorithm simplifies to
+\begin{align}
+\hat{x}^k &= \underset{x}{\arg \min} \; L(x,\hat{y}^{k-1}) \\
+\hat{y}^k &= \underset{y}{\arg \min} \; L(\hat{x}^k,y) \label{eq: admm1} \\
+z^k &= z^{k-1} + t(A \hat{x}^k -\hat{y}^k),  \label{eq: admm2} 
+\end{align}
+where $L(x,y,z) = f(x) + g(y) + z^T(Ax-y) + \frac{t}{2} \|Ax-y\|_2^2$ is the augmented Lagrangian for the primal problem. This is the formulation of ADMM which we saw in class. To obtain the overrelaxed version for $0< \rho <2,$ we simply replace instances of $A \hat{x}^k$ in (\ref{eq: admm1}) and (\ref{eq: admm2}) with $\rho A \hat{x}^k + (1- \rho) \hat{y}^{k-1}.$
+
+In our implementation of ADMM for the particular problem (\ref{eq: problem}), we first introduce a new variable $u$ and add the constraint that $x=u$. We can then rewrite the general problem as
+\begin{align*}
+ \text{minimize} \quad & f(u) + g(y) \\
+\text{subject to} \quad & \left[ \begin{array}{c} I \\ A \end{array} \right] x + \left[ \begin{array}{cc} - I & 0 \\ 0 & - I \end{array} \right] \left[ \begin{array}{c} u \\ y \end{array} \right] = 0.
+\end{align*}
+The augmented Lagrangian for this problem is
+\[ L(x,u, y, w, z) = f(u) + g(y) + w^T (x-u) + z^T (Ax-y) + \frac{t}{2} \left( \| x-u\|^2 + \|Ax-y\|^2 \right).\]
+We now alternate between minimizing $L$ over $x$ and minimizing $L$ over $(u,y).$ Since the problem is separable in $u$ and $y$, this actually amounts to three separate minimization problems. Straightforward computations then show that the (overrelaxed) algorithm is as below (Algorithm \ref{alg: ADMM}).
+
+\begin{algorithm}[h!]
+ \SetKw{Null}{NULL}
+ \SetKw{Return}{return}
+ \Input{ Blurred image $b$, step size $t$, relaxation parameter $\rho$}
+ \Output{ Deblurred image $x$ }
+\Initialize{ $x^0, u^0, y^0, w^0, z^0$ }
+
+\For { $k = 1, 2, \hdots, $ } {
+  $ x^k \leftarrow (I+A^TA)^{-1} \left( u^{k-1} + A^T y^{k-1} - \frac{1}{t} (w^{k-1} + A^T z^{k-1} )\right) $ \;
+  $ u^k \leftarrow \text{prox}_{t^{-1}f}(\rho x^k + (1-\rho)u^{k-1} +  w^{k-1}/t )$ \;
+  $ y^k \leftarrow \text{prox}_{t^{-1}g}(\rho Ax^k + (1-\rho)y^{k-1} + z^{k-1}/t )$ \;
+  $ w^k \leftarrow w^{k-1} + t(x^k - u^k)$ \;
+  $ z^k \leftarrow z^{k-1} + t(Ax^k - y^k)$ \;
+} 
+\Return $x\text{Sol} =  (I+A^TA)^{-1} \left( u^{k} + A^T y^{k} - \frac{1}{t} (w^{k} + A^T z^{k} )\right) $\;
+\caption{Alternating Direction Method of Multipliers (ADMM)}\label{alg: ADMM} 
+\end{algorithm}
+
+
+
+
+
+
+
+
+ 
+\subsection{La pièce de résistance: Chambolle-Pock}%
+  \label{sub:La pièce de résistance: Chambolle-Pock}
+
 \section*{Acknowledgments}
 Please include a list of each person (with student ID) in your group
 and write a paragraph \textbf{for each person} with exactly what they
@@ -720,7 +872,7 @@ Example Acknowledgments would look like:
 \paragraph{Alexandre St-Aubin} (Student ID: 261115785) We ball.
 \paragraph{Jonathan Campana} (Student ID: 260985613) We ball. 
 \paragraph{Elliot Forcier-Poirier} (Student ID: ) We ball. 
-\paragraph{Edmund Wu} (Student ID: ) We ball. 
+\paragraph{Edmund Wu} (Student ID: 261033501) We ball. 
 \bibliographystyle{plainnat}
 \bibliography{563_FinalReport.bib}
 

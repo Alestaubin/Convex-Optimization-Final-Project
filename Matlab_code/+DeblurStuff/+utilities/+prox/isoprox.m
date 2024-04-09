@@ -1,6 +1,7 @@
 % returns the isotropic proximal operator of y. 
 % Note: this function assumes the input parameters are correct.
-function [iso_prox_of_y] = isoprox(y,t)
+% Note: lambda = stepsize * gamma = t * gamma.
+function [iso_prox_of_y] = isoprox(y, lambda)
 % split y in 2
 y2 = y(:, :, 1);
 y3 = y(:, :, 2);
@@ -16,11 +17,11 @@ iso_prox_of_y = zeros(dim(1), dim(2), 2);
 for i = 1:dim(1)
     for j = 1:dim(2) 
         % get alpha
-        if sqrt(y2(i,j)^2 + y3(i,j)^2) > t
-            alpha = 1 - t / (sqrt(y2(i,j)^2 + y3(i,j)^2));
+        if sqrt(y2(i,j)^2 + y3(i,j)^2) > lambda
+            alpha = 1 - lambda / (sqrt(y2(i,j)^2 + y3(i,j)^2));
         else 
             alpha = 0;
-        end
+        end 
         % get element-wise isoprox. 
         iso_prox_of_y(i,j, 1) = alpha * y2(i,j);
         iso_prox_of_y(i,j, 2) = alpha * y3(i,j);

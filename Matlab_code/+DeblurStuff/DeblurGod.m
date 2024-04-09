@@ -8,25 +8,18 @@ arguments
     i 
 end
 %% Set up the algorithm
+    % Initialize values
+    [ivals, i] = DeblurStuff.init.init_algo( algo, i, b, xinit, kernel );
+    
     switch lower(algo)
         case 'douglasrachfordprimal'
-            algo = DeblurStuff.algorithms.DRP();
+            [ sol, summary ] = DeblurStuff.algorithms.DRP(ivals, b, i, problem);
         case 'douglasrachfordprimaldual'
-            algo = DeblurStuff.algorithms.DRPD();
+            [ sol, summary ] = DeblurStuff.algorithms.DRPD(ivals, b, i, problem);
         case 'admm'
-            algo = DeblurStuff.algorithms.ADMM();
+            [ sol, summary ] = DeblurStuff.algorithms.ADMM(ivals, b, i, problem);
         case 'chambollepock'
-            algo = DeblurStuff.algorithms.CP();
+            [ sol, summary ] = DeblurStuff.algorithms.CP(ivals, b, i, problem);
     end
-
-
-    if ~isfield(i, 'maxiter'), i.maxiter=500 ; end
-    if ~isfield(i, 'gammal1'), i.gammal1 = 0.049; end
-    if ~isfield(i, 'gammal2'), i.gammal2 = 0.049; end
     
-    % Initialize values
-    ivals = algo.initialize( xinit, b, kernel, i );
-    
-    % Optimize
-    [ sol, summary ] = algo.iterate( ivals, b, kernel, i, problem );
 end
