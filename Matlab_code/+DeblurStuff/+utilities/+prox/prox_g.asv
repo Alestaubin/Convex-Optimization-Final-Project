@@ -1,5 +1,3 @@
-%This is not being used currenyl
-
 %Will compute prox_g for both l1 and l2
 % Note: this function assumes the parameters are correct.
 function prox_output = prox_g(problem, b, i, y, t)
@@ -26,6 +24,8 @@ function prox_output = prox_g(problem, b, i, y, t)
 
     [prox_norm, gamma_norm] = DeblurStuff.utilities.problemSelect(problem, b, t, i);
     
+    %Computing 
+
     %coomputing iso prox
     prox_iso = DeblurStuff.utilities.prox.isoprox(y(:,:,2:3),t*gamma_norm);
 

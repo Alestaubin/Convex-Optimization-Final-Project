@@ -32,15 +32,16 @@ end
         prox_phi(y(:,:,1)), ... % pass the top matrix of y to l1prox function
         prox_psi(y(:,:,2:3))); % pass the 2 bottom matrices of y to the isoprox function
 
+    %prox_g = @(x) DeblurStuff.utilities.prox.prox_g(problem, b, i, x, t);
     %Taking the conjugate of the prox
-    prox_gconj = @(y) DeblurStuff.utilities.prox.conjugateprox(prox_g, y, t);
+    prox_gconj = @(y) DeblurStuff.utilities.prox.conjugate_one(prox_g, y, t);
     
 
     
 
 %% Main loop
     for j=1:i.maxiter
-        x_prev = xk;
+        %x_prev = xk; %this will be used to calculate error
         % Resolvent of A
         
         %Updating variables
@@ -56,7 +57,7 @@ end
         qk = qk + rho * (vk - zk);
         
         if i.verbose == 1
-            s = DeblurStuff.utilities.evalperf(x,b);
+            s = DeblurStuff.utilities.evalperf(xk,b);
             fprintf('Iter %.2i and the mse is %.3f \n', j, s);
         end
     

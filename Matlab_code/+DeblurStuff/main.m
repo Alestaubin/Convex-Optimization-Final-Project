@@ -38,7 +38,7 @@ b = DeblurStuff.image_handling.SaltnPepper(b, 0.01);
 % ADMM l2: ok baseline - gammal2 = 0.025, t = 2, rho = 1.5
 
 i.verbose = 1;
-i.maxiter = 50;
+i.maxiter = 200;
 i.gammal1 = 0.1;
 i.gammal2 = 0.02;
 i.tprimaldr = 2;
@@ -51,10 +51,10 @@ i.scp = 0.2;
 i.tcp = 0.2;
 [numRows, numCols] = size(b);
 x = zeros( numRows, numCols );
-% [x, summary] = DeblurStuff.DeblurGod('l1', 'douglasrachfordprimal', x, kernel, b, i);
-[x, summary] = DeblurStuff.DeblurGod('l1', 'douglasrachfordprimaldual', x, kernel, b, i);
-% [x, summary] = DeblurStuff.DeblurGod('l1', 'chambollepock', x, kernel, b, i);
-% [x, summary] = DeblurStuff.DeblurGod('l2', 'admm', x, kernel, b, i);
+[x, summary] = DeblurStuff.DeblurGod('l1', 'douglasrachfordprimal', x, kernel, b, i);
+%[x, summary] = DeblurStuff.DeblurGod('l1', 'douglasrachfordprimaldual', x, kernel, b, i);
+%[x, summary] = DeblurStuff.DeblurGod('l1', 'chambollepock', x, kernel, b, i);
+%[x, summary] = DeblurStuff.DeblurGod('l2', 'admm', x, kernel, b, i);
 
 % x = optsolve('l1', 'douglasrachfordprimal', x, kernel, b, i);
 % x = optsolve('l1', 'douglasrachfordprimaldual' , x, kernel, b, i);
