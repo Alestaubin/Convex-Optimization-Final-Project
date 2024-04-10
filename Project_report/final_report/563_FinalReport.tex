@@ -276,23 +276,18 @@ We provide a quick derivation of the proximal operators of the L1 norm, the L2 n
     \begin{align*}
         \prox_{g^*}(y_1, y_2) = \argmin_{(u, v)} \bigg{\{} t \gamma \max_{1 \leq k \leq n} (u_k^2 + v_k^2)^{1/2}  + \frac{1}{2} \| (y_1, y_2) - (u, v) \|_2^2 \bigg{\}}
     \end{align*}
-    By the generalized sum rule for the first line, 
-    \begin{align*}
-        \partial \prox_{g^*}(y_1, y_2) &= \partial \bigg(t \gamma \max_{1 \leq k \leq n} (u_k^2 + v_k^2)^{1/2}\bigg)  + \partial \bigg(\frac{1}{2} \| (y_1, y_2) - (u, v) \|_2^2 \bigg) \\
-        &= \partial \bigg(t \gamma \max_{1 \leq k \leq n} (u_k^2 + v_k^2)^{1/2}\bigg)  + \nabla \bigg(\frac{1}{2} \| (y_1, y_2) - (u, v) \|_2^2 \bigg) \\
-        &= t \gamma \cdot \text{conv}\bigg( \nabla((u, v) \mapsto (u_k^2 + v_k^2)^{1/2}) \bigg) + \nabla \bigg(\frac{1}{2} \| (y_1, y_2) - (u, v) \|_2^2 \bigg) \quad \text{7.5.2} \\
-        &= \bigg( \frac{t \gamma \cdot y_{1k}}{(y_{1k}^2 + y_{2k}^2)^{1/2}} - y_{1k} + u_k, \: \frac{t \gamma \cdot y_{2k}}{(y_{1k}^2 + y_{2k}^2)^{1/2}} - y_{2k} + v_k\bigg) \quad \text{by def. of convex hull}
-    \end{align*}
-    which vanishes for each $k$ when
-    \begin{align*}
-        u = \bigg(1 - \frac{t \gamma}{(y_{1k}^2 + y_{2k}^2)^{1/2}}\bigg) y_1 \qquad
-        v = \bigg(1 - \frac{t \gamma}{(y_{1k}^2 + y_{2k}^2)^{1/2}}\bigg) y_2
-    \end{align*}
-    as long as $(y_{1k}^2 + y_{2k}^2)^{1/2} > 0$. If $(y_{1k}^2 + y_{2k}^2)^{1/2} = 0$, then $y_{1k} = y_{2k} = 0$ so $(u, v) = (0, 0)$.
-
-    \smallskip
-
-    We remark that in the original paper \textcolor{red}{cite}, they define the proximal map of $f$ at $x$ to be $\argmin_u f(u) - 1/2\|u - x\|^2$ hence the difference in signs, although the same.
+    Remark that $(u_k^2 + v_k^2)^{1/2} = \| (u_k, v_k) \|^2_2$ for each $k$. The Fenchel conjugate of the L2 norm is itself (HW3). We also have that for any norm $\| \cdot \|$, the Fenchel conjugate $\| \cdot \|^*$ is the indicator of the unit ball in the dual norm $\delta_{\| \cdot \|_* \leq 1}$. The proximal mapping of the indicator of the unit ball is the projection onto the unit ball. Hence
+    $$
+    \prox_{g^*}(y_1, y_2) = t \gamma \frac{(y_1, y_2)}{\| (y_1, y_2) \|_2}
+    $$
+    as long as $(y_{1k}^2 + y_{2k}^2)^{1/2} > 0$. If $(y_{1k}^2 + y_{2k}^2)^{1/2} = 0$, then $y_{1k} = y_{2k} = 0$ so $(u, v) = (0, 0)$. So altogether, for $k= 1,...,n$
+    $$
+    \prox_{g}(y_{1k}, y_{2k}) = 
+    \begin{cases}
+        \bigg( 1 - \frac{t \gamma}{(y_{1k}^2 + y_{2k}^2)^{1/2}} \bigg) (y_{1k}, y_{2k}) &(y_{1k}^2 + y_{2k}^2)^{1/2} > 0 \\
+        0 & \text{otherwise}
+    \end{cases}
+    $$
 
     \smallskip
     
