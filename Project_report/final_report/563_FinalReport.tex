@@ -266,9 +266,9 @@ We provide a quick derivation of the proximal operators of the L1 norm, the L2 n
 
     \item Consider now $g: (y_1, y_2) \mapsto t\gamma \| (y_1, y_2) \|_{\text{iso}}$ where
     $$
-    \|(x,y) \|_{\iso} = \sum^{n}_{k=1} (x_k^2 + y^2_k )^{\frac{1}{2}} 
+    \|(x,y) \|_{\iso} = \sum^{n}_{k=1} (x_k^2 + y^2_k )^{1/2} 
     $$
-    To compute the proximal operator of $g$, we use Moreau decomposition (7.5.8), the generalized sum rule (7.5.4), and some subdifferential calculus (7.5.2). The Fenchel conjugate of $g$ is $g^*(y_1, y_2) = t \gamma \max_{1 \leq k \leq n} (y_{1k}^2 + y_{2k}^2)^{1/2}$ where $y_1, y_2 \in \mathbb{R}^n$ (simplified after elementary conjugacy operations). So we have
+    To compute the proximal operator of $g$, we use Moreau decomposition (7.5.8). The Fenchel conjugate of $g$ is $g^*(y_1, y_2) = t \gamma \max_{1 \leq k \leq n} (y_{1k}^2 + y_{2k}^2)^{1/2}$ where $y_1, y_2 \in \mathbb{R}^n$ (simplified after elementary conjugacy operations). So we have
     \begin{align*}
         \prox_{g}(y_1, y_2) = (y_1, y_2) - \prox_{g^*}(y_1, y_2)
     \end{align*}
@@ -276,7 +276,7 @@ We provide a quick derivation of the proximal operators of the L1 norm, the L2 n
     \begin{align*}
         \prox_{g^*}(y_1, y_2) = \argmin_{(u, v)} \bigg{\{} t \gamma \max_{1 \leq k \leq n} (u_k^2 + v_k^2)^{1/2}  + \frac{1}{2} \| (y_1, y_2) - (u, v) \|_2^2 \bigg{\}}
     \end{align*}
-    Remark that $(u_k^2 + v_k^2)^{1/2} = \| (u_k, v_k) \|^2_2$ for each $k$. The Fenchel conjugate of the L2 norm is itself (HW3). We also have that for any norm $\| \cdot \|$, the Fenchel conjugate $\| \cdot \|^*$ is the indicator of the unit ball in the dual norm $\delta_{\| \cdot \|_* \leq 1}$. The proximal mapping of the indicator of the unit ball is the projection onto the unit ball. Hence
+    Remark that $(u_k^2 + v_k^2)^{1/2} = \| (u_k, v_k) \|^2_2$ for each $k$. The Fenchel conjugate of the L2 norm is itself (HW3). We also have that for any norm $\| \cdot \|$, the Fenchel conjugate $\| \cdot \|^*$ is the indicator of the unit ball in the dual norm $\delta_{\| \cdot \|_* \leq 1}$. The proximal mapping of the indicator of the unit ball is the projection onto the unit ball for points not in the unit ball. Hence
     $$
     \prox_{g^*}(y_1, y_2) = t \gamma \frac{(y_1, y_2)}{\| (y_1, y_2) \|_2}
     $$
@@ -359,7 +359,7 @@ where $t > 0$ is the step size and $\rho \in (0, 2)$ is a relaxation parameter.
     \end{split}
   \end{equation}
   with the optimality condition 
-  \begin{equation}
+  \begin{equation*}
     \begin{split}
       0 \in \partial f(x) + \partial g(y) + \partial \delta_0 \left( \begin{bmatrix}
         A & -I
@@ -367,7 +367,7 @@ where $t > 0$ is the step size and $\rho \in (0, 2)$ is a relaxation parameter.
         x\\y
       \end{bmatrix} \right) =: \mathcal{F}(x,y) 
     \end{split}
-  \end{equation}
+  \end{equation*}
   As stated in the literature \cite{ConnorVander}, $\mathcal{F}$ is the subdifferential of closed, convex functions, hence is a maximal monotone operator. Thus, by (\ref{maxmon}), the zeros of $\mathcal{F}$ are the fixed points of the resolvent of $\mathcal{F}$. Therefore, if we can find the fixed points of $\mathcal{F}$, we'll have found the optimal points. Unfortunately, this particular problem is too computationally expensive, so the strategy is to split $\mathcal{F}$ into two maximal monotone operators $\mathcal{A}$ and $\mathcal{B}$ which have inexpensive proximal operators. Finding the fixed points of $\mathcal{A}+ \mathcal{B}$ will be equivalent to finding that of $\mathcal{F}.$ Define $\mathcal{A}$ and $\mathcal{B}$ as, 
   \begin{equation}
     \begin{split}
@@ -448,7 +448,7 @@ where $t > 0$ is the step size and $\rho \in (0, 2)$ is a relaxation parameter.
       (\prox_{\lambda \psi}(y_2, y_3))_i = \prox_{\gamma \lambda \| \cdot \|_{\iso}} (y_2, y_3)_{i}= \alpha_i ((y_2)_i, (y_3)_i), 
     \end{split}
   \end{equation*}
-  where, \marginpar{\color{red}(provide a proof of this)}
+  where,
   \begin{equation*}
     \begin{split}
       \alpha_i = 
@@ -825,7 +825,7 @@ and it is said that applying the Douglas-Rachford algorithm to this dual problem
 
 \medskip
 
-ADMM like the previous algorithms, is a splitting algorithm. Unlike the previous two algorithms, it has different optimality conditions, that is it uses solely optimality conditions of the dual problem.
+ADMM like the previous algorithms, is a splitting algorithm. Unlike the previous two algorithms, it has different optimality conditions, that is it uses solely optimality conditions of the dual problem. Apart from this, it relies as the other algorithms on the Douglas-Rachford iteration, with a different update ordering as mentioned in the project prompt. The proximal operators are fundamentally the same despite different inputs and despite using the inverse of the step size $t^{-1}$. This is can be interpreted by the reliance of the Lagrangian on functions $f$ and $g$. Another difference is the use of the step size $t$ to update $w^k$ and $z^k$, whereas previously somewhat analogous updates used the relaxation parameter $\rho$. It turns out the $\rho$ is still used, but hidden within the update steps.
 
 \medskip
 
@@ -895,17 +895,39 @@ which makes no difference in the above formulation as we alternate minimization 
   \label{sub:Chambolle-Pock}
 
 The Chambolle-Pock method considers the generic optimization problem 
-\begin{equation}
+\begin{equation*}
   \begin{split}
     \min_{x,y} f(x) + g(y)\\ 
     \text{subject to }Ax= y,
   \end{split}
-\end{equation}
+\end{equation*}
 by finding the solution of
 \begin{equation}
  \min_{x}\max_{y} \, \langle Ax, y \rangle + f(x) - g^{*}(y). \label{eq: CP_minmax}
 \end{equation}
-It is mentioned that in our case, the solution turns out to be the Lagrangian of our generic optimization problem. \textcolor{red}{decription of the similarities and differences of CHambolle Pock from the other algos} The algorithm proceeds as below.
+It is mentioned that in our case, the solution turns out to be the Lagrangian of our generic optimization problem. 
+
+\medskip
+
+The Chambolle-Pock algorithm stands out as the odd one out among the four algorithms. It does not use a relaxation parameter $\rho$, but two step sizes $t$ and $s$ which depend on the size of the operators in the problem, as mentioned in the project prompt. Furthermore, this algorithm does not require solving a system of linear equations involving $I +A^{T}A$. We only need vector-matrix multiplications of $A$ and $A^{T}$, hence giving a time complexity that is not necessarily the same as the previous algorithms.
+
+\medskip
+
+Chambolle-Pock is not based on an "optimality condition" as the previous three, but properly chosen step sizes $s$ and $t$ that will guarentee convergence. In particular, as described in the project prompt, by choosing the step sizes $s$ and $t$ such that $st(\|A\|_{2}^{2}) < 1$, we can ensure the following convergence:
+
+\begin{equation}
+ \frac{\| y^{k} - \hat{y}\|_{2}^{2}}{2s}  + \frac{\| x^{k} - \hat{x} \|_{2}^{2}}{2t} \leq C \left(\frac{\| y^0 - \hat{y}\|_{2}^{2}}{2s}  + \frac{\|x^0 - \hat{x}\|_{2}^{2}}{2t} \right)
+\end{equation}
+
+In summary, because the sequence of iterates $\{ (x^k, y^k) \}_k$ is bounded, by extracting subsequences, convergence to a fixed point is guarenteed.
+
+\medskip
+
+Despite these differences, it is said that the Chambolle-Pock algorithm is at its core, a form of preconditioned ADMM. Unpacking this formulation, and with the help of the equations 
+\[ y^{k}  = (I + s\partial g^*)^{-1}(y^{k-1} + sAz^{k-1}) \qquad z^k = 2x^k - x^{k-1} \]
+due to the addition of 
+\[ \frac{1}{2}\langle \left(\frac{1}{s} - t AA^T\right)(y - y^{k-1}), y - y^{k-1} \rangle \]
+to the augmented Lagrangian at the $k$-th iteration, we see that the updates of $y^k$ and $z^k$ are exactly two of the steps of the algorithm described above. The algorithm proceeds as below. It utilizes the proximal operators of $g^*$ and $f$, resembling the primal-dual formulation.
 
 \begin{algorithm}[h!]
  \SetKw{Null}{NULL}
@@ -922,36 +944,6 @@ It is mentioned that in our case, the solution turns out to be the Lagrangian of
 \Return $x\text{Sol} = x^{k}$\;
 \caption{Chambolle-Pock Algorithm}\label{alg:ChambollePock} 
 \end{algorithm}
-
-\textcolor{red}{summarize the following (or remove)}
-
-By choosing the step sizes $s$ and $t$ such that $st(\|A\|_{2}^{2}) < 1$, we can ensure the following convergence:
-
-\begin{equation}
- \frac{\| y^{k} - \hat{y}\|_{2}^{2}}{2s}  + \frac{\| x^{k} - \hat{x} \|_{2}^{2}}{2t} \leq C \left(\frac{\| y^0 - \hat{y}\|_{2}^{2}}{2s}  + \frac{\|x^0 - \hat{x}\|_{2}^{2}}{2t} \right). \label{eq: CP_conv}
-\end{equation}
-
-This establishes that the sequence of iterates, $(x^k, y^k)$, is bounded. Therefore one can find a subsequence $(x^{k_m}, y^{k_m})$ that converges to some limit $(x^*, y^*)$. It can also be shown that $x^{k_m - 1}$ and $y^{k_m - 1}$ also converge respectively to $x^*$ and $y^*$. This shows that $(x^*, y^*)$, obtained as a limit of the above algorithm, is a fixed point of the iterations, and hence a saddle point of the min-max problem (\ref{eq: CP_minmax}). 
-
-There are a couple of important differences between the Chambolle-Pock
-algorithm and the previous variants of the Douglas-Rachford
-algorithm. One, the step sizes $s$ and $t$  in Chambolle-Pock are
-dependent on the size of the operators in the problem (i.e.\ the
-maximum singular value of matrix $A$). Second, this algorithm does not
-require solving a system of linear equations involving $I +
-A^{T}A$. We only need vector-matrix multiplications of $A$ and $A^{T}$. 
-
-Despite these operational differences, at its core, the Chambolle-Pock algorithm can be interpreted as a form of preconditioned ADMM. The first step of ADMM solves a least squares problem, which involves a difficult matrix inversion. In general, this could be quite an expensive operation. To get around this, the Chambolle-Pock algorithm  adds 
-\[ \frac{1}{2}\langle \left(\frac{1}{s} - t AA^T\right)(y - y^{k-1}), y - y^{k-1} \rangle \]
-to the augmented Lagrangian to be minimized at the $k$-th iteration: 
-\[ y^{k} = \arg \min_{y} g^{*}(y) - \langle A^Ty, x^{k-1} \rangle + \frac{t}{2}\|A^{T}y + z^{k-1} \| + \frac{1}{2}\langle (\frac{1}{s} - t AA^T)(y - y^{k-1}), y  - y^{k-1} \rangle \]
-This simplifies to 
-\[ y^{k}  = (I + s\partial g^*)^{-1}(y^{k-1} + sAz^{k-1}) \]
-where 
-\[ z^k = 2x^k - x^{k-1}, \]
-which are exactly two of the steps of the algorithm described above. 
-
-
 
 
 \section{Tuning and Results}
