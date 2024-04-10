@@ -51,7 +51,8 @@ i.scp = 0.2;
 i.tcp = 0.2;
 [numRows, numCols] = size(b);
 x = zeros( numRows, numCols );
-[x, summary] = DeblurStuff.DeblurGod('l1', 'douglasrachfordprimal', x, kernel, b, i);
+% [x, summary] = DeblurStuff.DeblurGod('l1', 'douglasrachfordprimal', x, kernel, b, i);
+[x, summary] = DeblurStuff.DeblurGod('l1', 'douglasrachfordprimaldual', x, kernel, b, i);
 % [x, summary] = DeblurStuff.DeblurGod('l1', 'chambollepock', x, kernel, b, i);
 % [x, summary] = DeblurStuff.DeblurGod('l2', 'admm', x, kernel, b, i);
 

@@ -31,6 +31,8 @@
 \usepackage{nicefrac}       % compact symbols for 1/2, etc.
 \usepackage{microtype}      % microtypography
 \usepackage{xcolor}         % colors
+\usepackage{enumitem}       % itemize
+
 
 \usepackage[mathcal]{eucal} % for the good looking mathcal
 
@@ -104,6 +106,7 @@
 \SetKwInput{Output}{Output\hspace{27pt}{ }}
 \SetKwInput{Initialize}{Initialize\hspace{20pt}{ }}
 \SetKwInput{Parameters}{Parameters\hspace{2pt}{ }}
+
 
 \title{Final Project Report MATH 563}
 
@@ -198,6 +201,9 @@ If $F$ is maximal monotone, then $(I + \lambda F)^{-1}(\hat x)$ exists and is un
   \end{equation}
   Thus, evaluating the proximal operator of a separable function reduces to evaluating the proximal operators for each of the separable parts, which can be done independently \cite{parikh_2014}.
 \end{proposition}
+
+\textcolor{red}{Comment (remove after): do we need the following proposition?}
+
 \begin{proposition}(Proximal operator of norms) \label{normprox}
   If $f = \| \cdot \|$ is a general norm, then $f^*$ is the indicator function on the unit ball for the dual norm $\| \cdot \|_*$, namely 
    \begin{equation*}
@@ -214,77 +220,93 @@ If $F$ is maximal monotone, then $(I + \lambda F)^{-1}(\hat x)$ exists and is un
 In particular, the \textit{Moreau Decomposition Theorem} gives that 
 \begin{equation*}
   \begin{split}
-    \prox_{\|\cdot \|}(v) = \proj_{\{x \;: \; \|x \|_* \leq 1\}} (v) - v
+    \prox_{\|\cdot \|}(v) = v - \proj_{\{x \;: \; \|x \|_* \leq 1\}} (v) 
   \end{split}
 \end{equation*}
 \end{proposition}
 
 \subsection{Derivations of the proximal maps}
-We provide a quick proof of the proximal operators of the L1 norm, the L2 norm, the iso norm, and the box prox. Let $b \in \R^d$ be fixed.
+We provide a quick derivation of the proximal operators of the L1 norm, the L2 norm, the iso norm, and the box prox. By the Moreau decomposition, we naturally obtain the proximal operators of the Fenchel conjugates. Let $b \in \R^d$ be fixed.
 
-Let $ g: y \mapsto t \| y - b \|_1$. We have
-\begin{align*}
-    \prox_{g}(y) &:= \argmin_u \{ \: t \| u - b \|_1 + \frac{1}{2} \| y - u \|^2_2 \: \} =
-    \begin{cases}
-        b & y - b \in [-t, t] \\
-        y - \text{sign}(y-b) \cdot t &\text{otherwise}
-    \end{cases}
-\end{align*}
-We consider first-order optimality conditions, with the following cases:
-\begin{itemize}
-    \item If $u - b > 0$, then 
+\medskip
+
+\begin{itemize}[leftmargin=*]
+    \item Let $ g: y \mapsto t \| y - b \|_1$. We have
     \begin{align*}
-        t - y + u = 0 \quad \Leftrightarrow \quad u = y - t
+        \prox_{g}(y) &:= \argmin_u \{ \: t \| u - b \|_1 + \frac{1}{2} \| y - u \|^2_2 \: \} =
+        \begin{cases}
+            b & y - b \in [-t, t] \\
+            y - \text{sign}(y-b) \cdot t &\text{otherwise}
+        \end{cases}
     \end{align*}
-    \item If $u - b < 0$, then 
+    We consider first-order optimality conditions, with the following cases:
+    \begin{itemize}
+        \item If $u - b > 0$, then 
+        \begin{align*}
+            t - y + u = 0 \quad \Leftrightarrow \quad u = y - t
+        \end{align*}
+        \item If $u - b < 0$, then 
+        \begin{align*}
+            -t - y + u = 0 \quad \Leftrightarrow \quad u = y + t
+        \end{align*}
+        \item If $u - b = 0$, then $u = b$ under which by optimality conditions we have
+        \begin{align*}
+            0 \in t \cdot [-1, 1] - y + b \quad \Leftrightarrow \quad y - b \in [-t, t]
+        \end{align*}
+    \end{itemize}
+
+    \smallskip
+
+    \item Now consider $g: y \mapsto t \| y - b \|_2^2$. This $g$ is continuously differentiable so we can take its gradient directly and set it to zero, obtaining:
+    $$
+    \prox_{g}(y) = \frac{y + b}{2 t + 1}
+    $$
+
+    \smallskip
+
+    \item Consider now $g: (y_1, y_2) \mapsto t\gamma \| (y_1, y_2) \|_{\text{iso}}$ where
+    $$
+    \|(x,y) \|_{\iso} = \sum^{n}_{k=1} (x_k^2 + y^2_k )^{\frac{1}{2}} 
+    $$
+    To compute the proximal operator of $g$, we use Moreau decomposition (7.5.8), the generalized sum rule (7.5.4), and some subdifferential calculus (7.5.2). The Fenchel conjugate of $g$ is $g^*(y_1, y_2) = t \gamma \max_{1 \leq k \leq n} (y_{1k}^2 + y_{2k}^2)^{1/2}$ where $y_1, y_2 \in \mathbb{R}^n$ (simplified after elementary conjugacy operations). So we have
     \begin{align*}
-        -t - y + u = 0 \quad \Leftrightarrow \quad u = y + t
+        \prox_{g}(y_1, y_2) = (y_1, y_2) - \prox_{g^*}(y_1, y_2)
     \end{align*}
-    \item If $u - b = 0$, then $u = b$ under which by optimality conditions we have
+    where
     \begin{align*}
-        0 \in t \cdot [-1, 1] - y + b \quad \Leftrightarrow \quad y - b \in [-t, t]
+        \prox_{g^*}(y_1, y_2) = \argmin_{(u, v)} \bigg{\{} t \gamma \max_{1 \leq k \leq n} (u_k^2 + v_k^2)^{1/2}  + \frac{1}{2} \| (y_1, y_2) - (u, v) \|_2^2 \bigg{\}}
+    \end{align*}
+    By the generalized sum rule for the first line, 
+    \begin{align*}
+        \partial \prox_{g^*}(y_1, y_2) &= \partial \bigg(t \gamma \max_{1 \leq k \leq n} (u_k^2 + v_k^2)^{1/2}\bigg)  + \partial \bigg(\frac{1}{2} \| (y_1, y_2) - (u, v) \|_2^2 \bigg) \\
+        &= \partial \bigg(t \gamma \max_{1 \leq k \leq n} (u_k^2 + v_k^2)^{1/2}\bigg)  + \nabla \bigg(\frac{1}{2} \| (y_1, y_2) - (u, v) \|_2^2 \bigg) \\
+        &= t \gamma \cdot \text{conv}\bigg( \nabla((u, v) \mapsto (u_k^2 + v_k^2)^{1/2}) \bigg) + \nabla \bigg(\frac{1}{2} \| (y_1, y_2) - (u, v) \|_2^2 \bigg) \quad \text{7.5.2} \\
+        &= \bigg( \frac{t \gamma \cdot y_{1k}}{(y_{1k}^2 + y_{2k}^2)^{1/2}} - y_{1k} + u_k, \: \frac{t \gamma \cdot y_{2k}}{(y_{1k}^2 + y_{2k}^2)^{1/2}} - y_{2k} + v_k\bigg) \quad \text{by def. of convex hull}
+    \end{align*}
+    which vanishes for each $k$ when
+    \begin{align*}
+        u = \bigg(1 - \frac{t \gamma}{(y_{1k}^2 + y_{2k}^2)^{1/2}}\bigg) y_1 \qquad
+        v = \bigg(1 - \frac{t \gamma}{(y_{1k}^2 + y_{2k}^2)^{1/2}}\bigg) y_2
+    \end{align*}
+    as long as $(y_{1k}^2 + y_{2k}^2)^{1/2} > 0$. If $(y_{1k}^2 + y_{2k}^2)^{1/2} = 0$, then $y_{1k} = y_{2k} = 0$ so $(u, v) = (0, 0)$.
+
+    \smallskip
+
+    We remark that in the original paper \textcolor{red}{cite}, they define the proximal map of $f$ at $x$ to be $\argmin_u f(u) - 1/2\|u - x\|^2$ hence the difference in signs, although the same.
+
+    \smallskip
+    
+    \item For the box prox, $f : x \mapsto t \delta_S(x)$ where $S := \{x : x \in [0, 1]\}$, the proximal operator is the projection. That is, 
+    \begin{align*}
+        \prox_{f}(x) &= \argmin_u \{ t \delta_S(u) + \frac{1}{2}\|x - u\|^2_2 \} \\
+        &= t \cdot \argmin_u \{ \delta_S(u) + \frac{1}{2t}\|x - u\|^2_2 \} \\
+        &= \argmin_{u \in S} \frac{1}{2}\|x - u\|^2_2
     \end{align*}
 \end{itemize}
 
 \medskip
 
-Now consider $g: y \mapsto t \| y - b \|_2^2$. This $g$ is continuously differentiable so we can take its gradient directly and set it to zero, obtaining:
-$$
-\prox_{g}(y) = \frac{y + b}{2 t + 1}
-$$
 
-\medskip
-
-Consider now $g: (y_1, y_2) \mapsto t\gamma \| (y_1, y_2) \|_{\text{iso}}$ for the iso-norm defined below. To compute the proximal operator of $g$, we use Moreau decomposition (7.5.8), the generalized sum rule (7.5.4), and some subdifferential calculus (7.5.2). The Fenchel conjugate of $g$ is $g^*(y_1, y_2) = t \gamma \max_{1 \leq k \leq n} (y_{1k}^2 + y_{2k}^2)^{1/2}$ where $y_1, y_2 \in \mathbb{R}^n$. So we have
-\begin{align*}
-    \prox_{g}(y_1, y_2) = (y_1, y_2) - \prox_{g^*}(y_1, y_2)
-\end{align*}
-where
-\begin{align*}
-    \prox_{g^*}(y_1, y_2) = \argmin_{(u, v)} \bigg{\{} t \gamma \max_{1 \leq k \leq n} (u_k^2 + v_k^2)^{1/2}  + \frac{1}{2} \| (y_1, y_2) - (u, v) \|_2^2 \bigg{\}}
-\end{align*}
-By the generalized sum rule for the first line, 
-\begin{align*}
-    \partial \prox_{g^*}(y_1, y_2) &= \partial \bigg(t \gamma \max_{1 \leq k \leq n} (u_k^2 + v_k^2)^{1/2}\bigg)  + \partial \bigg(\frac{1}{2} \| (y_1, y_2) - (u, v) \|_2^2 \bigg) \\
-    &= \partial \bigg(t \gamma \max_{1 \leq k \leq n} (u_k^2 + v_k^2)^{1/2}\bigg)  + \nabla \bigg(\frac{1}{2} \| (y_1, y_2) - (u, v) \|_2^2 \bigg) \\
-    &= t \gamma \cdot \text{conv}\bigg( \nabla((u, v) \mapsto (u_k^2 + v_k^2)^{1/2}) \bigg) + \nabla \bigg(\frac{1}{2} \| (y_1, y_2) - (u, v) \|_2^2 \bigg) \quad \text{7.5.2} \\
-    &= \bigg( \frac{t \gamma \cdot u}{(y_{1k}^2 + y_{2k}^2)^{1/2}} - y_1 + u, \: \frac{t \gamma \cdot v}{(y_{1k}^2 + y_{2k}^2)^{1/2}} - y_2 + v\bigg) \quad \text{by def. of convex hull}
-\end{align*}
-which vanishes when
-\begin{align*}
-    u = \bigg(1 - \frac{t \gamma}{(y_{1k}^2 + y_{2k}^2)^{1/2}}\bigg) y_1 \qquad
-    v = \bigg(1 - \frac{t \gamma}{(y_{1k}^2 + y_{2k}^2)^{1/2}}\bigg) y_2
-\end{align*}
-as long as $(y_{1k}^2 + y_{2k}^2)^{1/2} > 0$. If $(y_{1k}^2 + y_{2k}^2)^{1/2} = 0$, then $y_{1k} = y_{2k} = 0$ so $(u, v) = (0, 0)$.
-
-\medskip
-
-For the box prox, $f : x \mapsto t \delta_S(x)$ where $S := \{x : x \in [0, 1]\}$, the proximal operator is the projection. That is, 
-\begin{align*}
-    \prox_{f}(x) &= \argmin_u \{ t \delta_S(u) + \frac{1}{2}\|x - u\|^2_2 \} \\
-    &= t \cdot \argmin_u \{ \delta_S(u) + \frac{1}{2t}\|x - u\|^2_2 \} \\
-    &= \argmin_{u \in S} \frac{1}{2}\|x - u\|^2_2
-\end{align*}
 
 \section{Algorithms}
 The algorithms we present are used to solve the non-blind image deblurring problem, which is a convex optimization problem of the form 
@@ -298,7 +320,7 @@ where $f, g \in \Gamma$ have inexpensive prox-operators. We are given a vectoriz
 \begin{equation}
   Kx + \eta = b,
 \end{equation}
-where $x$ is the original image, and $\eta$ the added noise. Our goal is to recover the original image $x$. We formulate the problem in two ways, namely, one which uses the $L^1$ norm, and the other the $L^2$ norm. First,
+where $x$ is the original image, and $\eta$ the added noise. Our goal is to recover the original image $x$ from the blurred and noisy image $b$. We formulate the problem in two ways, namely, one which uses the $L^1$ norm, and the other the $L^2$ norm. First,
 \begin{equation}\label{l1}
     \min_x \|Kx - b\|_1 + \delta_S(x) + \gamma \|Dx \|_{\iso}, 
 \end{equation}
@@ -306,8 +328,21 @@ and second,
 \begin{equation}\label{l2}
     \min_x \|Kx - b\|_2^2 + \delta_S(x) + \gamma \|Dx \|_{\iso}, 
 \end{equation}
-where $S = \{x \mid 0 \leq x \leq 1\}$, so that $\delta_S$ aims to restrict the range of allowed pixels. The $\iso$ norm is defined as 
-$$\|(x,y) \|_{\iso} = \sum^{n}_{k=1} (x_k^2 + y^2_k )^{\frac{1}{2}} $$
+where $S = \{x \mid 0 \leq x \leq 1\}$, so that $\delta_S$ aims to restrict the range of allowed pixels. 
+
+\medskip
+
+The algorithms are based on a splitting scheme to facilitate computation of the resolvents of the maximal monotone operators. As mentioned in a bit more detail in the project prompt, we have from the fixed point iteration scheme
+$$
+x^k = (I + t \mathcal{F})^{-1}(x^{k-1}) \qquad k = 1, 2, ...
+$$
+where $\mathcal{F}$ is a maximal monotone operator. Splitting algorithms decompose the problem into
+\begin{align*}
+    &x^k = (I + t \mathcal{A})^{-1}(z^{k-1}) \\
+    &y^k = (I + t \mathcal{B})^{-1}(2x^{k} - z^{k-1}) \\
+    &z^k = z^{k-1} \rho(y^k - x^k)
+\end{align*}
+where $t > 0$ is the step size and $\rho \in (0, 2)$ is a relaxation parameter.
 
 \subsection{Primal Douglas-Rachford splitting (Spingarn's method)}%
   \label{sub:Primal Douglas-Rachford splitting (Spingarn's method)}
@@ -776,37 +811,30 @@ Here is the Primal-Dual Douglas Rachford splitting algorithm,
 
 
 
+% Had to have a page break because of the bad formatting of the algorithm box....remove later ~ Edmund
+\pagebreak
+
+
+
+
 \subsection{ADMM (Dual Douglas-Rachford)}  \label{sub: ADMM}
-\textcolor{red}{Copy-pasted from project outline}
+The dual problem from above
+\begin{equation}
+  \text{maximize}_y \ -f^*(-A^T y) - g^*(y)
+\end{equation}
+has the equivalent form
+$$
+\text{minimize}_z \ -f^*(-A^T z) - g^*(z) := h(z) + k(z)
+$$
+and it is said that applying the Douglas-Rachford algorithm to this dual problem results in the alternating direction method of multipliers (ADMM) algorithm. That is, ADMM is uses the Douglas-Rachford iteration on the dual problem. Optimality is guaranteed when $0 \in \partial h(z) + \partial k(z)$ in which we have two maximal monotone operators with resolvents $\prox_{th}(z)$ and $\prox_{tk}(z)$. 
 
 \medskip
 
-It can be shown that the alternating direction method of multipliers (ADMM) is exactly the Douglas-Rachford algorithm applied to the dual problem (\ref{eq: dual}), which we rewrite as
-\begin{equation}
-\text{minimize}_z \quad f^*(-A^Tz) + g^*(z)  := h(z) + k(z). \label{eq: dual2}
-\end{equation}
-The optimality conditions for (\ref{eq: dual2}) are precisely $0 \in \partial h(z) + \partial k(z).$ This is a sum of two maximal monotone operators $\mathcal{A}(z) = \partial h(z) $ and $\mathcal{B}(z) = \partial k(z)$, with resolvents $\prox_{th}(z)$ and $\prox_{tk}(z)$, respectively. An equivalent formulation of the Douglas-Rachford iteration for this problem, obtained by simply interchanging the order of the updates and performing a change of variables, is thus:
-\begin{align}
-v^k &= \prox_{th} (z^{k-1} - w^{k-1})\\
-z^k &= \prox_{tk} (v^k + w^{k-1} ) \\
-w^k &= w^{k-1}+ \rho v^k + (1-\rho)z^{k-1} - z^k.
-\end{align}
+ADMM like the previous algorithms, is a splitting algorithm. Unlike the previous two algorithms, it has different optimality conditions, that is it uses solely optimality conditions of the dual problem.
 
-\begin{proposition} If $h(z) = f^*(-A^Tz),$ then $\prox_{th}(z)$ can be computed by the following:
-\[ \hat{x} = \underset{x}{\arg \min} \left( f(x) + z^T Ax + \frac{t}{2} \|Ax \|^2 \right) \]
-\[ \prox_{th}(z) = z+ tA\hat{x}. \]
-\end{proposition}
+\medskip
 
-\begin{proof} 
-Notice that $\hat{x}$ as given above is optimal for
-\begin{align*}
- \text{minimize} \quad & f(x) + \frac{t}{2} \|w\|_2^2 \\
-\text{subject to} \quad & w = Ax + z/t,
-\end{align*}
-where $z$ is fixed and $x,w$ are the variables. The optimality conditions for the above are $A\hat{x} + z/t = \hat{w},$ $-A^T\hat{u} \in \partial f(\hat{x}),$ and $t\hat{w}=\hat{u},$ where $u$ is the dual multiplier. Eliminating $x$ and $w$ and using the relationship $(\partial f)^{-1} = \partial f^*$, this is equivalent to the condition that $0 \in - A \partial f^*(-A^T \hat{u})+ \frac{1}{t}(\hat{u}-z) ,$ which is precisely the optimality condition that guarantees $\hat{u} = \prox_{th}(z) = \arg \min _u f^*(-A^Tu) + \frac{t}{2} \|u-z\|_2^2$. Combining these optimality conditions also leads to the relationship $\hat{u} = z+tA\hat{x},$ which proves the proposition.
-\end{proof}
-
-By this proposition (applied to both $h$ and $k$ in (\ref{eq: dual2})) the Douglas-Rachford algorithm on the dual can be rewritten as
+A form of the Douglas-Rachford iteration on the dual can be derived to be the following, as given in the project prompt:
 \begin{align*}
 \hat{x}^k &= \underset{x}{\arg \min} \left( f(x) + (z^{k-1} - w^{k-1})^T Ax + \frac{t}{2} \|Ax \|^2 \right) \\
 v^k &= z^{k-1} - w^{k-1} + tA \hat{x}^k \\
@@ -815,22 +843,32 @@ z^k &= v^k + w^{k-1} - t \hat{y}^k\\
 w^k &= w^{k-1}+ \rho v^k + (1-\rho)z^{k-1} - z^k.
 \end{align*}
 
-If $\rho = 1,$ the $w$ update simplifies to $w^k = t\hat{y}^k$ and the entire algorithm simplifies to
-\begin{align}
-\hat{x}^k &= \underset{x}{\arg \min} \; L(x,\hat{y}^{k-1}) \\
-\hat{y}^k &= \underset{y}{\arg \min} \; L(\hat{x}^k,y) \label{eq: admm1} \\
-z^k &= z^{k-1} + t(A \hat{x}^k -\hat{y}^k),  \label{eq: admm2} 
-\end{align}
-where $L(x,y,z) = f(x) + g(y) + z^T(Ax-y) + \frac{t}{2} \|Ax-y\|_2^2$ is the augmented Lagrangian for the primal problem. This is the formulation of ADMM which we saw in class. To obtain the overrelaxed version for $0< \rho <2,$ we simply replace instances of $A \hat{x}^k$ in (\ref{eq: admm1}) and (\ref{eq: admm2}) with $\rho A \hat{x}^k + (1- \rho) \hat{y}^{k-1}.$
-
-In our implementation of ADMM for the particular problem (\ref{eq: problem}), we first introduce a new variable $u$ and add the constraint that $x=u$. We can then rewrite the general problem as
+In particular, we are interested in the general problem
 \begin{align*}
- \text{minimize} \quad & f(u) + g(y) \\
-\text{subject to} \quad & \left[ \begin{array}{c} I \\ A \end{array} \right] x + \left[ \begin{array}{cc} - I & 0 \\ 0 & - I \end{array} \right] \left[ \begin{array}{c} u \\ y \end{array} \right] = 0.
+    \begin{split}
+        \min_{u,y}& \: f(u) + g(y)\\ 
+        \text{subject to }&
+        \begin{bmatrix}
+            I \\
+            A
+        \end{bmatrix} x + 
+        \begin{bmatrix}
+            -I & 0 \\
+            0 & -I
+        \end{bmatrix}
+        \begin{bmatrix}
+            u \\
+            y
+        \end{bmatrix} = 0
+    \end{split}
 \end{align*}
-The augmented Lagrangian for this problem is
-\[ L(x,u, y, w, z) = f(u) + g(y) + w^T (x-u) + z^T (Ax-y) + \frac{t}{2} \left( \| x-u\|^2 + \|Ax-y\|^2 \right).\]
-We now alternate between minimizing $L$ over $x$ and minimizing $L$ over $(u,y).$ Since the problem is separable in $u$ and $y$, this actually amounts to three separate minimization problems. Straightforward computations then show that the (overrelaxed) algorithm is as below (Algorithm \ref{alg: ADMM}).
+for which we have an augmented Lagrangian given as
+$$
+L(x,u, y, w, z) = f(u) + g(y) + w^T (x-u) + z^T (Ax-y) + \frac{t}{2} \left( \| x-u\|^2 + \|Ax-y\|^2 \right)
+$$
+which makes no difference in the above formulation as we alternate minimization over $x$ and minimization over $(u, y)$, so that they are constants in alternation.
+
+\medskip
 
 \begin{algorithm}[h!]
  \SetKw{Null}{NULL}
@@ -858,8 +896,120 @@ We now alternate between minimizing $L$ over $x$ and minimizing $L$ over $(u,y).
 
 
  
-\subsection{La pièce de résistance: Chambolle-Pock}%
-  \label{sub:La pièce de résistance: Chambolle-Pock}
+\subsection{Chambolle-Pock}%
+  \label{sub:Chambolle-Pock}
+
+The Chambolle-Pock method considers the generic optimization problem 
+\begin{equation}
+  \begin{split}
+    \min_{x,y} f(x) + g(y)\\ 
+    \text{subject to }Ax= y,
+  \end{split}
+\end{equation}
+by finding the solution of
+\begin{equation}
+ \min_{x}\max_{y} \, \langle Ax, y \rangle + f(x) - g^{*}(y). \label{eq: CP_minmax}
+\end{equation}
+It is mentioned that in our case, the solution turns out to be the Lagrangian of our generic optimization problem. \textcolor{red}{decription of the similarities and differences of CHambolle Pock from the other algos} The algorithm proceeds as below.
+
+\begin{algorithm}[h!]
+ \SetKw{Null}{NULL}
+ \SetKw{Return}{return}
+ \Input{ Blurred image $b$, step sizes $t$, $s$}
+ \Output{ Deblurred image $x$ }
+\Initialize{ $x^0, y^0, z^0$ }
+
+\For { $k = 1, 2, \hdots, $ } {
+  $ y^k = \text{prox}_{sg^{*}}(y^{k - 1} + sAz^{k-1})$    \;
+  $ x^k = \text{prox}_{tf}(x^{k-1} - tA^{T}y^{k})$ \;
+  $	z^{k}  = 2x^{k}  - x^{k-1} $ \;
+} 
+\Return $x\text{Sol} = x^{k}$\;
+\caption{Chambolle-Pock Algorithm}\label{alg:ChambollePock} 
+\end{algorithm}
+
+\textcolor{red}{summarize the following (or remove)}
+
+By choosing the step sizes $s$ and $t$ such that $st(\|A\|_{2}^{2}) < 1$, we can ensure the following convergence:
+
+\begin{equation}
+ \frac{\| y^{k} - \hat{y}\|_{2}^{2}}{2s}  + \frac{\| x^{k} - \hat{x} \|_{2}^{2}}{2t} \leq C \left(\frac{\| y^0 - \hat{y}\|_{2}^{2}}{2s}  + \frac{\|x^0 - \hat{x}\|_{2}^{2}}{2t} \right). \label{eq: CP_conv}
+\end{equation}
+
+This establishes that the sequence of iterates, $(x^k, y^k)$, is bounded. Therefore one can find a subsequence $(x^{k_m}, y^{k_m})$ that converges to some limit $(x^*, y^*)$. It can also be shown that $x^{k_m - 1}$ and $y^{k_m - 1}$ also converge respectively to $x^*$ and $y^*$. This shows that $(x^*, y^*)$, obtained as a limit of the above algorithm, is a fixed point of the iterations, and hence a saddle point of the min-max problem (\ref{eq: CP_minmax}). 
+
+There are a couple of important differences between the Chambolle-Pock
+algorithm and the previous variants of the Douglas-Rachford
+algorithm. One, the step sizes $s$ and $t$  in Chambolle-Pock are
+dependent on the size of the operators in the problem (i.e.\ the
+maximum singular value of matrix $A$). Second, this algorithm does not
+require solving a system of linear equations involving $I +
+A^{T}A$. We only need vector-matrix multiplications of $A$ and $A^{T}$. 
+
+Despite these operational differences, at its core, the Chambolle-Pock algorithm can be interpreted as a form of preconditioned ADMM. The first step of ADMM solves a least squares problem, which involves a difficult matrix inversion. In general, this could be quite an expensive operation. To get around this, the Chambolle-Pock algorithm  adds 
+\[ \frac{1}{2}\langle \left(\frac{1}{s} - t AA^T\right)(y - y^{k-1}), y - y^{k-1} \rangle \]
+to the augmented Lagrangian to be minimized at the $k$-th iteration: 
+\[ y^{k} = \arg \min_{y} g^{*}(y) - \langle A^Ty, x^{k-1} \rangle + \frac{t}{2}\|A^{T}y + z^{k-1} \| + \frac{1}{2}\langle (\frac{1}{s} - t AA^T)(y - y^{k-1}), y  - y^{k-1} \rangle \]
+This simplifies to 
+\[ y^{k}  = (I + s\partial g^*)^{-1}(y^{k-1} + sAz^{k-1}) \]
+where 
+\[ z^k = 2x^k - x^{k-1}, \]
+which are exactly two of the steps of the algorithm described above. 
+
+
+
+
+\section{Tuning and Results}
+
+\textcolor{red}{it is said to enter the best parameters as the default}
+\begin{table}[h!]
+    \centering
+    \caption{Default Parameters Used}
+    \vspace{7pt} % Adjust the value as needed to control the amount of space
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Hyperparameter} & \textbf{In-line Name \texttt{i.}} & \textbf{Value} \\
+        \hline
+        Kernel & \texttt{kernel} & \\
+        \hline
+        Noise & & \\
+        \hline
+        Total Iteration & \texttt{maxiter} & 500 \\
+        \hline
+        gamma L1 & \texttt{gammal1} & 0.1 \\
+        \hline
+        gamma L2 & \texttt{gammal2} & 0.02 \\
+        \hline
+        t & \texttt{tprimaldr} & \\
+        \hline
+        & \texttt{rhoprimaldr} & \\
+        \hline
+        & \texttt{tprimaldualdr} & \\
+        \hline
+        & \texttt{rhoprimaldualdr} & \\
+        \hline
+        & \texttt{tadmm} & \\
+        \hline
+        & \texttt{rhoadmm} & \\
+        \hline
+        & \texttt{scp} & \\
+        \hline
+        & \texttt{tcp} & \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Hyperparameter tuning}
+
+\subsubsection*{Kernel and noise}
+
+\subsubsection*{Gamma}
+
+\subsubsection*{Step size and relaxation parameter}
+
+\subsection{Results}
+
 
 \section*{Acknowledgments}
 Please include a list of each person (with student ID) in your group
