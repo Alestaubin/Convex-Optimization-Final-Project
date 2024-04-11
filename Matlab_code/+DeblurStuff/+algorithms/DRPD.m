@@ -43,16 +43,17 @@ end
     for j=1:i.maxiter
         %x_prev = xk; %this will be used to calculate error
         % Resolvent of A
-        
-        %Updating variables
         xk = prox_f( pk );
         zk = prox_gconj( qk );
-        
-        % Resolvent of B
-        %Updating variables
-        wk = apply.invertMatrix((2 * xk) - pk) - t * apply.invertMatrix(apply.ATrans((2 * zk) - pk));
-        vk = ((2 * zk) - qk) + t * apply.invertMatrix((2 * xk) - pk) - (t^2) * apply.A(apply.invertMatrix(apply.ATrans((2 * zk) - qk)));
 
+        %temp vars
+        temp_zq = (2 * zk) - qk;
+        temp_xp = (2 * xk) - pk;
+
+        % Resolvent of B
+        wk = apply.invertMatrix(temp_xp) - t * apply.invertMatrix(apply.ATrans(temp_zq));
+        vk = temp_zq + t * apply.A(apply.invertMatrix(temp_xp)) - (t^2) * apply.A(apply.invertMatrix(apply.ATrans(temp_zq)));
+        
         pk = pk + rho * (wk - xk);
         qk = qk + rho * (vk - zk);
         

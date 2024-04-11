@@ -39,10 +39,10 @@ switch algorithm
         if ~isfield(i, 'tprimaldualdr'), i.tprimaldualdr = 0.5; end
         if ~isfield(i, 'rhoprimaldualdr'), i.rhoprimaldualdr = 1.049; end
        
-        ivals.p0 = xinit;
-        %ivals.p0 = b;
-        ivals.q0 = cat(3, ivals.apply.K(xinit), ivals.apply.D(xinit));
-        %ivals.q0 = zeros(numRows, numCols, 3);
+        %ivals.p0 = xinit;
+        ivals.p0 = b;
+        %ivals.q0 = cat(3, ivals.apply.K(xinit), ivals.apply.D(xinit));
+        ivals.q0 = zeros(numRows, numCols, 3);
 
     case 'admm'
         

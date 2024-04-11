@@ -1,4 +1,4 @@
-function [ xtw ] = K_applyXTrans( w, x, kernelsize  )
+function [ xtw ] = applyXTrans( w, x, kernelsize  )
 %UNTITLED Summary of this function goes here
 %   w \in \R^(256 x 256);
 %   x \in \R^(256 x 256);

@@ -7,6 +7,5 @@ function output = conjugate_one(prox, y, t)
     end
 
     %Apply Moreau decomposition theorem (as shown in the report).
-    %We have two inputs as we use it on the isonorm.
     output = y - t*prox(y/t);
 end
