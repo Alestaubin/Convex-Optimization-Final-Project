@@ -1,4 +1,20 @@
 function [x_sol, summary] = CP(ivals, b, i, problem)
+% CP Chambolle-Pock
+% 
+%
+%   Input parameters :
+%       ivals   : Initial values
+%       b       : Blurred image
+%       i       : Struct of parameters
+%       problem : "l1" or "l2" problem
+%   Output parameters :
+%       x       : Optimized image
+%       summary : Structure with convergence results
+%
+% 
+% Solves the optimization problem as described in `DeblurGod`.
+%
+%
 arguments
     ivals 
     b 
@@ -34,7 +50,9 @@ end
     prox_f = @(x) DeblurStuff.utilities.prox.boxprox( x );
 
  %% Main loop
-    for j=0:i.maxiter
+    % error array for early stopping
+    error = zeros(1, i.malength) + 1000000;
+    for iter=0:i.maxiter
 
         x_prev = x; 
 
@@ -44,9 +62,20 @@ end
 
         z = 2*x - x_prev;
 
+        % Miscellaneous updates
+        [error, term] = DeblurStuff.utilities.evalperf(x, b, error);
+        summary.iter = iter;
+        summary.e = error(i.malength);
+        if term == 1
+            break
+        end
+        if i.verbose == 1
+            fprintf('Iteration %i : The error is %.3f \n', iter, ...
+                error(i.malength));
+        end
+
     end
 
     x_sol =  x ;
-    summary = "Algorithm Ended";
 
 end

@@ -1,4 +1,19 @@
 function apply = multiplyingmatrix(b, kernel, t)
+% MULTIPLYINGMATRIX Facilitates computation of matrix inverses
+%
+%
+%   Input parameters :
+%       b       : Blurred image
+%       kernel  : Noise kernel
+%       t       : Step size hyperparameter
+%   Output parameters :
+%       apply   : Struct with helper functions
+%
+%
+% Helper function. Modified from the given code. Allows for convenient 
+% function calls by the Matlab structure.
+%
+%
 arguments
     b 
     kernel 

@@ -1,5 +1,20 @@
-
 function [ x, summary ] = ADMM( ivals, b, i, problem )
+% ADMM Alternating Direction Method of Multipliers
+% 
+%
+%   Input parameters :
+%       ivals   : Initial values
+%       b       : Blurred image
+%       i       : Struct of parameters
+%       problem : "l1" or "l2" problem
+%   Output parameters :
+%       x       : Optimized image
+%       summary : Structure with convergence results
+%
+% 
+% Solves the optimization problem as described in `DeblurGod`.
+%
+%
 arguments
     ivals 
     b 
@@ -27,24 +42,36 @@ end
         prox_psi(y(:,:,2:3))); % pass the 2 bottom matrices of y to the isoprox function
 
 %% Main loop
+    % error array for early stopping
+    error = zeros(1, i.malength) + 1000000;
     for iter=1:i.maxiter
         x = ivals.apply.invertMatrix(u + ivals.apply.ATrans(y) - ...
             t^(-1)*(w + ivals.apply.ATrans(z)));
+
         u = prox_f(rho*x + (1-rho)*u + w/t);
+
         y = prox_g(rho*ivals.apply.A(x) + (1-rho)*y + z/t);
+
         z = z + t*(ivals.apply.A(x) - y);
+        
         w = w + t*(x - u);
 
+        % Miscellaneous updates
+        [error, term] = DeblurStuff.utilities.evalperf(x, b, error);
+        summary.iter = iter;
+        summary.e = error(i.malength);
+        if term == 1
+            break
+        end
         if i.verbose == 1
-            s = DeblurStuff.utilities.evalperf(x,b);
-            fprintf('Iter %.3i and the mse is %.3f \n', iter, s);
+            fprintf('Iteration %i : The error is %.3f \n', iter, ...
+                error(i.malength));
         end
 
     end
 
     x = ivals.apply.invertMatrix(u + ivals.apply.ATrans(y) - ...
         t^(-1)*(w + ivals.apply.ATrans(z)));
-    summary = "Algorithm Ended";
 
 end
 

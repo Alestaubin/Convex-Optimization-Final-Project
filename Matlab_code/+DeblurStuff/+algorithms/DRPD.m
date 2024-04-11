@@ -1,9 +1,20 @@
-
-%%%%%%%%%%%%%%
-% Algorithm 2: douglasrachfordprimaldual
-%%%%%%%%%%%%%%
-
 function [ x, summary ] = DRPD( ivals, b, i, problem )
+% DRPD Primal-Dual Douglas-Rachford Splitting
+% 
+%
+%   Input parameters :
+%       ivals   : Initial values
+%       b       : Blurred image
+%       i       : Struct of parameters
+%       problem : "l1" or "l2" problem
+%   Output parameters :
+%       x       : Optimized image
+%       summary : Structure with convergence results
+%
+% 
+% Solves the optimization problem as described in `DeblurGod`.
+%
+%
 arguments
     ivals 
     b 
@@ -37,16 +48,16 @@ end
     prox_gconj = @(y) DeblurStuff.utilities.prox.conjugate_one(prox_g, y, t);
     
 
-    
-
 %% Main loop
-    for j=1:i.maxiter
-        %x_prev = xk; %this will be used to calculate error
+    % error array for early stopping
+    error = zeros(1, i.malength) + 1000000;
+    for iter=1:i.maxiter
+        % x_prev = xk; %this will be used to calculate error
         % Resolvent of A
         xk = prox_f( pk );
         zk = prox_gconj( qk );
 
-        %temp vars
+        % temp vars
         temp_zq = (2 * zk) - qk;
         temp_xp = (2 * xk) - pk;
 
@@ -57,15 +68,21 @@ end
         pk = pk + rho * (wk - xk);
         qk = qk + rho * (vk - zk);
         
+        % Miscellaneous updates
+        [error, term] = DeblurStuff.utilities.evalperf(xk, b, error);
+        summary.iter = iter;
+        summary.e = error(i.malength);
+        if term == 1
+            break
+        end
         if i.verbose == 1
-            s = DeblurStuff.utilities.evalperf(xk,b);
-            fprintf('Iter %.2i and the mse is %.3f \n', j, s);
+            fprintf('Iteration %i : The error is %.3f \n', iter, ...
+                error(i.malength));
         end
     
     end
 
     x = prox_f( pk );
-    summary = "Algorithm Ended";
 
 end
 
