@@ -97,7 +97,7 @@
 
 \usepackage[T1]{fontenc}
 
-\pagestyle{empty}
+% \pagestyle{empty} removed so that page numbering appears
 % ---- Algorithms ----- %
 \usepackage[algoruled, linesnumbered, shortend, lined]{algorithm2e}
 \usepackage{algpseudocode}
@@ -141,7 +141,6 @@
 \begin{document}
 
 \maketitle
-
 
 \begin{abstract}
   give some background
@@ -201,8 +200,6 @@ If $F$ is maximal monotone, then $(I + \lambda F)^{-1}(\hat x)$ exists and is un
   \end{equation}
   Thus, evaluating the proximal operator of a separable function reduces to evaluating the proximal operators for each of the separable parts, which can be done independently \cite{parikh_2014}.
 \end{proposition}
-
-\textcolor{red}{Comment (remove after): do we need the following proposition?}
 
 \begin{proposition}(Proximal operator of norms) \label{normprox}
   If $f = \| \cdot \|$ is a general norm, then $f^*$ is the indicator function on the unit ball for the dual norm $\| \cdot \|_*$, namely 
@@ -264,7 +261,7 @@ We provide a quick derivation of the proximal operators of the L1 norm, the L2 n
 
     \smallskip
 
-    \item Consider now $g: (y_1, y_2) \mapsto t\gamma \| (y_1, y_2) \|_{\text{iso}}$ where
+    \item For $g: (y_1, y_2) \mapsto t\gamma \| (y_1, y_2) \|_{\text{iso}}$ where
     $$
     \|(x,y) \|_{\iso} = \sum^{n}_{k=1} (x_k^2 + y^2_k )^{1/2} 
     $$
@@ -337,7 +334,7 @@ where $\mathcal{F}$ is a maximal monotone operator. Splitting algorithms decompo
     &y^k = (I + t \mathcal{B})^{-1}(2x^{k} - z^{k-1}) \\
     &z^k = z^{k-1} \rho(y^k - x^k)
 \end{align*}
-where $t > 0$ is the step size and $\rho \in (0, 2)$ is a relaxation parameter.
+where $t > 0$ is the step size and $\rho \in (0, 2)$ is a relaxation parameter. Splitting algorithms are used en lieu of a classic fixed point iteration due to expensive computation costs.
 
 \subsection{Primal Douglas-Rachford splitting (Spingarn's method)}%
   \label{sub:Primal Douglas-Rachford splitting (Spingarn's method)}
@@ -496,7 +493,9 @@ We now present the algorithm:
 \Return $x\text{Sol} = \prox_{tf}(z^k)$\;
 \caption{Primal Douglas-Rachford Splitting}\label{alg: DRprimal} 
 \end{algorithm}
-  \newpage
+
+
+\newpage
 
 \subsection{Primal-Dual Douglas Rachford Splitting}\label{sub:Primal-Dual Douglas Rachford splitting}
 
@@ -821,11 +820,11 @@ has the equivalent form
 $$
 \text{minimize}_z \ -f^*(-A^T z) - g^*(z) := h(z) + k(z)
 $$
-and it is said that applying the Douglas-Rachford algorithm to this dual problem results in the alternating direction method of multipliers (ADMM) algorithm. That is, ADMM is uses the Douglas-Rachford iteration on the dual problem. Optimality is guaranteed when $0 \in \partial h(z) + \partial k(z)$ in which we have two maximal monotone operators with resolvents $\prox_{th}(z)$ and $\prox_{tk}(z)$. 
+and it is said that applying the Douglas-Rachford algorithm to this dual problem results in the alternating direction method of multipliers (ADMM) algorithm. That is, ADMM uses the Douglas-Rachford iteration on the dual problem. Optimality is guaranteed when $0 \in \partial h(z) + \partial k(z)$ in which we have two maximal monotone operators with resolvents $\prox_{th}(z)$ and $\prox_{tk}(z)$. 
 
 \medskip
 
-ADMM like the previous algorithms, is a splitting algorithm. Unlike the previous two algorithms, it has different optimality conditions, that is it uses solely optimality conditions of the dual problem. Apart from this, it relies as the other algorithms on the Douglas-Rachford iteration, with a different update ordering as mentioned in the project prompt. The proximal operators are fundamentally the same despite different inputs and despite using the inverse of the step size $t^{-1}$. This is can be interpreted by the reliance of the Lagrangian on functions $f$ and $g$. Another difference is the use of the step size $t$ to update $w^k$ and $z^k$, whereas previously somewhat analogous updates used the relaxation parameter $\rho$. It turns out the $\rho$ is still used, but hidden within the update steps.
+ADMM like the previous algorithms, is a splitting algorithm. Unlike the previous two algorithms, it has different optimality conditions, that is it uses solely optimality conditions of the dual problem. Apart from this, it relies, as the other algorithms do, on the Douglas-Rachford iteration, with a different update ordering as mentioned in the project prompt. The proximal operators are fundamentally the same despite different inputs and despite using the inverse of the step size $t^{-1}$. This is can be interpreted by the reliance of the Lagrangian on functions $f$ and $g$. Another difference is the use of the step size $t$ to update $w^k$ and $z^k$, whereas previously somewhat analogous updates used the relaxation parameter $\rho$. It turns out the $\rho$ is still used, but hidden within the update steps.
 
 \medskip
 
@@ -947,8 +946,25 @@ to the augmented Lagrangian at the $k$-th iteration, we see that the updates of 
 
 
 \section{Tuning and Results}
+In this section, we discuss on the hyperparameters and the algorithm results. To gauge the performance of the algorithms, on top of the obtained image, we use an objective function of the form $x \mapsto \| x - x_0 \|^2_2$ for some objective $x_0$. This function resembles the mean-squared error. It turns out using as objective the blurred image \texttt{b} suffices for decent results, as we will in fact use the function
+$$
+x \mapsto \| K x - b \|^2_2
+$$
+as objective function, where $K$ is the blurring matrix and $b$ is the blurred image. It is evident that if the blurring matrix blurs the image in a way that does not resemble the blurred image $b$ at all, this objective function will not serve its purpose, hence the need of choosing a best $K$. Such a $K$ will naturally depend on the blurred image. So in fact, we do not want to pick a best $K$, but merely one that gives acceptable results for any blurred image $b$.
 
-\textcolor{red}{it is said to enter the best parameters as the default}
+\medskip
+
+Other than the blurring kernel $K$, we are also interested in the effects of the additive noise $\eta$. We will try different choices of additive noise and compare the results.
+
+\medskip
+
+Apart from the blurring kernel $K$ and the additive noise $\eta$, we are also interested in the effects of the step size $t > 0$ and the relaxation parameter $\rho \in (0, 2)$. Their effects will be recorded in their subsection. A final parameter of interest is $\gamma > 0$ that appears in the expression $\gamma \| D x \|_{iso}$. As suggested by the project prompt, this $\gamma$ will depend on the choice of \texttt{problem}, either L1 or L2.
+
+\medskip
+
+After appropriately-chosen hyperparameters have been set, we will present the results of the four algorithms, in particular, the obtained, hopefully deblurred, images. We will compare these results and finally, leave concluding remarks.
+
+\textcolor{red}{it is said to enter the best parameters as the default in the table}
 \begin{table}[h!]
     \centering
     \caption{Default Parameters Used}
@@ -987,15 +1003,41 @@ to the augmented Lagrangian at the $k$-th iteration, we see that the updates of 
     \end{tabular}
 \end{table}
 
+
+
+
+\newpage
+
+
+
+
+
 \subsection{Hyperparameter tuning}
 
-\subsubsection*{Kernel and noise}
+\subsubsection*{Blurring kernel and noise}
+We denote the blurring kernel by $K$ and the noise by $\eta$. We will consider the following blurring kernels $K$
+
+\begin{itemize}
+    \item Gaussian blurring
+    \item Motion blurring
+\end{itemize}
+
+and the following additive noise $\eta$
+
+\begin{itemize}
+    \item Poisson noise
+    \item Salt and pepper noise
+\end{itemize}
+
+\textcolor{red}{add some others if u want to impress a certain prof}
 
 \subsubsection*{Gamma}
 
 \subsubsection*{Step size and relaxation parameter}
 
 \subsection{Results}
+
+\subsection{Conclusion}
 
 
 \section*{Acknowledgments}

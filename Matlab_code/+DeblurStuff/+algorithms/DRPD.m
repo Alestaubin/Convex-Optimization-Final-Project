@@ -69,7 +69,7 @@ end
         qk = qk + rho * (vk - zk);
         
         % Miscellaneous updates
-        [error, term] = DeblurStuff.utilities.evalperf(xk, b, error);
+        [error, term] = DeblurStuff.utilities.evalperf(apply.K(xk), b, error);
         summary.iter = iter;
         summary.e = error(i.malength);
         if term == 1

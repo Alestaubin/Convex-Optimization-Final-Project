@@ -63,7 +63,7 @@ end
         z = 2*x - x_prev;
 
         % Miscellaneous updates
-        [error, term] = DeblurStuff.utilities.evalperf(x, b, error);
+        [error, term] = DeblurStuff.utilities.evalperf(apply.K(x), b, error);
         summary.iter = iter;
         summary.e = error(i.malength);
         if term == 1

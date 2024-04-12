@@ -27,10 +27,15 @@ I = I/mx;
 %%%%%%%%%%%%%%%%%%%%
 
 %%%%% MOVE/REMOVE THIS SECTION 
+kernelsize = 10;
 
-%[kernel,b] = DeblurStuff.image_handling.GaussianBlur(I,5,2);
-[kernel, b] = DeblurStuff.image_handling.MotionBlur(I,10,0);
+% Blurring
+%[kernel,b] = DeblurStuff.image_handling.GaussianBlur(I,kernelsize,2);
+[kernel, b] = DeblurStuff.image_handling.MotionBlur(I,kernelsize,0);
+
+% Additive noise
 b = DeblurStuff.image_handling.SaltnPepper(b, 0.01);
+
 %figure('Name','image after blurring')
 %imshow(b,[])
 
@@ -46,6 +51,7 @@ b = DeblurStuff.image_handling.SaltnPepper(b, 0.01);
 
 
 %%%%% MAKE SURE TO SET THE BEST DEFAULT PARAMETERS IN `init_algo.m`
+
 i.verbose = 0;
 i.malength = 32;
 i.maxiter = 200;
@@ -62,9 +68,9 @@ i.tcp = 0.2;
 [numRows, numCols] = size(b);
 x = zeros( numRows, numCols );
 % x = DeblurStuff.DeblurGod('l1', 'douglasrachfordprimal', x, kernel, b, i);
-x = DeblurStuff.DeblurGod('l1', 'douglasrachfordprimaldual', x, kernel, b, i);
+% x = DeblurStuff.DeblurGod('l1', 'douglasrachfordprimaldual', x, kernel, b, i);
 % x = DeblurStuff.DeblurGod('l1', 'admm', x, kernel, b, i);
-% x = DeblurStuff.DeblurGod('l1', 'chambollepock', x, kernel, b, i);
+x = DeblurStuff.DeblurGod('l1', 'chambollepock', x, kernel, b, i);
 
 figure('Name','image after deblurring')
 imshow(x,[])
@@ -82,7 +88,8 @@ imshow(x,[])
 % DRPD l1: (ok)  t = 1.0, rho = 0.1
 
 % SEE OVERLEAF FOR THE COMPLETE LIST
-% noise kernel
+% convolution kernel
+% noise
 % blurring b
 % step size t
 % relaxation parameter rho

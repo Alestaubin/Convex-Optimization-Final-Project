@@ -22,6 +22,8 @@ arguments
     problem 
 end
 %%  Initialize the values
+    apply = ivals.apply;
+    
     u = ivals.u;
     y = ivals.y;
     w = ivals.w;
@@ -45,19 +47,19 @@ end
     % error array for early stopping
     error = zeros(1, i.malength) + 1000000;
     for iter=1:i.maxiter
-        x = ivals.apply.invertMatrix(u + ivals.apply.ATrans(y) - ...
-            t^(-1)*(w + ivals.apply.ATrans(z)));
+        x = apply.invertMatrix(u + apply.ATrans(y) - ...
+            t^(-1)*(w + apply.ATrans(z)));
 
         u = prox_f(rho*x + (1-rho)*u + w/t);
 
-        y = prox_g(rho*ivals.apply.A(x) + (1-rho)*y + z/t);
+        y = prox_g(rho*apply.A(x) + (1-rho)*y + z/t);
 
-        z = z + t*(ivals.apply.A(x) - y);
+        z = z + t*(apply.A(x) - y);
         
         w = w + t*(x - u);
 
         % Miscellaneous updates
-        [error, term] = DeblurStuff.utilities.evalperf(x, b, error);
+        [error, term] = DeblurStuff.utilities.evalperf(apply.K(x), b, error);
         summary.iter = iter;
         summary.e = error(i.malength);
         if term == 1
@@ -70,8 +72,8 @@ end
 
     end
 
-    x = ivals.apply.invertMatrix(u + ivals.apply.ATrans(y) - ...
-        t^(-1)*(w + ivals.apply.ATrans(z)));
+    x = apply.invertMatrix(u + apply.ATrans(y) - ...
+        t^(-1)*(w + apply.ATrans(z)));
 
 end
 

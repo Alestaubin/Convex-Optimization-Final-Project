@@ -4,7 +4,7 @@ function apply = multiplyingmatrix(b, kernel, t)
 %
 %   Input parameters :
 %       b       : Blurred image
-%       kernel  : Noise kernel
+%       kernel  : Convolution kernel
 %       t       : Step size hyperparameter
 %   Output parameters :
 %       apply   : Struct with helper functions

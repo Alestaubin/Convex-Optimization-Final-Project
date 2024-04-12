@@ -59,7 +59,7 @@ end
         z2 = z2 + rho*(v - y);
         
         % Miscellaneous updates
-        [error, term] = DeblurStuff.utilities.evalperf(x, b, error);
+        [error, term] = DeblurStuff.utilities.evalperf(apply.K(x), b, error);
         summary.iter = iter;
         summary.e = error(i.malength);
         if term == 1

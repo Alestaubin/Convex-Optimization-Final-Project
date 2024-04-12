@@ -60,7 +60,10 @@ arguments
 end
 %% Set up the algorithm
     % Initialize values
+    fprintf("###############################################\n");
+    fprintf("Running algorithm %s...\n", lower(algo));
     tic
+
     [ivals, i] = DeblurStuff.init.init_algo( algo, i, b, xinit, kernel );
     
     switch lower(algo)
@@ -75,12 +78,11 @@ end
     end
     
     % Display the results
-    fprintf("\n")
-    fprintf("#####################################\n")
-    fprintf("The algorithm ran %i iterations. \n" + ...
+    fprintf("\n");
+    fprintf("The algorithm ran in %i iterations. \n" + ...
         "The final objective value is %.3f. \n", ...
-        summary.iter, summary.e)
+        summary.iter, summary.e);
     toc
-    fprintf("#####################################\n")
+    fprintf("###############################################\n");
 
 end
