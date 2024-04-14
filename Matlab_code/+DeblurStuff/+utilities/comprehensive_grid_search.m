@@ -44,8 +44,7 @@ array_rho = [0.1, 0.25, 0.5, 1, 1.5, 2];
 array_t = [0.1, 0.25, 0.5, 1, 1.5, 2];
 
 
-% Assuming previous initialization and parameter setting is done correctly
-
+% Run grid search
 for j = array_rho
     i.rhoprimaldr = j;
     for k = array_t
@@ -53,7 +52,9 @@ for j = array_rho
 
         % Grid search for l1
         error_array = DeblurStuff.utilities.grid_search('douglasrachfordprimal', i, 'gammal1', array_gamma, b, kernel, 'l1');
-        fig = figure;
+        fig = figure('Visible', 'off');
+
+        % plot, title and save graph
         plot(array_gamma, error_array);
         title(sprintf('L1 Error with rho=%.2f, t=%.2f', j, k));
         xlabel('Gamma');
@@ -63,7 +64,7 @@ for j = array_rho
 
         % Grid search for l2
         error_array = DeblurStuff.utilities.grid_search('douglasrachfordprimal', i, 'gammal2', array_gamma, b, kernel, 'l2');
-        fig = figure;
+        fig = figure('Visible', 'off');
         plot(array_gamma, error_array);
         title(sprintf('L2 Error with rho=%.2f, t=%.2f', j, k));
         xlabel('Gamma');
@@ -74,3 +75,97 @@ for j = array_rho
     end
 end
 
+% Run grid search
+for j = array_rho
+    i.rhoprimaldr = j;
+    for k = array_t
+        i.tprimaldr = k;
+
+        % Grid search for l1
+        error_array = DeblurStuff.utilities.grid_search('douglasrachfordprimaldual', i, 'gammal1', array_gamma, b, kernel, 'l1');
+        fig = figure('Visible', 'off');
+
+        % plot, title and save graph
+        plot(array_gamma, error_array);
+        title(sprintf('L1 Error with rho=%.2f, t=%.2f', j, k));
+        xlabel('Gamma');
+        ylabel('Error');
+        grid on;
+        saveas(fig, sprintf('+DeblurStuff/+results/DRPD_L1_Error_rho%.2f_t%.2f.png', j, k));
+
+        % Grid search for l2
+        error_array = DeblurStuff.utilities.grid_search('douglasrachfordprimaldual', i, 'gammal2', array_gamma, b, kernel, 'l2');
+        fig = figure('Visible', 'off');
+        plot(array_gamma, error_array);
+        title(sprintf('L2 Error with rho=%.2f, t=%.2f', j, k));
+        xlabel('Gamma');
+        ylabel('Error');
+        grid on;
+        saveas(fig, sprintf('+DeblurStuff/+results/DRPD_L2_Error_rho%.2f_t%.2f.png', j, k));
+
+    end
+end
+
+
+% Run grid search
+for j = array_rho
+    i.rhoprimaldr = j;
+    for k = array_t
+        i.tprimaldr = k;
+
+        % Grid search for l1
+        error_array = DeblurStuff.utilities.grid_search('admm', i, 'gammal1', array_gamma, b, kernel, 'l1');
+        fig = figure('Visible', 'off');
+
+        % plot, title and save graph
+        plot(array_gamma, error_array);
+        title(sprintf('L1 Error with rho=%.2f, t=%.2f', j, k));
+        xlabel('Gamma');
+        ylabel('Error');
+        grid on;
+        saveas(fig, sprintf('+DeblurStuff/+results/ADMM_L1_Error_rho%.2f_t%.2f.png', j, k));
+
+        % Grid search for l2
+        error_array = DeblurStuff.utilities.grid_search('admm', i, 'gammal2', array_gamma, b, kernel, 'l2');
+        fig = figure('Visible', 'off');
+        plot(array_gamma, error_array);
+        title(sprintf('L2 Error with rho=%.2f, t=%.2f', j, k));
+        xlabel('Gamma');
+        ylabel('Error');
+        grid on;
+        saveas(fig, sprintf('+DeblurStuff/+results/ADMM_L2_Error_rho%.2f_t%.2f.png', j, k));
+
+    end
+end
+
+
+% Run grid search
+for j = array_rho
+    i.rhoprimaldr = j;
+    for k = array_t
+        i.tprimaldr = k;
+
+        % Grid search for l1
+        error_array = DeblurStuff.utilities.grid_search('chambollepock', i, 'gammal1', array_gamma, b, kernel, 'l1');
+        fig = figure('Visible', 'off');
+
+        % plot, title and save graph
+        plot(array_gamma, error_array);
+        title(sprintf('L1 Error with rho=%.2f, t=%.2f', j, k));
+        xlabel('Gamma');
+        ylabel('Error');
+        grid on;
+        saveas(fig, sprintf('+DeblurStuff/+results/CP_L1_Error_rho%.2f_t%.2f.png', j, k));
+
+        % Grid search for l2
+        error_array = DeblurStuff.utilities.grid_search('chambollepock', i, 'gammal2', array_gamma, b, kernel, 'l2');
+        fig = figure('Visible', 'off');
+        plot(array_gamma, error_array);
+        title(sprintf('L2 Error with rho=%.2f, t=%.2f', j, k));
+        xlabel('Gamma');
+        ylabel('Error');
+        grid on;
+        saveas(fig, sprintf('+DeblurStuff/+results/CP_L2_Error_rho%.2f_t%.2f.png', j, k));
+
+    end
+end
