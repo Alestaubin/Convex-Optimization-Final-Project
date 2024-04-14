@@ -69,8 +69,9 @@ i.tcp = 0.2;
 x = zeros( numRows, numCols );
 % x = DeblurStuff.DeblurGod('l1', 'douglasrachfordprimal', x, kernel, b, i);
 % x = DeblurStuff.DeblurGod('l1', 'douglasrachfordprimaldual', x, kernel, b, i);
-% x = DeblurStuff.DeblurGod('l1', 'admm', x, kernel, b, i);
-x = DeblurStuff.DeblurGod('l1', 'chambollepock', x, kernel, b, i);
+x = DeblurStuff.DeblurGod('l1', 'admm', x, kernel, b, i);
+% x = DeblurStuff.DeblurGod('l1', 'chambollepock', x, kernel, b, i);
+
 
 figure('Name','image after deblurring')
 imshow(x,[])
@@ -79,7 +80,7 @@ imshow(x,[])
 %%%%%%%%%%%%%%%%%%%%
 % Hyperparameter tuning
 %%%%%%%%%%%%%%%%%%%%
-% @Elliot get this done
+% @Elliot get this done, yes I shall
 
 % Decent/good parameters:
 % PDRS: gammal1 = 0.1, t = 2, rho = 1.5

@@ -84,5 +84,4 @@ end
         summary.iter, summary.e);
     toc
     fprintf("###############################################\n");
-
 end

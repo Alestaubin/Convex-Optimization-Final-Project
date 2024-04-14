@@ -1,0 +1,46 @@
+% Grid search Implementation %
+function array_y = grid_search(algorithm, i, test_param, array_of_params, b, kernel)
+%   We perform grid search keeping one parameter fixed
+%   
+%   Input Parameters:
+%       algorithm - which of the algorithm
+%       i - all the other parameters being fixed
+%       test_parameter - which parameter is fixed
+%       b       : Blurred image
+
+%   Output Parameters:
+%       array_y - performance of the different values of the parameter
+%       being tested
+%
+    array_y = [] % initialize array of errors
+    
+    switch lower(algo) % choose correct algorithm
+
+        case 'douglasrachfordprimal'
+            
+            switch lower(test_param) % choose which param we are testing
+   
+                case 'gammal1'
+                    for j=1:length(array_of_params)
+                        i.gammal1 = array_of_params(j)
+                        [ sol, summary ] = DeblurStuff.algorithms.DRP(ivals, b, i, 'l1');
+                        array_y(i) = summary.e
+                    end
+                case 'gammal2'
+
+                case 't'
+
+                case 'rho'
+            end
+
+            [ sol, summary ] = DeblurStuff.algorithms.DRP(ivals, b, i, problem);
+        case 'douglasrachfordprimaldual'
+            [ sol, summary ] = DeblurStuff.algorithms.DRPD(ivals, b, i, problem);
+        case 'admm'
+            [ sol, summary ] = DeblurStuff.algorithms.ADMM(ivals, b, i, problem);
+        case 'chambollepock'
+            [ sol, summary ] = DeblurStuff.algorithms.CP(ivals, b, i, problem);
+    end
+end
+        
+        
