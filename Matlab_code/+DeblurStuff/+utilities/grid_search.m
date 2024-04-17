@@ -1,5 +1,5 @@
 % Grid search Implementation %
-function array_y = grid_search(algorithm, i, test_param, array_of_params, b, kernel, problem)
+function [max_param, array_y] = grid_search(algorithm, i, test_param, array_of_params, b, kernel, problem)
 %   We perform grid search keeping one parameter fixed
 %   
 %   Input Parameters:
@@ -16,6 +16,7 @@ function array_y = grid_search(algorithm, i, test_param, array_of_params, b, ker
     array_y = zeros(length(array_of_params)); % Initialize array of errors
     [numRows, numCols] = size(b);
     x = zeros( numRows, numCols );
+
     
     for j = 1:length(array_of_params)
         i.(test_param) = array_of_params(j); % Dynamically set the test parameter
@@ -45,6 +46,9 @@ function array_y = grid_search(algorithm, i, test_param, array_of_params, b, ker
                 error('Unsupported algorithm %s', algorithm);
         end
     end
+
+    [max_val, max_idx] = max(array_y);
+    max_param = array_of_params(max_idx); % return the best parameter over the given search
 end
         
         

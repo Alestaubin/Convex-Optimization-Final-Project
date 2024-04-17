@@ -77,7 +77,7 @@ end
 
 % Run grid search
 for j = array_rho
-    i.rhoprimaldr = j;
+    i.rhoprimaldualdr = 
     for k = array_t
         i.tprimaldr = k;
 
@@ -127,7 +127,7 @@ for j = array_rho
 
         % Grid search for l2
         error_array = DeblurStuff.utilities.grid_search('admm', i, 'gammal2', array_gamma, b, kernel, 'l2');
-        fig = figure;
+        fig = figure('Visible', 'off');
         plot(array_gamma, error_array);
         title(sprintf('L2 Error with rho=%.2f, t=%.2f', j, k));
         xlabel('Gamma');
@@ -147,7 +147,7 @@ for j = array_rho
 
         % Grid search for l1
         error_array = DeblurStuff.utilities.grid_search('chambollepock', i, 'gammal1', array_gamma, b, kernel, 'l1');
-        fig = figure;
+        fig = figure('Visible','off');
 
         % plot, title and save graph
         plot(array_gamma, error_array);
@@ -159,7 +159,7 @@ for j = array_rho
 
         % Grid search for l2
         error_array = DeblurStuff.utilities.grid_search('chambollepock', i, 'gammal2', array_gamma, b, kernel, 'l2');
-        fig = figure;
+        fig = figure('Visible','off');
         plot(array_gamma, error_array);
         title(sprintf('L2 Error with rho=%.2f, t=%.2f', j, k));
         xlabel('Gamma');
