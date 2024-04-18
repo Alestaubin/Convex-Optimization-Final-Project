@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.9.2)  18 APR 2024 14:37
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.9.2)  18 APR 2024 14:40
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1090,12 +1090,12 @@ File: ueus.fd 2013/01/14 v3.01 Euler Script
 ) (/usr/local/texlive/2023/texmf-dist/tex/latex/microtype/mt-eus.cfg
 File: mt-eus.cfg 2006/07/28 v1.2 microtype config. file: AMS Euler Script (RS)
 ) [3] [4] [5]
-Overfull \hbox (22.69547pt too wide) detected at line 637
+Overfull \hbox (22.69547pt too wide) detected at line 635
 []
  []
 
 [6] [7]
-LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 851.
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 849.
  (/usr/local/texlive/2023/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2022/07/10 v2.5l Standard LaTeX font definitions
 )
@@ -1103,10 +1103,10 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmtt' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [8]
+ [8{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}]
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <10> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 877.
- [9{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}] (./563_FinalReport.bbl
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 875.
+ [9] (./563_FinalReport.bbl
 Underfull \hbox (badness 10000) in paragraph at lines 9--14
 \T1/cmtt/m/n/10 on-[]the-[]numerical-[]solution-[]of-[]heat-[]conduction-[]problems-[]in-[]two-[]4lbdiqc5i8 .
  []
@@ -1118,13 +1118,13 @@ Package rerunfilecheck Info: File `563_FinalReport.out' has not changed.
 Here is how much of TeX's memory you used:
  41873 strings out of 476025
  928133 string characters out of 5790018
- 1885388 words of memory out of 5000000
+ 1887388 words of memory out of 5000000
  61174 multiletter control sequences out of 15000+600000
  571495 words of font info for 247 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,28n,85p,3249b,609s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/euler/eusm10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/euler/eusm7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on 563_FinalReport.pdf (12 pages, 185830 bytes).
+Output written on 563_FinalReport.pdf (12 pages, 185724 bytes).
 PDF statistics:
  354 PDF objects out of 1000 (max. 8388607)
  297 compressed objects within 3 object streams
