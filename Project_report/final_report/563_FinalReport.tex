@@ -132,7 +132,7 @@
  Student ID: 261033501 \\
  \And
  Elliot Forcier-Poirier\\
- Student ID: \\ 
+ Student ID: \\  
 }
 
 % import macros.tex
@@ -143,7 +143,7 @@
 \maketitle
 
 \begin{abstract}
-  give some background
+  The frustrating problem of \textit{blurry} images has persisted since the invention of cameras. Multiple types of blurs occur for different reasons, such as \textit{camera shake blur}, \textit{motion blur}, or \textit{out of focus blur}. These images are a nuisance, and pose challenges in many applications, such as image content recognition, surveillance, astronomy and many more \cite{wang2014recent}. Hence, reducing blur, or \textit{deblurring} is crucial in solving the ubiquitous problem of blurred images in a society inundated with visual media. In this continually evolving research area, many methods have been proposed, broadly categorized into those addressing the \textit{non-blind} and \textit{blind} deblurring problems. This article will primarily focus on the former, where the blur kernel is known. We will discuss four algorithms designed to tackle this challenge, highlighting their strengths and weaknesses while providing illustrative examples.
 \end{abstract}
 
 
@@ -472,34 +472,13 @@ where $t > 0$ is the step size and $\rho \in (0, 2)$ is a relaxation parameter. 
         \end{bmatrix}x \right)
   \end{split}
  \end{equation*}
-We now present the algorithm: 
-\begin{algorithm}[ht!]
- \SetKw{Null}{NULL}
- \SetKw{Return}{return}
- \Input{ Blurred image $b$, step size $t$, relaxation parameter $\rho$}
- \Output{ Deblurred image $x$ }
-\Initialize{ $(z^0_1, z^0_2)$ }
-
-\For { $k = 1, 2, \hdots, $ } {
-  $x^k \leftarrow \prox_{tf}(z^{k-1}_1)$ \tcp*{Performs resolvent of $\mathcal{A}$} 
-  $y^k \leftarrow \prox_{tg}(z^{k-1}_2)$ \;
-  $u^k \leftarrow (I+A^TA)^{-1} \big ( 2x^k-z^{k-1}_1 +
-  A^T(2y^k-z^{k-1}_2) \big )$ \tcp*{Performs
-    resolvent of $\mathcal{B}$}
-  $v^k \leftarrow A(u^k)$ \;
-  $z^k_1 \leftarrow z^{k-1}_1 + \rho(u^k-x^k)$ \;
-  $z^k_2 \leftarrow z^{k-1}_2 + \rho(v^k-y^k)$ \;
-} 
-\Return $x\text{Sol} = \prox_{tf}(z^k)$\;
-\caption{Primal Douglas-Rachford Splitting}\label{alg: DRprimal} 
-\end{algorithm}
-
+ The algorithm is included in Appendix \ref{algo:PRS}.
 
 \newpage
 
 \subsection{Primal-Dual Douglas Rachford Splitting}\label{sub:Primal-Dual Douglas Rachford splitting}
-
-In this algorithm, we consider the dual problem, 
+This second method uses both optimality conditions of the primal problem
+and the dual problem for the "split". In the algorithm, we consider the dual problem, 
 \begin{equation}
   \text{maximize} \ -f^*(-A^T z) - g^*(z)
 \end{equation}
@@ -613,18 +592,16 @@ This will be a similar computation to the prox operator in algorithm 1, but we h
 
 The resolvent for $\mathcal{B}$ is a linear mapping, so considering resolvents for skew-symmetric linear operators 
 \begin{align*}
-  {(I + t\mathcal{B})}^{-1} &= 
+  {(I + t\mathcal{B})}^{-1} = 
   {\begin{bmatrix}
     I & tA^T \\
     -tA & I \\
-  \end{bmatrix}}^{-1} \\
-  &=
+  \end{bmatrix}}^{-1} =
   \frac{1}{I - ((tA^T)(-tA))}
   \begin{bmatrix}
     I & -tA^T \\
     tA & I \\
-  \end{bmatrix} \\
-  &=
+  \end{bmatrix} &=
   \frac{1}{I + t^2A^T A}
   \begin{bmatrix}
     I & -tA^T \\
@@ -665,7 +642,7 @@ Letting $(w, v)$ be the value of the resolvent of $\mathcal{B}$,
     w \\
     v \\
   \end{bmatrix} 
-  &=
+  =
   {\begin{bmatrix}
     I & tA^T \\
     -tA & I \\
@@ -673,7 +650,7 @@ Letting $(w, v)$ be the value of the resolvent of $\mathcal{B}$,
   \begin{bmatrix}
     \hat{x} \\
     \hat{z} \\
-  \end{bmatrix} \\
+  \end{bmatrix} 
   &= \left(
   \begin{bmatrix}
     0 & 0 \\
@@ -764,8 +741,7 @@ Letting $(w, v)$ be the value of the resolvent of $\mathcal{B}$,
   \begin{bmatrix}
     \frac{\hat{x} - tA^T \hat{z}}{(I + t^2A^T A)} \\
     tA \left(\frac{\hat{x} - tA^T \hat{z}}{(I + t^2A^T A)}\right) \\
-  \end{bmatrix} \\
-  &= 
+  \end{bmatrix} = 
   \begin{bmatrix}
     \frac{\hat{x} - tA^T \hat{z}}{(I + t^2A^T A)} \\
     \hat{z} + tA \left(\frac{\hat{x} - tA^T \hat{z}}{(I + t^2A^T A)}\right) \\
@@ -779,37 +755,7 @@ Thus we have the solution for both $w, \ v$,
   v &= \hat{z} + tA \left(\frac{\hat{x} - tA^T \hat{z}}{(I + t^2A^T A)}\right) = \hat{z} + \frac{\hat{tAx}}{(I + t^2A^T A)} - \frac{t^2 A A^T \hat{z}}{(I + t^2A^T A)}
 \end{align}
 
-Notice in the algorithm, we will let $\hat{x} = 2x^k - p^{k-1}$ and $\hat{z} = 2z^k - p^{k-1}$. 
-
-Here is the Primal-Dual Douglas Rachford splitting algorithm,
-
-\begin{algorithm}[h!]
-  \SetKw{Null}{NULL}
-  \SetKw{Return}{return}
-  \Input{ Blurred image $b$, step size $t$, relaxation parameter $\rho$}
-  \Output{ Deblurred image $x$ }
- \Initialize{ $p^0, q^0$ }
- 
- \For { $k = 1, 2, \hdots, $ } {
-   $x^k \leftarrow \prox_{tf}(p^{k-1}_1)$ \tcp*{Performs resolvent of $\mathcal{A}$} 
-   $z^k \leftarrow \prox_{tg^*}(q^{k-1})$ \;
-   $\begin{bmatrix} w^k\\ v^k  \end{bmatrix} = \begin{bmatrix} I &
-    t A^T\\ -t A & I \end{bmatrix}^{-1} \begin{bmatrix}
-     2x^k-p^{k-1}\\ 2z^k-q^{k-1} \end{bmatrix} $ \tcp*{Performs resolvent of $\mathcal{B}$} 
-   $p^k \leftarrow p^{k-1} + \rho(w^k-x^k)$ \;
-   $q^k \leftarrow q^{k-1} + \rho(v^k-z^k)$ \;
- } 
- \Return $x\text{Sol} = \prox_{tf}(p^k)$\;
- \caption{Primal-Dual Douglas-Rachford Splitting}\label{alg: DRpd} 
- \end{algorithm}
-
-
-
-% Had to have a page break because of the bad formatting of the algorithm box....remove later ~ Edmund
-\pagebreak
-
-
-
+Notice in the algorithm, we will let $\hat{x} = 2x^k - p^{k-1}$ and $\hat{z} = 2z^k - p^{k-1}$. The Primal-Dual Douglas Rachford splitting algorithm is included in Appendix \ref{algo:PDRS}.
 
 \subsection{ADMM (Dual Douglas-Rachford)}  \label{sub: ADMM}
 The dual problem from above
@@ -860,36 +806,8 @@ for which we have an augmented Lagrangian given as
 $$
 L(x,u, y, w, z) = f(u) + g(y) + w^T (x-u) + z^T (Ax-y) + \frac{t}{2} \left( \| x-u\|^2 + \|Ax-y\|^2 \right)
 $$
-which makes no difference in the above formulation as we alternate minimization over $x$ and minimization over $(u, y)$, so that they are constants in alternation.
+which makes no difference in the above formulation as we alternate minimization over $x$ and minimization over $(u, y)$, so that they are constants in alternation. The pseudo code can be seen in Appendix \ref{algo:ADMM}.
 
-\medskip
-
-\begin{algorithm}[h!]
- \SetKw{Null}{NULL}
- \SetKw{Return}{return}
- \Input{ Blurred image $b$, step size $t$, relaxation parameter $\rho$}
- \Output{ Deblurred image $x$ }
-\Initialize{ $x^0, u^0, y^0, w^0, z^0$ }
-
-\For { $k = 1, 2, \hdots, $ } {
-  $ x^k \leftarrow (I+A^TA)^{-1} \left( u^{k-1} + A^T y^{k-1} - \frac{1}{t} (w^{k-1} + A^T z^{k-1} )\right) $ \;
-  $ u^k \leftarrow \text{prox}_{t^{-1}f}(\rho x^k + (1-\rho)u^{k-1} +  w^{k-1}/t )$ \;
-  $ y^k \leftarrow \text{prox}_{t^{-1}g}(\rho Ax^k + (1-\rho)y^{k-1} + z^{k-1}/t )$ \;
-  $ w^k \leftarrow w^{k-1} + t(x^k - u^k)$ \;
-  $ z^k \leftarrow z^{k-1} + t(Ax^k - y^k)$ \;
-} 
-\Return $x\text{Sol} =  (I+A^TA)^{-1} \left( u^{k} + A^T y^{k} - \frac{1}{t} (w^{k} + A^T z^{k} )\right) $\;
-\caption{Alternating Direction Method of Multipliers (ADMM)}\label{alg: ADMM} 
-\end{algorithm}
-
-
-
-
-
-
-
-
- 
 \subsection{Chambolle-Pock}%
   \label{sub:Chambolle-Pock}
 
@@ -925,24 +843,8 @@ In summary, because the sequence of iterates $\{ (x^k, y^k) \}_k$ is bounded, by
 Despite these differences, it is said that the Chambolle-Pock algorithm is at its core, a form of preconditioned ADMM. Unpacking this formulation, and with the help of the equations 
 \[ y^{k}  = (I + s\partial g^*)^{-1}(y^{k-1} + sAz^{k-1}) \qquad z^k = 2x^k - x^{k-1} \]
 due to the addition of 
-\[ \frac{1}{2}\langle \left(\frac{1}{s} - t AA^T\right)(y - y^{k-1}), y - y^{k-1} \rangle \]
-to the augmented Lagrangian at the $k$-th iteration, we see that the updates of $y^k$ and $z^k$ are exactly two of the steps of the algorithm described above. The algorithm proceeds as below. It utilizes the proximal operators of $g^*$ and $f$, resembling the primal-dual formulation.
-
-\begin{algorithm}[h!]
- \SetKw{Null}{NULL}
- \SetKw{Return}{return}
- \Input{ Blurred image $b$, step sizes $t$, $s$}
- \Output{ Deblurred image $x$ }
-\Initialize{ $x^0, y^0, z^0$ }
-
-\For { $k = 1, 2, \hdots, $ } {
-  $ y^k = \text{prox}_{sg^{*}}(y^{k - 1} + sAz^{k-1})$    \;
-  $ x^k = \text{prox}_{tf}(x^{k-1} - tA^{T}y^{k})$ \;
-  $	z^{k}  = 2x^{k}  - x^{k-1} $ \;
-} 
-\Return $x\text{Sol} = x^{k}$\;
-\caption{Chambolle-Pock Algorithm}\label{alg:ChambollePock} 
-\end{algorithm}
+\[ \frac{1}{2}\left\langle \left(\frac{1}{s} - t AA^T\right)(y - y^{k-1}), y - y^{k-1} \right\rangle \]
+to the augmented Lagrangian at the $k$-th iteration, we see that the updates of $y^k$ and $z^k$ are exactly two of the steps of the algorithm described above. The algorithm proceeds as below. It utilizes the proximal operators of $g^*$ and $f$, resembling the primal-dual formulation. The algorithm is included in appendix \ref{algo:ChambollePock}.
 
 
 \section{Tuning and Results}
@@ -1061,13 +963,93 @@ Example Acknowledgments would look like:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
+\newpage 
 \appendix
 
 
 \section{Appendix}
+\subsection{Primal Douglas-Rachford Splitting Algorithm}%
+  \label{algo:PRS}
+\begin{algorithm}[H]
+ \SetKw{Null}{NULL}
+ \SetKw{Return}{return}
+ \Input{ Blurred image $b$, step size $t$, relaxation parameter $\rho$}
+ \Output{ Deblurred image $x$ }
+\Initialize{ $(z^0_1, z^0_2)$ }
 
-Optionally include extra information (complete proofs, additional experiments and plots) in the appendix.
-This section will often be part of the supplemental material.
+\For { $k = 1, 2, \hdots, $ } {
+  $x^k \leftarrow \prox_{tf}(z^{k-1}_1)$ \tcp*{Performs resolvent of $\mathcal{A}$} 
+  $y^k \leftarrow \prox_{tg}(z^{k-1}_2)$ \;
+  $u^k \leftarrow (I+A^TA)^{-1} \big ( 2x^k-z^{k-1}_1 +
+  A^T(2y^k-z^{k-1}_2) \big )$ \tcp*{Performs
+    resolvent of $\mathcal{B}$}
+  $v^k \leftarrow A(u^k)$ \;
+  $z^k_1 \leftarrow z^{k-1}_1 + \rho(u^k-x^k)$ \;
+  $z^k_2 \leftarrow z^{k-1}_2 + \rho(v^k-y^k)$ \;
+} 
+\Return $x\text{Sol} = \prox_{tf}(z^k)$\;
+\caption{Primal Douglas-Rachford Splitting}\label{alg: DRprimal} 
+\end{algorithm}
+\subsection{Primal-dual Douglas-Rachford Splitting Algorithm }%
+  \label{algo:PDRS}
+\begin{algorithm}[h!]
+  \SetKw{Null}{NULL}
+  \SetKw{Return}{return}
+  \Input{ Blurred image $b$, step size $t$, relaxation parameter $\rho$}
+  \Output{ Deblurred image $x$ }
+ \Initialize{ $p^0, q^0$ }
+ 
+ \For { $k = 1, 2, \hdots, $ } {
+   $x^k \leftarrow \prox_{tf}(p^{k-1}_1)$ \tcp*{Performs resolvent of $\mathcal{A}$} 
+   $z^k \leftarrow \prox_{tg^*}(q^{k-1})$ \;
+   $\begin{bmatrix} w^k\\ v^k  \end{bmatrix} = \begin{bmatrix} I &
+    t A^T\\ -t A & I \end{bmatrix}^{-1} \begin{bmatrix}
+     2x^k-p^{k-1}\\ 2z^k-q^{k-1} \end{bmatrix} $ \tcp*{Performs resolvent of $\mathcal{B}$} 
+   $p^k \leftarrow p^{k-1} + \rho(w^k-x^k)$ \;
+   $q^k \leftarrow q^{k-1} + \rho(v^k-z^k)$ \;
+ } 
+ \Return $x\text{Sol} = \prox_{tf}(p^k)$\;
+ \caption{Primal-Dual Douglas-Rachford Splitting}\label{alg: DRpd} 
+ \end{algorithm}
 
+\newpage
+\subsection{ADMM Algorithm}%
+  \label{algo:ADMM}
+\begin{algorithm}[h!]
+ \SetKw{Null}{NULL}
+ \SetKw{Return}{return}
+ \Input{ Blurred image $b$, step size $t$, relaxation parameter $\rho$}
+ \Output{ Deblurred image $x$ }
+\Initialize{ $x^0, u^0, y^0, w^0, z^0$ }
+
+\For { $k = 1, 2, \hdots, $ } {
+  $ x^k \leftarrow (I+A^TA)^{-1} \left( u^{k-1} + A^T y^{k-1} - \frac{1}{t} (w^{k-1} + A^T z^{k-1} )\right) $ \;
+  $ u^k \leftarrow \text{prox}_{t^{-1}f}(\rho x^k + (1-\rho)u^{k-1} +  w^{k-1}/t )$ \;
+  $ y^k \leftarrow \text{prox}_{t^{-1}g}(\rho Ax^k + (1-\rho)y^{k-1} + z^{k-1}/t )$ \;
+  $ w^k \leftarrow w^{k-1} + t(x^k - u^k)$ \;
+  $ z^k \leftarrow z^{k-1} + t(Ax^k - y^k)$ \;
+} 
+\Return $x\text{Sol} =  (I+A^TA)^{-1} \left( u^{k} + A^T y^{k} - \frac{1}{t} (w^{k} + A^T z^{k} )\right) $\;
+\caption{Alternating Direction Method of Multipliers (ADMM)}\label{alg: ADMM} 
+\end{algorithm}
+
+\subsection{Chambolle-Pock Algorithm}%
+    \label{algo:ChambollePock}
+\begin{algorithm}[h!]
+ \SetKw{Null}{NULL}
+ \SetKw{Return}{return}
+ \Input{ Blurred image $b$, step sizes $t$, $s$}
+ \Output{ Deblurred image $x$ }
+\Initialize{ $x^0, y^0, z^0$ }
+
+\For { $k = 1, 2, \hdots, $ } {
+  $ y^k = \text{prox}_{sg^{*}}(y^{k - 1} + sAz^{k-1})$    \;
+  $ x^k = \text{prox}_{tf}(x^{k-1} - tA^{T}y^{k})$ \;
+  $	z^{k}  = 2x^{k}  - x^{k-1} $ \;
+} 
+\Return $x\text{Sol} = x^{k}$\;
+\caption{Chambolle-Pock Algorithm}\label{alg:ChambollePock} 
+\end{algorithm}
+
+  
 \end{document}
