@@ -70,7 +70,7 @@ end
             break
         end
         if i.verbose == 1
-            fprintf('Iteration %i : The error is %.3f \n', iter, ...
+            fprintf('Iteration %i : The error is %.6f \n', iter, ...
                 error(i.malength));
         end
 

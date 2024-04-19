@@ -43,15 +43,6 @@ b = DeblurStuff.image_handling.SaltnPepper(b, 0.01);
 %%%%%%%%%%%%%%%%%%%%
 % Algorithm setup
 %%%%%%%%%%%%%%%%%%%%
-%%%%% COMMENT AND CLEAN THIS SECTION PLEASE ~ Edmund
-
-% Might be nice to talk about what happens when you use one kernel to add
-% noise to an image, but pass in another different kernel to the deblurring
-% algorithm.
-
-
-%%%%% MAKE SURE TO SET THE BEST DEFAULT PARAMETERS IN `init_algo.m`
-
 i.verbose = 0;
 i.malength = 32;
 i.maxiter = 100;
