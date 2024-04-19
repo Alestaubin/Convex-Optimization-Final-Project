@@ -1,14 +1,14 @@
 # Fdb version 3
-["bibtex 563_FinalReport"] 1713472203 "563_FinalReport.aux" "563_FinalReport.bbl" "563_FinalReport" 1713537726
+["bibtex 563_FinalReport"] 1713543685 "563_FinalReport.aux" "563_FinalReport.bbl" "563_FinalReport" 1713543687
   "/usr/local/texlive/2021/texmf-dist/bibtex/bst/natbib/plainnat.bst" 1233624470 26816 ffe5423d2019860bad9f54bc402fac15 ""
-  "563_FinalReport.aux" 1713537726 7245 133bf712e2186d2d76beb80616427fff "pdflatex"
+  "563_FinalReport.aux" 1713543687 7196 74bc4c12dd008c975fbea1ff8312e8aa "pdflatex"
   "563_FinalReport.bib" 1713470588 6693 4791f0528b3ccfe8e8c79e5ed52ffbdb ""
   (generated)
-  "563_FinalReport.bbl"
   "563_FinalReport.blg"
-["pdflatex"] 1713537724 "/Users/elliotfp/Documents/Mathematics/Algebra/MATH563 - Honours Convex Optimization/final_project/Project_report/final_report/563_FinalReport.tex" "/Users/elliotfp/Documents/Mathematics/Algebra/MATH563 - Honours Convex Optimization/final_project/Project_report/final_report/563_FinalReport.pdf" "563_FinalReport" 1713537726
-  "/Users/elliotfp/Documents/Mathematics/Algebra/MATH563 - Honours Convex Optimization/final_project/Project_report/final_report/563_FinalReport.aux" 1713537726 7245 133bf712e2186d2d76beb80616427fff ""
-  "/Users/elliotfp/Documents/Mathematics/Algebra/MATH563 - Honours Convex Optimization/final_project/Project_report/final_report/563_FinalReport.tex" 1713537723 38987 f8a11d91ee16dafaf5780abd997575ef ""
+  "563_FinalReport.bbl"
+["pdflatex"] 1713543685 "/Users/elliotfp/Documents/Mathematics/Algebra/MATH563 - Honours Convex Optimization/final_project/Project_report/final_report/563_FinalReport.tex" "/Users/elliotfp/Documents/Mathematics/Algebra/MATH563 - Honours Convex Optimization/final_project/Project_report/final_report/563_FinalReport.pdf" "563_FinalReport" 1713543687
+  "/Users/elliotfp/Documents/Mathematics/Algebra/MATH563 - Honours Convex Optimization/final_project/Project_report/final_report/563_FinalReport.aux" 1713543687 7196 74bc4c12dd008c975fbea1ff8312e8aa ""
+  "/Users/elliotfp/Documents/Mathematics/Algebra/MATH563 - Honours Convex Optimization/final_project/Project_report/final_report/563_FinalReport.tex" 1713543684 39725 75609a490c0e09c39fcee5dca61d920e ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -335,16 +335,16 @@
   "/usr/local/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1616695603 5169178 a2ce6e2d73f603b690db6777d06dbccb ""
   "/usr/local/texlive/2021/texmf-var/web2c/pdftex/pdflatex.fmt" 1648130816 2724745 4ca1e6dcf8532b38c31ad24037d472ca ""
   "/usr/local/texlive/2021/texmf.cnf" 1616695596 577 4c1911a7228e554c6032256d3cf5567d ""
-  "563_FinalReport.aux" 1713537726 7245 133bf712e2186d2d76beb80616427fff "pdflatex"
-  "563_FinalReport.bbl" 1713537558 1493 538e82ed81db5ca1d879a60d333a96ec "bibtex 563_FinalReport"
-  "563_FinalReport.out" 1713537726 3081 e9ac05aa0c722a10d3306683da790b97 "pdflatex"
-  "563_FinalReport.tex" 1713537723 38987 f8a11d91ee16dafaf5780abd997575ef "pdflatex"
-  "macros.tex" 1711743057 5104 fb530135eb1147cd027a6758c9b46353 "pdflatex"
-  "neurips_2023.sty" 1711743057 11305 a71d0fe79efd293fcac57fd7370be159 "pdflatex"
+  "563_FinalReport.aux" 1713543687 7196 74bc4c12dd008c975fbea1ff8312e8aa "pdflatex"
+  "563_FinalReport.bbl" 1713543685 1493 538e82ed81db5ca1d879a60d333a96ec "bibtex 563_FinalReport"
+  "563_FinalReport.out" 1713543687 3081 e9ac05aa0c722a10d3306683da790b97 "pdflatex"
+  "563_FinalReport.tex" 1713543684 39725 75609a490c0e09c39fcee5dca61d920e ""
+  "macros.tex" 1711743057 5104 fb530135eb1147cd027a6758c9b46353 ""
+  "neurips_2023.sty" 1711743057 11305 a71d0fe79efd293fcac57fd7370be159 ""
   (generated)
   "/Users/elliotfp/Documents/Mathematics/Algebra/MATH563 - Honours Convex Optimization/final_project/Project_report/final_report/563_FinalReport.pdf"
+  "563_FinalReport.aux"
+  "563_FinalReport.log"
   "563_FinalReport.out"
   "/Users/elliotfp/Documents/Mathematics/Algebra/MATH563 - Honours Convex Optimization/final_project/Project_report/final_report/563_FinalReport.log"
-  "563_FinalReport.aux"
   "563_FinalReport.pdf"
-  "563_FinalReport.log"

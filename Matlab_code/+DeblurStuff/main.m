@@ -68,41 +68,39 @@ figure('Name','image after deblurring')
 imshow(x,[])
 
 
-%%%%%%%%%%%%%%%%%%%%
-% Hyperparameter tuning
-%%%%%%%%%%%%%%%%%%%%
-% @Elliot get this done, yes I shall
+% Plotting grid_search results
 
-% Decent/good parameters:
-% PDRS: gammal1 = 0.1, t = 2, rho = 1.5
-% ADMM l1: decent ones as PDRS
-% ADMM l2: ok baseline - gammal2 = 0.025, t = 2, rho = 1.5
-% DRPD l1: (ok)  t = 1.0, rho = 0.1
+% Initialize Parameters for testing
+array_rho = [0.01, 0.05, 0.1, 0.25, 0.5, 0.75, 1.0, 1.5]; %list of places to search for first parameter
+array_t = [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0]; %list of places to search for second parameter
 
-% SEE OVERLEAF FOR THE COMPLETE LIST
-% convolution kernel
-% noise
-% blurring b
-% step size t
-% relaxation parameter rho
-%
+% DRP grid search w fixed gamma 0.01
+error_array_l1 = DeblurStuff.utilities.grid_search('douglasrachfordprimal', i, ivals, array_rho, array_t, b, kernel, 'l1');
+error_array_l2 = DeblurStuff.utilities.grid_search('douglasrachfordprimal', i, ivals, array_rho, array_t, b, kernel, 'l2');
 
-%trying out to learn how to plot
+% plotting
+DeblurStuff.utilities.plot_grid(array_t, error_array_l1, error_array_l2, 'DRP_grid_search.png');
 
-array_x = [1, 2, 3, 4, 5, 6];
-array_ys_1 = [2, 4, 5, 6, 7, 9];
-array_ys_2 = [1, 3, 4, 7, 8, 9];
+% DRPD grid search w fixed gamma 0.01
+error_array_l1 = DeblurStuff.utilities.grid_search('douglasrachfordprimaldual', i, ivals, array_rho, array_t, b, kernel, 'l1');
+error_array_l2 = DeblurStuff.utilities.grid_search('douglasrachfordprimaldual', i, ivals, array_rho, array_t, b, kernel, 'l2');
 
-figure;
-plot(array_x, array_ys_1, '-o'); % '-o' adds markers at data points
-hold on; % Keeps the current plot and allows for adding another plot to it
-plot(array_x, array_ys_2, '-*');
-hold off;
-title('Line Plot Comparison');
-xlabel('X');
-ylabel('Y');
-legend('Data Set 1', 'Data Set 2');
+% plotting
+DeblurStuff.utilities.plot_grid(array_t, error_array_l1, error_array_l2, 'DRPD_grid_search.png');
 
+% ADMM grid search w fixed gamma 0.01
+error_array_l1 = DeblurStuff.utilities.grid_search('admm', i, ivals, array_rho, array_t, b, kernel, 'l1');
+error_array_l2 = DeblurStuff.utilities.grid_search('admm', i, ivals, array_rho, array_t, b, kernel, 'l2');
+
+% plotting
+DeblurStuff.utilities.plot_grid(array_t, error_array_l1, error_array_l2, 'ADMM_grid_search.png');
+
+% CP grid search w fixed gamma 0.01
+error_array_l1 = DeblurStuff.utilities.grid_search('chambollepock', i, ivals, array_rho, array_t, b, kernel, 'l1');
+error_array_l2 = DeblurStuff.utilities.grid_search('chambollepock', i, ivals, array_rho, array_t, b, kernel, 'l2');
+
+% plotting
+DeblurStuff.utilities.plot_grid(array_t, error_array_l1, error_array_l2, 'CP_grid_search.png');
 
 
 

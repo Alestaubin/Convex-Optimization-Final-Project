@@ -18,8 +18,8 @@ I = I/mx;
 i.verbose = 0;
 i.malength = 32;
 i.maxiter = 200;
-i.gammal1 = 0.1;
-i.gammal2 = 0.02;
+i.gammal1 = 0.01;
+i.gammal2 = 0.01;
 i.tprimaldr = 2;
 i.rhoprimaldr = 1.4;
 i.tprimaldualdr = 0.8;
@@ -35,14 +35,12 @@ kernelsize = 10;
 [kernel, b] = DeblurStuff.image_handling.MotionBlur(I,kernelsize,0);
 [numRows, numCols] = size(b);
 x = zeros( numRows, numCols );
-[ivals, i] = DeblurStuff.init.init_algo('douglasrachfordprimal', i, b, x, kernel );
 
 
 % Additive noise
 b = DeblurStuff.image_handling.SaltnPepper(b, 0.01);
 
 % Initialize Parameter testing
-array_gamma = [0.01, 0.025, 0.05, 0.075, 0.1];
 array_rho = [0.1, 0.25, 0.5, 1];
 array_t = [0.1, 0.25, 0.5, 1];
 
@@ -51,32 +49,35 @@ array_t = [0.1, 0.25, 0.5, 1];
 % DRP Grid Search and Plotting %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%{
 % initialize for DRP
 [ivals, i] = DeblurStuff.init.init_algo('douglasrachfordprimal', i, b, x, kernel );
 
 % Initialize cell arrays to hold error vectors
-error_array_l1 = cell(length(array_rho), length(array_t));
+error_array_l1 = cell(length(array_rho));
 error_array_l2 = cell(length(array_rho), length(array_t));
-% Run grid sea
+% Run grid search 
 for j = 1:length(array_rho)
     i.rhoprimaldr = array_rho(j);
-    for k = 1:length(array_t)
-        i.tprimaldr = array_t(k);
-        fprintf('iter: rho - %i ; t - %i \n', j, k);
+    fprintf('iter: rho - %i \n', j);
 
-        % Grid search for l1
-        [~, temp_error_l1] = DeblurStuff.utilities.grid_search('douglasrachfordprimal', i, ivals, 'gammal1', array_gamma, b, kernel, 'l1');
-        temp_error_l1 = temp_error_l1(:).'; % turn into row vector
-        error_array_l1{j, k} = temp_error_l1;
+    % Grid search for l1
+    [~, temp_error_l1] = DeblurStuff.utilities.grid_search('douglasrachfordprimal', i, ivals, 'tprimaldr', array_t, b, kernel, 'l1');
+    temp_error_l1 = temp_error_l1(:).'; % turn into row vector
+    error_array_l1{j} = temp_error_l1;
 
-        % Grid search for l2
-        [~, temp_error_l2] = DeblurStuff.utilities.grid_search('douglasrachfordprimal', i, ivals, 'gammal2', array_gamma, b, kernel, 'l2');
-        temp_error_l2 = temp_error_l2(:).'; % turn into row vector
-        error_array_l2{j, k} = temp_error_l2;
-    end
+    % Grid search for l2
+    [~, temp_error_l2] = DeblurStuff.utilities.grid_search('douglasrachfordprimal', i, ivals, 'tprimaldr', array_t, b, kernel, 'l2');
+    temp_error_l2 = temp_error_l2(:).'; % turn into row vector
+    error_array_l2{j} = temp_error_l2;
 end
+%}
 
+%error_array_l1 = DeblurStuff.utilities.grid_search('douglasrachfordprimal', i, ivals, array_rho, array_t, b, kernel, 'l1');
+%error_array_l2 = DeblurStuff.utilities.grid_search('douglasrachfordprimal', i, ivals, array_rho, array_t, b, kernel, 'l2');
 % now we plot
+
+DeblurStuff.utilities.plot_grid(array_t, error_array_l1, error_array_l2, 'DRP_grid_search_2.png');
 
 % Create figure for subplots
 figure;
@@ -85,16 +86,14 @@ figure;
 subplot(1, 2, 1); % 1 row, 2 columns, first plot
 hold on; % Hold on to add multiple lines to the plot
 for j = 1:length(array_rho)
-    for k = 1:length(array_t)
-        % Generate a line for each combination of rho and t
-        if (min(error_array_l1{j, k})<6) && (max(error_array_l1{j, k})<100)  % only consider parameters that have feasible errors since it is quite sensitive
-            plot(array_gamma, error_array_l1{j, k}, '-o', 'DisplayName', sprintf('rho=%.2f, t=%.2f', array_rho(j), array_t(k)));
-        end
+    % Generate a line for each combination of rho and t
+    if (min(error_array_l1{j})<6) && (max(error_array_l1{j})<100)  % only consider parameters that have feasible errors since it is quite sensitive
+        plot(array_t, error_array_l1{j}, '-o', 'DisplayName', sprintf('rho=%.2f', array_rho(j)));
     end
 end
 hold off;
-title('L1 Errors across Gamma Values');
-xlabel('Gamma');
+title('L1 Errors across t Values');
+xlabel('Step Size');
 ylabel('Error');
 legend('show'); % Show legend to identify lines
 grid on; % Add grid
@@ -103,22 +102,20 @@ grid on; % Add grid
 subplot(1, 2, 2); % 1 row, 2 columns, second plot
 hold on; % Hold on to add multiple lines to the plot
 for j = 1:length(array_rho)
-    for k = 1:length(array_t)
-        % Generate a line for each combination of rho and t
-        if (min(error_array_l2{j, k})<6) && (max(error_array_l2{j, k})<100) % only consider parameters that have feasible errors since it is quite sensitive
-            plot(array_gamma, error_array_l2{j, k}, '-*', 'DisplayName', sprintf('rho=%.2f, t=%.2f', array_rho(j), array_t(k)));
-        end
+    % Generate a line for each combination of rho and t
+    if (min(error_array_l2{j})<6) && (max(error_array_l2{j})<100) % only consider parameters that have feasible errors since it is quite sensitive
+        plot(array_t, error_array_l2{j}, '-*', 'DisplayName', sprintf('rho=%.2f', array_rho(j)));
     end
 end
 hold off;
-title('L2 Errors across Gamma Values');
-xlabel('Gamma');
+title('L2 Errors across t Values');
+xlabel('Step Size');
 ylabel('Error');
 legend('show'); % Show legend to identify lines
 grid on; % Add grid
 
 % Save plot to the results folder
-saveas(gcf, '+DeblurStuff/+results//DRP_grid_search.png');
+saveas(gcf, '+DeblurStuff/+results//DRP_grid_search_2.png');
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
