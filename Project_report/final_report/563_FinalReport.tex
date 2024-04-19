@@ -340,7 +340,7 @@ where $\mathcal{F}$ is a maximal monotone operator. Splitting algorithms decompo
 where $t > 0$ is the step size and $\rho \in (0, 2)$ is a relaxation parameter. Splitting algorithms are used en lieu of a classic fixed point iteration due to expensive computation costs.
 
 \subsection{Primal Douglas-Rachford splitting (Spingarn's method)}%
-  \label{sub:Primal Douglas-Rachford splitting (Spingarn's method)}
+  \label{sub:PDRS}
   This first algorithm, which we will refer to by PDRS, was invented in the 1950s as a method to solve the heat equation \cite{douglas_rachford_1956}. Per (\ref{l1}), let 
   \begin{equation}\label{gf}
     \begin{split}
@@ -479,7 +479,9 @@ where $t > 0$ is the step size and $\rho \in (0, 2)$ is a relaxation parameter. 
 
 \subsection{Primal-Dual Douglas Rachford Splitting}\label{sub:Primal-Dual Douglas Rachford splitting}
 This second method uses both optimality conditions of the primal problem
-and the dual problem for the "split". In the algorithm, we consider the dual problem, 
+and the dual problem for the "split". The method takes advantage of the inexpensive computation of the prox-operators of $f$ and $g$, and the fact that our matrix $A$ makes it easy to compute linear equations.
+
+In the algorithm, we consider the dual problem, 
 \begin{equation}
   \text{maximize} \ -f^*(-A^T z) - g^*(z)
 \end{equation}
@@ -758,6 +760,8 @@ Thus we have the solution for both $w, \ v$,
 
 Notice in the algorithm, we will let $\hat{x} = 2x^k - p^{k-1}$ and $\hat{z} = 2z^k - p^{k-1}$. The Primal-Dual Douglas Rachford splitting algorithm is included in Appendix \ref{algo:PDRS}.
 
+This algorithm resembles the first algorithm in section \ref{sub:PDRS}. They are both splitting algorithm that use the prox-operators of $f$ and $g$. The algorithms differ in the fact that the Primal-Dual Douglas Rachford splitting algorithm uses both the primal and dual optimality conditions, rather than uniquely using the primal as done in section \ref{sub:PDRS}. This means that we need to use Moreau decomposition for the congugate of the prox-operator of $g$. 
+
 \subsection{ADMM (Dual Douglas-Rachford)}  \label{sub: ADMM}
 The dual problem from above
 \begin{equation}
@@ -771,7 +775,7 @@ and it is said that applying the Douglas-Rachford algorithm to this dual problem
 
 \medskip
 
-ADMM like the previous algorithms, is a splitting algorithm. Unlike the previous two algorithms, it has different optimality conditions, that is it uses solely optimality conditions of the dual problem. Apart from this, it relies, as the other algorithms do, on the Douglas-Rachford iteration, with a different update ordering as mentioned in the project prompt. The proximal operators are fundamentally the same despite different inputs and despite using the inverse of the step size $t^{-1}$. This is can be interpreted by the reliance of the Lagrangian on functions $f$ and $g$. Another difference is the use of the step size $t$ to update $w^k$ and $z^k$, whereas previously somewhat analogous updates used the relaxation parameter $\rho$. It turns out the $\rho$ is still used, but hidden within the update steps.
+ADMM, like the previous algorithms, is a splitting algorithm. Unlike the previous two algorithms, it has different optimality conditions, that is it uses solely optimality conditions of the dual problem. Apart from this, it relies, as the other algorithms do, on the Douglas-Rachford iteration, with a different update ordering as mentioned in the project prompt. The proximal operators are fundamentally the same despite different inputs and despite using the inverse of the step size $t^{-1}$. This is can be interpreted by the reliance of the Lagrangian on functions $f$ and $g$. Another difference is the use of the step size $t$ to update $w^k$ and $z^k$, whereas previously somewhat analogous updates used the relaxation parameter $\rho$. It turns out the $\rho$ is still used, but hidden within the update steps.
 
 \medskip
 
