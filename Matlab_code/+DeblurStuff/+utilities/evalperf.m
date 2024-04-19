@@ -24,15 +24,14 @@ function [ error, term ] = evalperf(x, x0, error, obj)
 %   - "mae"  : 1/N * \| x - x0 \|_1
 %
 %
-    [numRows, numCols] = size(x);
     if ~exist('obj', 'var')
       obj = "mse";
     end
 
     if obj == "mse"
-        e = norm(x - x0)^2 / (numRows * numCols);
+        e = norm(x - x0)^2 ;
     elseif obj == "mae"
-        e = norm(x - x0, 1) / (numRows * numCols);
+        e = norm(x - x0, 1) ;
     else
         error('Unsupported objective function %s', obj);
     end

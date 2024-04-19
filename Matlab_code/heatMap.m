@@ -27,13 +27,16 @@ x = zeros( numRows, numCols );
 %   grid    %
 %%%%%%%%%%%%%
 
-array_rho = [0.01, 0.05, 0.1, 0.25, 0.5, 0.75, 1.0, 1.5]; %list of places to search for first parameter
-array_t = [0.01, 0.05, 0.1, 0.25, 0.5, 0.75, 1.0, 1.5]; %list of places to search for second parameter
+%array_rho = [0.01, 0.05, 0.1, 0.25, 0.5, 0.75, 1.0, 1.5]; %list of places to search for first parameter
+%array_t = [0.01, 0.05, 0.1, 0.25, 0.5, 0.75, 1.0, 1.5]; %list of places to search for second parameter
+array_t = [0.5, 0.75, 1.0, 1.5];
+array_rho = [0.5, 0.75, 1.0, 1.5];
 
 [F,S] = ndgrid(array_t, array_rho);
 
 i.gammal1 = 0.01;
 
+%% DRP l1
 [ivals, i] = DeblurStuff.init.init_algo('douglasrachfordprimal', i, b, x, kernel );
 
 fitresult = arrayfun(@(p1,p2) callAlgo('douglasrachfordprimal',ivals,i,b,p1,p2), F, S); %run a fitting on every pair fittingfunction(F(J,K), S(J,K))
@@ -45,7 +48,7 @@ xlabel('t_i');
 ylabel('rho_i');
 title('Losses for douglasrachfordprimal l1');
 
-%saveas(gcf,'/Users/alexst-aubin/Desktop/gridSearches/DRP_l1.jpg');
+saveas(gcf,'/Users/alexst-aubin/Desktop/gridSearches/DRP_l1.jpg');
 
 function [error] = callAlgo(algo,ivals, i, b, p1, p2)
 

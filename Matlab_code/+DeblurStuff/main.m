@@ -9,6 +9,13 @@ clearvars, clc;
 % Import image
 I = imread('+DeblurStuff/+image_files/cameraman.jpg');
 I = rgb2gray(I);
+I = imread('+DeblurStuff/+image_files/cameraman.jpg');
+% I = imread('+DeblurStuff/+image_files/manWithHat.tiff');
+try 
+    I = rgb2gray(I);
+catch
+    I = im2gray(I);
+end
 
 % Resize so each pixel is in between 0 and 1
 I = double(I(:, :, 1));
