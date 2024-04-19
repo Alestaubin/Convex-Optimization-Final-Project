@@ -29,7 +29,7 @@ end
 ivals.apply = DeblurStuff.utilities.multiplyingmatrix(b, kernel);
 
 % Sets some default hyperparameters (see DeblurGod.m for explanation)
-if ~isfield(i, 'verbose'), i.verbose = 0 ; end 
+if ~isfield(i, 'verbose'), i.verbose = 1 ; end 
 if ~isfield(i, 'malength'), i.malength = 32; end
 if ~isfield(i, 'maxiter'), i.maxiter = 500 ; end
 if ~isfield(i, 'gammal1'), i.gammal1 = 0.01; end
@@ -49,10 +49,9 @@ switch algo
     case 'douglasrachfordprimaldual'
          
         if ~isfield(i, 'tprimaldualdr'), i.tprimaldualdr = 1.0; end
-        if ~isfield(i, 'rhoprimaldualdr'), i.rhoprimaldualdr = 0.01; end
+        if ~isfield(i, 'rhoprimaldualdr'), i.rhoprimaldualdr = 1.5; end
        
         ivals.p0 = xinit;
-        %ivals.q0 = cat(3, ivals.apply.K(xinit), ivals.apply.D(xinit));
         ivals.q0 = zeros(numRows, numCols, 3);
 
     case 'admm'

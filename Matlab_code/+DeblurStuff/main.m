@@ -1,11 +1,12 @@
 % Convex Optimization Project
 % Test and run the code in this file.
 
+clc, clearvars;
 
 %%%%%%%%%%%%%%%%%%%%
 % Image set up
 %%%%%%%%%%%%%%%%%%%%
-clearvars, clc;
+
 % Import image
 I = imread('+DeblurStuff/+image_files/drake.jpg');
 % I = imread('+DeblurStuff/+image_files/manWithHat.tiff');
@@ -37,7 +38,7 @@ kernelsize = 20;
 [kernel, b] = DeblurStuff.image_handling.MotionBlur(I,kernelsize,0);
 
 % Additive Noise
-b = DeblurStuff.image_handling.Poisson(b);
+%b = DeblurStuff.image_handling.SaltnPepper(b, 0.05);
 
 figure('Name','image after blurring')
 imshow(b,[])
@@ -47,11 +48,12 @@ imshow(b,[])
 % Algorithm setup
 %%%%%%%%%%%%%%%%%%%%
 i = struct;
+i.maxiter = 200;
 
 [numRows, numCols] = size(b);
 x = zeros( numRows, numCols );
-x = DeblurStuff.DeblurGod('l1', 'douglasrachfordprimal', x, kernel, b, i);
-% x = DeblurStuff.DeblurGod('l2', 'douglasrachfordprimaldual', x, kernel, b, i);
+% x = DeblurStuff.DeblurGod('l1', 'douglasrachfordprimal', x, kernel, b, i);
+ x = DeblurStuff.DeblurGod('l2', 'douglasrachfordprimaldual', x, kernel, b, i);
 % x = DeblurStuff.DeblurGod('l2', 'admm', x, kernel, b, i);
 % x = DeblurStuff.DeblurGod('l1', 'chambollepock', x, kernel, b, i);
 
