@@ -23,35 +23,37 @@ mx = max(I(:));
 I = I/mx;
 
 % Show image
-%figure('Name','image before deblurring')
-%imshow(I,[])
+% figure('Name','original image')
+% imshow(I,[])
 
 
 %%%%%%%%%%%%%%%%%%%%
 % Convolution kernels and noise (at least 2 variations of each)
 %%%%%%%%%%%%%%%%%%%%
-
-%%%%% MOVE/REMOVE THIS SECTION 
-kernelsize = 10;
+kernelsize = 20;
 
 % Blurring
 %[kernel,b] = DeblurStuff.image_handling.GaussianBlur(I,kernelsize,2);
 [kernel, b] = DeblurStuff.image_handling.MotionBlur(I,kernelsize,0);
 
-%figure('Name','image after blurring')
-%imshow(b,[])
+% Additive Noise
+b = DeblurStuff.image_handling.Poisson(b);
+
+figure('Name','image after blurring')
+imshow(b,[])
 
 
 %%%%%%%%%%%%%%%%%%%%
 % Algorithm setup
 %%%%%%%%%%%%%%%%%%%%
+i = struct;
 
 [numRows, numCols] = size(b);
 x = zeros( numRows, numCols );
-% x = DeblurStuff.DeblurGod('l1', 'douglasrachfordprimal', x, kernel, b, i);
+x = DeblurStuff.DeblurGod('l1', 'douglasrachfordprimal', x, kernel, b, i);
 % x = DeblurStuff.DeblurGod('l2', 'douglasrachfordprimaldual', x, kernel, b, i);
 % x = DeblurStuff.DeblurGod('l2', 'admm', x, kernel, b, i);
-x = DeblurStuff.DeblurGod('l1', 'chambollepock', x, kernel, b, i);
+% x = DeblurStuff.DeblurGod('l1', 'chambollepock', x, kernel, b, i);
 
 figure('Name','image after deblurring')
 imshow(x,[])
