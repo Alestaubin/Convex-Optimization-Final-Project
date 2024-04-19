@@ -54,9 +54,9 @@ b = DeblurStuff.image_handling.SaltnPepper(b, 0.01);
 
 i.verbose = 0;
 i.malength = 32;
-i.maxiter = 200;
+i.maxiter = 100;
 i.gammal1 = 0.1;
-i.gammal2 = 0.02;
+i.gammal2 = 0.5;
 i.tprimaldr = 2;
 i.rhoprimaldr = 1.4;
 i.tprimaldualdr = 0.8;
@@ -64,13 +64,13 @@ i.rhoprimaldualdr = 0.1;
 i.tadmm = 2.2;
 i.rhoadmm = 1.5;
 i.scp = 0.2; 
-i.tcp = 0.2;
+i.tcp = 0.1;
 [numRows, numCols] = size(b);
 x = zeros( numRows, numCols );
 % x = DeblurStuff.DeblurGod('l1', 'douglasrachfordprimal', x, kernel, b, i);
-% x = DeblurStuff.DeblurGod('l1', 'douglasrachfordprimaldual', x, kernel, b, i);
-x = DeblurStuff.DeblurGod('l1', 'admm', x, kernel, b, i);
-% x = DeblurStuff.DeblurGod('l1', 'chambollepock', x, kernel, b, i);
+x = DeblurStuff.DeblurGod('l2', 'douglasrachfordprimaldual', x, kernel, b, i);
+% x = DeblurStuff.DeblurGod('l2', 'admm', x, kernel, b, i);
+% x = DeblurStuff.DeblurGod('l2', 'chambollepock', x, kernel, b, i);
 
 
 figure('Name','image after deblurring')

@@ -254,11 +254,14 @@ We provide a quick derivation of the proximal operators of the L1 norm, the L2 n
 
     \smallskip
 
-    \item Now consider $g: y \mapsto t \| y - b \|_2^2$. This $g$ is continuously differentiable so we can take its gradient directly and set it to zero, obtaining:
+    \item Now consider $g: y \mapsto t \| y - b \|_2^2$. This $g$ is continuously differentiable so we can take its gradient directly and set it to zero. That is, the steps are:
+    \begin{align*}
+        \frac{\partial}{\partial u} \bigg( t \| u - b \|_2^2 + \frac{1}{2}\|y - u \|_2^2 \bigg) = 2 t (u - b) - y + u = u(2t + 1) - y - 2tb
+    \end{align*}
+    Therefore
     $$
-    \prox_{g}(y) = \frac{y + b}{2 t + 1}
+    \prox_{g}(y) = \frac{y + 2tb}{2 t + 1}
     $$
-
     \smallskip
 
     \item For $g: (y_1, y_2) \mapsto t\gamma \| (y_1, y_2) \|_{\text{iso}}$ where
