@@ -51,6 +51,9 @@ end
 %% Main loop
     % error array for early stopping
     error = zeros(1, i.malength) + 1000000;
+    % error array that stores the objective value of all iterations (for
+    % printing)
+    summary.e_arr = [];
     for iter=1:i.maxiter
         % x_prev = xk; %this will be used to calculate error
         % Resolvent of A
@@ -72,14 +75,15 @@ end
         [error, term] = DeblurStuff.utilities.evalperf(apply.K(xk), b, error);
         summary.iter = iter;
         summary.e = error(i.malength);
-        if term == 1
-            break
-        end
         if i.verbose == 1
             fprintf('Iteration %i : The error is %.6f \n', iter, ...
                 error(i.malength));
+            summary.e_arr = [summary.e_arr, error(i.malength)];
         end
-    
+        if term == 1
+            break
+        end
+
     end
 
     x = prox_f( pk );

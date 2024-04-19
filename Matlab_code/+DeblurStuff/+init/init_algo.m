@@ -39,7 +39,7 @@ if ~isfield(i, 'gammal2'), i.gammal2 = 0.01; end
 [numRows, numCols] = size(b);
 switch algo
     case 'douglasrachfordprimal'
-
+        
         if ~isfield(i, 'tprimaldr'), i.tprimaldr=1.50 ; end
         if ~isfield(i, 'rhoprimaldr'), i.rhoprimaldr=1.75 ; end
 

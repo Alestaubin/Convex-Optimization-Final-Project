@@ -1,3 +1,6 @@
+% This file is not part of the package. It uses MATLABS heatmap() function
+% to plot the heatmaps of combinations of two parameters, t and rho.
+%
 clc, clearvars;
 %%%%%%%%%%%%%
 %   blur    %
