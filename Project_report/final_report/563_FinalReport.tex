@@ -760,7 +760,7 @@ Thus we have the solution for both $w, \ v$,
 
 Notice in the algorithm, we will let $\hat{x} = 2x^k - p^{k-1}$ and $\hat{z} = 2z^k - p^{k-1}$. The Primal-Dual Douglas Rachford splitting algorithm is included in Appendix \ref{algo:PDRS}.
 
-This algorithm resembles the first algorithm in section \ref{sub:PDRS}. They are both splitting algorithm that use the prox-operators of $f$ and $g$. The algorithms differ in the fact that the Primal-Dual Douglas Rachford splitting algorithm uses both the primal and dual optimality conditions, rather than uniquely using the primal as done in section \ref{sub:PDRS}. This means that we need to use Moreau decomposition for the congugate of the prox-operator of $g$. 
+This algorithm resembles the first algorithm in section \ref{sub:PDRS}. They are both splitting algorithm that use the prox-operators of $f$ and $g$. The algorithms differ in the fact that the Primal-Dual Douglas Rachford splitting algorithm uses both the primal and dual optimality conditions, rather than uniquely using the primal as done in section \ref{sub:PDRS}. This means that we need to use Moreau decomposition for the congugate of the prox-operator of $g$. The $t$ and $\rho$ inputs play a very similar role in the algorithm as it does in the algorithms in section \ref{sub:PDRS} and \ref{sub: ADMM}. 
 
 \subsection{ADMM (Dual Douglas-Rachford)}  \label{sub: ADMM}
 The dual problem from above
