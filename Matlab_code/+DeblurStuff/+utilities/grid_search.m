@@ -33,7 +33,7 @@ function error_matrix = grid_search(algorithm, i, ivals, array_rho, array_t, b, 
     x = zeros( numRows, numCols );
 
     % initialize for algo 
-    [ivals, i] = DeblurStuff.init.init_algo(algorithm, i, b, x, kernel );
+    [ivals, i] = DeblurStuff.init.init_algo('l1',algorithm, i, b, x, kernel );
     
     % Initialize cell arrays to hold error vectors
     error_matrix = cell(length(array_rho));

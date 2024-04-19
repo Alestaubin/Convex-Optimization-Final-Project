@@ -41,7 +41,7 @@ i.gammal1 = 0;
 
 %% DRP l1
 fprintf("DRP l1")
-[ivals, i] = DeblurStuff.init.init_algo('douglasrachfordprimal', i, b, x, kernel );
+[ivals, i] = DeblurStuff.init.init_algo('l1','douglasrachfordprimal', i, b, x, kernel );
 
 fitresult = arrayfun(@(p1,p2) callAlgo('l1','douglasrachfordprimal',ivals,i,b,p1,p2), F, S); %run a fitting on every pair fittingfunction(F(J,K), S(J,K))
 
@@ -56,7 +56,7 @@ saveas(gcf,'/Users/alexst-aubin/Desktop/gridSearches/DRP_l1.jpg');
 
 %% DRPD l1
 fprintf("DRPD l1")
-[ivals, i] = DeblurStuff.init.init_algo('douglasrachfordprimaldual', i, b, x, kernel );
+[ivals, i] = DeblurStuff.init.init_algo('l1','douglasrachfordprimaldual', i, b, x, kernel );
 
 fitresult = arrayfun(@(p1,p2) callAlgo('l1','douglasrachfordprimaldual',ivals,i,b,p1,p2), F, S); %run a fitting on every pair fittingfunction(F(J,K), S(J,K))
 
@@ -71,7 +71,7 @@ saveas(gcf,'/Users/alexst-aubin/Desktop/gridSearches/DRPD_l1.jpg');
 
 %% ADMM l1
 fprintf("ADMM l1")
-[ivals, i] = DeblurStuff.init.init_algo('admm', i, b, x, kernel );
+[ivals, i] = DeblurStuff.init.init_algo('l1','admm', i, b, x, kernel );
 
 fitresult = arrayfun(@(p1,p2) callAlgo('l1','admm',ivals,i,b,p1,p2), F, S); %run a fitting on every pair fittingfunction(F(J,K), S(J,K))
 
@@ -86,7 +86,7 @@ saveas(gcf,'/Users/alexst-aubin/Desktop/gridSearches/ADMM_l1.jpg');
 
 %% CP l1
 fprintf("CP l1")
-[ivals, i] = DeblurStuff.init.init_algo('chambollepock', i, b, x, kernel );
+[ivals, i] = DeblurStuff.init.init_algo('l1','chambollepock', i, b, x, kernel );
 
 fitresult = arrayfun(@(p1,p2) callAlgo('l1','chambollepock',ivals,i,b,p1,p2), F, S); %run a fitting on every pair fittingfunction(F(J,K), S(J,K))
 
@@ -101,7 +101,7 @@ saveas(gcf,'/Users/alexst-aubin/Desktop/gridSearches/CP_l1.jpg');
 
 %% DRP l2
 fprintf("DRP l2")
-[ivals, i] = DeblurStuff.init.init_algo('douglasrachfordprimal', i, b, x, kernel );
+[ivals, i] = DeblurStuff.init.init_algo('l2','douglasrachfordprimal', i, b, x, kernel );
 
 fitresult = arrayfun(@(p1,p2) callAlgo('l2','douglasrachfordprimal',ivals,i,b,p1,p2), F, S); %run a fitting on every pair fittingfunction(F(J,K), S(J,K))
 
@@ -116,7 +116,7 @@ saveas(gcf,'/Users/alexst-aubin/Desktop/gridSearches/DRP_l2.jpg');
 
 %% DRPD l2
 fprintf("DRPD l2")
-[ivals, i] = DeblurStuff.init.init_algo('douglasrachfordprimaldual', i, b, x, kernel );
+[ivals, i] = DeblurStuff.init.init_algo('l2','douglasrachfordprimaldual', i, b, x, kernel );
 
 fitresult = arrayfun(@(p1,p2) callAlgo('l2','douglasrachfordprimaldual',ivals,i,b,p1,p2), F, S); %run a fitting on every pair fittingfunction(F(J,K), S(J,K))
 
@@ -131,7 +131,7 @@ saveas(gcf,'/Users/alexst-aubin/Desktop/gridSearches/DRPD_l2.jpg');
 
 %% ADMM l2
 fprintf("ADMM l2")
-[ivals, i] = DeblurStuff.init.init_algo('admm', i, b, x, kernel );
+[ivals, i] = DeblurStuff.init.init_algo('l2','admm', i, b, x, kernel );
 
 fitresult = arrayfun(@(p1,p2) callAlgo('l2','admm',ivals,i,b,p1,p2), F, S); %run a fitting on every pair fittingfunction(F(J,K), S(J,K))
 
@@ -146,7 +146,7 @@ saveas(gcf,'/Users/alexst-aubin/Desktop/gridSearches/ADMM_l2.jpg');
 
 %% CP l2
 fprintf("CP l2")
-[ivals, i] = DeblurStuff.init.init_algo('chambollepock', i, b, x, kernel );
+[ivals, i] = DeblurStuff.init.init_algo('l2','chambollepock', i, b, x, kernel );
 
 fitresult = arrayfun(@(p1,p2) callAlgo('l2','chambollepock',ivals,i,b,p1,p2), F, S); %run a fitting on every pair fittingfunction(F(J,K), S(J,K))
 

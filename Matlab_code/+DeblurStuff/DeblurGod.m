@@ -67,7 +67,7 @@ end
     % Taper edges to avoid edge ringing
     b = edgetaper (b, kernel);
 
-    [ivals, i] = DeblurStuff.init.init_algo( algo, i, b, xinit, kernel );
+    [ivals, i] = DeblurStuff.init.init_algo( problem, algo, i, b, xinit, kernel );
     
     switch lower(algo)
         case 'douglasrachfordprimal'

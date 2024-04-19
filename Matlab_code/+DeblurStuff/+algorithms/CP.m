@@ -55,7 +55,7 @@ end
     % error array that stores the objective value of all iterations (for
     % printing)
     summary.e_arr = [];
-    for iter=0:i.maxiter
+    for iter=1:i.maxiter
 
         x_prev = x; 
 

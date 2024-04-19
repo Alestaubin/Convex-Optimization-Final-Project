@@ -41,19 +41,19 @@ problem = 'l1';
 i = struct;
 
 x = zeros( numRows, numCols );
-[ivals, i] = DeblurStuff.init.init_algo( 'douglasrachfordprimal', i, b, x, kernel );
+[ivals, i] = DeblurStuff.init.init_algo(problem, 'douglasrachfordprimal', i, b, x, kernel );
 [ ~, summary1 ] = DeblurStuff.algorithms.DRP(ivals, b, i, problem);
 
 x = zeros( numRows, numCols );
-[ivals, i] = DeblurStuff.init.init_algo( 'douglasrachfordprimaldual', i, b, x, kernel );
+[ivals, i] = DeblurStuff.init.init_algo(problem, 'douglasrachfordprimaldual', i, b, x, kernel );
 [ ~, summary2 ] = DeblurStuff.algorithms.DRPD(ivals, b, i, problem);
 
 x = zeros( numRows, numCols );
-[ivals, i] = DeblurStuff.init.init_algo( 'admm', i, b, x, kernel );
+[ivals, i] = DeblurStuff.init.init_algo(problem, 'admm', i, b, x, kernel );
 [ ~, summary3 ] = DeblurStuff.algorithms.ADMM(ivals, b, i, problem);
 
 x = zeros( numRows, numCols );
-[ivals, i] = DeblurStuff.init.init_algo( 'chambollepock', i, b, x, kernel );
+[ivals, i] = DeblurStuff.init.init_algo(problem, 'chambollepock', i, b, x, kernel );
 [ ~, summary4 ] = DeblurStuff.algorithms.CP(ivals, b, i, problem);
 
 
