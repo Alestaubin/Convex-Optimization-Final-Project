@@ -32,8 +32,8 @@ ivals.apply = DeblurStuff.utilities.multiplyingmatrix(b, kernel);
 if ~isfield(i, 'verbose'), i.verbose = 0 ; end 
 if ~isfield(i, 'malength'), i.malength = 32; end
 if ~isfield(i, 'maxiter'), i.maxiter = 500 ; end
-if ~isfield(i, 'gammal1'), i.gammal1 = 0.049; end
-if ~isfield(i, 'gammal2'), i.gammal2 = 0.049; end
+if ~isfield(i, 'gammal1'), i.gammal1 = 0.01; end
+if ~isfield(i, 'gammal2'), i.gammal2 = 0.01; end
 
 % Sets algorithm-specific hyperparameters and initial values
 [numRows, numCols] = size(b);

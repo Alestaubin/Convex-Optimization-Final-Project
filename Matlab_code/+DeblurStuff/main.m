@@ -7,7 +7,7 @@
 %%%%%%%%%%%%%%%%%%%%
 clearvars, clc;
 % Import image
-I = imread('+DeblurStuff/+image_files/cameraman.jpg');
+I = imread('+DeblurStuff/+image_files/drake.jpg');
 % I = imread('+DeblurStuff/+image_files/manWithHat.tiff');
 try 
     I = rgb2gray(I);
@@ -45,10 +45,6 @@ kernelsize = 10;
 %%%%%%%%%%%%%%%%%%%%
 % Algorithm setup
 %%%%%%%%%%%%%%%%%%%%
-i.verbose = 0;
-i.gammal1 = 0.01;
-i.tprimaldr = 0.5;
-i.rhoprimaldr = 1.5;
 
 [numRows, numCols] = size(b);
 x = zeros( numRows, numCols );
