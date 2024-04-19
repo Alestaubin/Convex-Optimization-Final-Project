@@ -94,7 +94,23 @@ imshow(x,[])
 % blurring b
 % step size t
 % relaxation parameter rho
-% 
+%
+
+%trying out to learn how to plot
+
+array_x = [1, 2, 3, 4, 5, 6];
+array_ys_1 = [2, 4, 5, 6, 7, 9];
+array_ys_2 = [1, 3, 4, 7, 8, 9];
+
+figure;
+plot(array_x, array_ys_1, '-o'); % '-o' adds markers at data points
+hold on; % Keeps the current plot and allows for adding another plot to it
+plot(array_x, array_ys_2, '-*');
+hold off;
+title('Line Plot Comparison');
+xlabel('X');
+ylabel('Y');
+legend('Data Set 1', 'Data Set 2');
 
 
 
