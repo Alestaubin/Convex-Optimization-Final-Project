@@ -1,6 +1,6 @@
 % Grid search Implementation %
 function error_matrix = grid_search(algorithm, i, ivals, array_rho, array_t, b, kernel, problem)
-%   We perform grid search keeping one parameter fixed
+%   GRID_SEARCH We perform grid search keeping one parameter fixed
 %   
 %   Input Parameters:
 %       algorithm       : which of the algorithm
@@ -10,9 +10,13 @@ function error_matrix = grid_search(algorithm, i, ivals, array_rho, array_t, b, 
 %       b               : Blurred image
 %       problem         : l1 or l2, for the norm type
 %   Output Parameters:
-%       array_y         : performance of the different values of the parameter being tested
+%       error_matrix    : performance of the different values of the parameter being tested
 %
-
+% To elaborate, this function returns a 2D matrix which contains final
+% objective values of each of the combinations of the step size t and the
+% relaxation rho (or s and t for Chambolle-Pock).
+%
+%
     % Initialize default parameters
     I = imread('+DeblurStuff/+image_files/cameraman.jpg');
     I = rgb2gray(I);

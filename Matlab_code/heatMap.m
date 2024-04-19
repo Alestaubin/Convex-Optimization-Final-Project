@@ -18,7 +18,6 @@ I = I/mx;
 
 kernelsize = 10;
 % Blurring
-%[kernel,b] = DeblurStuff.image_handling.GaussianBlur(I,kernelsize,2);
 [kernel, b] = DeblurStuff.image_handling.MotionBlur(I,kernelsize,0);
 
 
