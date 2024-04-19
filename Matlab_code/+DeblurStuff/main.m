@@ -8,7 +8,7 @@ clc, clearvars;
 %%%%%%%%%%%%%%%%%%%%
 
 % Import image
-I = imread('+DeblurStuff/+image_files/drake.jpg');
+I = imread('+DeblurStuff/+image_files/drizzy-1.jpg');
 % I = imread('+DeblurStuff/+image_files/manWithHat.tiff');
 try 
     I = rgb2gray(I);
@@ -35,26 +35,27 @@ kernelsize = 20;
 
 % Blurring
 %[kernel,b] = DeblurStuff.image_handling.GaussianBlur(I,kernelsize,2);
-[kernel, b] = DeblurStuff.image_handling.MotionBlur(I,kernelsize,0);
+[kernel, b] = DeblurStuff.image_handling.MotionBlur(I,50,0);
 
 % Additive Noise
-%b = DeblurStuff.image_handling.SaltnPepper(b, 0.05);
+b = DeblurStuff.image_handling.SaltnPepper(b, 0.01);
 
-figure('Name','image after blurring')
-imshow(b,[])
+%figure('Name','image after blurring')
+%imshow(b,[])
 
 
 %%%%%%%%%%%%%%%%%%%%
 % Algorithm setup
 %%%%%%%%%%%%%%%%%%%%
 i = struct;
+i.maxiter = 200;
 
 [numRows, numCols] = size(b);
 x = zeros( numRows, numCols );
-x = DeblurStuff.DeblurGod('l1', 'douglasrachfordprimal', x, kernel, b, i);
-% x = DeblurStuff.DeblurGod('l2', 'douglasrachfordprimaldual', x, kernel, b, i);
-% x = DeblurStuff.DeblurGod('l2', 'admm', x, kernel, b, i);
-% x = DeblurStuff.DeblurGod('l1', 'chambollepock', x, kernel, b, i);
+% x = DeblurStuff.DeblurGod('l1', 'douglasrachfordprimal', x, kernel, b, i);
+% x = DeblurStuff.DeblurGod('l1', 'douglasrachfordprimaldual', x, kernel, b, i);
+% x = DeblurStuff.DeblurGod('l1', 'admm', x, kernel, b, i);
+ x = DeblurStuff.DeblurGod('l1', 'chambollepock', x, kernel, b, i);
 
 figure('Name','image after deblurring')
 imshow(x,[])

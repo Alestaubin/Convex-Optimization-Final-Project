@@ -19,6 +19,7 @@ function [ivals, i] = init_algo( problem, algo, i, b, xinit, kernel )
 %
 %
 arguments
+    problem 
     algo char {mustBeMember(algo,{'douglasrachfordprimaldual','douglasrachfordprimal', 'admm', 'chambollepock'})}
     i struct
     b (:,:,1) double
@@ -32,8 +33,8 @@ ivals.apply = DeblurStuff.utilities.multiplyingmatrix(b, kernel);
 if ~isfield(i, 'verbose'), i.verbose = 1 ; end 
 if ~isfield(i, 'malength'), i.malength = 32; end
 if ~isfield(i, 'maxiter'), i.maxiter = 500 ; end
-if ~isfield(i, 'gammal1'), i.gammal1 = 0.01; end
-if ~isfield(i, 'gammal2'), i.gammal2 = 0.01; end
+if ~isfield(i, 'gammal1'), i.gammal1 = 0.05; end
+if ~isfield(i, 'gammal2'), i.gammal2 = 0.05; end
 
 % Sets algorithm-specific hyperparameters and initial values
 [numRows, numCols] = size(b);
@@ -51,14 +52,10 @@ switch algo
         ivals.z2 = cat(3, ivals.apply.K(xinit), ivals.apply.D(xinit));
 
     case 'douglasrachfordprimaldual'
-        if strcmp(problem, 'l1')
-            if ~isfield(i, 'tprimaldualdr'), i.tprimaldualdr = 0.25; end
-            if ~isfield(i, 'rhoprimaldualdr'), i.rhoprimaldualdr = 1.0; end
-        else
-            if ~isfield(i, 'tprimaldualdr'), i.tprimaldualdr = 1.0; end
-            if ~isfield(i, 'rhoprimaldualdr'), i.rhoprimaldualdr = 1.0; end
-        end
-
+        
+        if ~isfield(i, 'tprimaldualdr'), i.tprimaldualdr = 1.0; end
+        if ~isfield(i, 'rhoprimaldualdr'), i.rhoprimaldualdr = 1.0; end
+        
         ivals.p0 = xinit;
         ivals.q0 = zeros(numRows, numCols, 3);
 
@@ -81,7 +78,7 @@ switch algo
             if ~isfield(i, 'scp'), i.scp = 1.0; end
         else 
             if ~isfield(i, 'tcp'), i.tcp = 0.75; end
-            if ~isfield(i, 'scp'), i.scp = 0,75; end
+            if ~isfield(i, 'scp'), i.scp = 0.75; end
         end
         ivals.x = xinit;
         ivals.y = zeros(numRows, numCols, 3);
