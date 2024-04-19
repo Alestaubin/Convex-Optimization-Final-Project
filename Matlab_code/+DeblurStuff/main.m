@@ -52,10 +52,10 @@ i.rhoprimaldr = 1.5;
 
 [numRows, numCols] = size(b);
 x = zeros( numRows, numCols );
-  x = DeblurStuff.DeblurGod('l1', 'douglasrachfordprimal', x, kernel, b, i);
+% x = DeblurStuff.DeblurGod('l1', 'douglasrachfordprimal', x, kernel, b, i);
 % x = DeblurStuff.DeblurGod('l2', 'douglasrachfordprimaldual', x, kernel, b, i);
 % x = DeblurStuff.DeblurGod('l2', 'admm', x, kernel, b, i);
-% x = DeblurStuff.DeblurGod('l1', 'chambollepock', x, kernel, b, i);
+x = DeblurStuff.DeblurGod('l1', 'chambollepock', x, kernel, b, i);
 
 figure('Name','image after deblurring')
 imshow(x,[])

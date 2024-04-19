@@ -40,16 +40,16 @@ if ~isfield(i, 'gammal2'), i.gammal2 = 0.049; end
 switch algo
     case 'douglasrachfordprimal'
 
-        if ~isfield(i, 'rhoprimaldr'), i.rhoprimaldr=2 ; end
         if ~isfield(i, 'tprimaldr'), i.tprimaldr=1.50 ; end
+        if ~isfield(i, 'rhoprimaldr'), i.rhoprimaldr=1.75 ; end
 
         ivals.z1 = xinit;
         ivals.z2 = cat(3, ivals.apply.K(xinit), ivals.apply.D(xinit));
 
     case 'douglasrachfordprimaldual'
          
-        if ~isfield(i, 'tprimaldualdr'), i.tprimaldualdr = 0.5; end
-        if ~isfield(i, 'rhoprimaldualdr'), i.rhoprimaldualdr = 1.049; end
+        if ~isfield(i, 'tprimaldualdr'), i.tprimaldualdr = 1.0; end
+        if ~isfield(i, 'rhoprimaldualdr'), i.rhoprimaldualdr = 0.01; end
        
         ivals.p0 = xinit;
         %ivals.q0 = cat(3, ivals.apply.K(xinit), ivals.apply.D(xinit));
@@ -57,8 +57,8 @@ switch algo
 
     case 'admm'
         
-        if ~isfield(i, 'tadmm'), i.tadmm = 0.5; end
-        if ~isfield(i, 'rhoadmm'), i.rhoadmm = 1.049; end
+        if ~isfield(i, 'tadmm'), i.tadmm = 1.0; end
+        if ~isfield(i, 'rhoadmm'), i.rhoadmm = 0.25; end
 
         ivals.u = xinit;
         ivals.y = cat(3, ivals.apply.K(xinit), ivals.apply.D(xinit));
@@ -67,8 +67,8 @@ switch algo
 
     case 'chambollepock'
 
-        if ~isfield(i, 'tcp'), i.tcp = 0.2; end
-        if ~isfield(i, 'scp'), i.scp = 0.1; end
+        if ~isfield(i, 'tcp'), i.tcp = 1.0; end
+        if ~isfield(i, 'scp'), i.scp = 1.0; end
 
         ivals.x = xinit;
         ivals.y = zeros(numRows, numCols, 3);
