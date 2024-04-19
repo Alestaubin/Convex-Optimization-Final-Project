@@ -43,17 +43,21 @@ b = DeblurStuff.image_handling.SaltnPepper(b, 0.01);
 
 % Initialize Parameter testing
 array_gamma = [0.01, 0.025, 0.05, 0.075, 0.1];
-array_rho = [0.1, 0.25, 0.5, 1, 1.5, 2];
-array_t = [0.1, 0.25, 0.5, 1, 1.5, 2];
+array_rho = [0.1, 0.25, 0.5, 1];
+array_t = [0.1, 0.25, 0.5, 1];
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DRP Grid Search and Plotting %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% initialize for DRP
+[ivals, i] = DeblurStuff.init.init_algo('douglasrachfordprimal', i, b, x, kernel );
+
 % Initialize cell arrays to hold error vectors
 error_array_l1 = cell(length(array_rho), length(array_t));
 error_array_l2 = cell(length(array_rho), length(array_t));
-% Run grid search
+% Run grid sea
 for j = 1:length(array_rho)
     i.rhoprimaldr = array_rho(j);
     for k = 1:length(array_t)
@@ -117,10 +121,12 @@ grid on; % Add grid
 saveas(gcf, '+DeblurStuff/+results//DRP_grid_search.png');
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DRPD Grid Search and Plotting %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% initialize for DRP
+[ivals, i] = DeblurStuff.init.init_algo('douglasrachfordprimaldual', i, b, x, kernel );
 
 % Initialize cell arrays to hold error vectors
 error_array_l1 = cell(length(array_rho), length(array_t));
@@ -192,6 +198,9 @@ saveas(gcf, '+DeblurStuff/+results//DRPD_grid_search.png');
 % ADMM Grid Search and Plotting %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% initialize for DRP
+[ivals, i] = DeblurStuff.init.init_algo('admm', i, b, x, kernel );
+
 % Initialize cell arrays to hold error vectors
 error_array_l1 = cell(length(array_rho), length(array_t));
 error_array_l2 = cell(length(array_rho), length(array_t));
@@ -203,12 +212,12 @@ for j = 1:length(array_rho)
         fprintf('iter: rho - %i ; t - %i \n', j, k);
 
         % Grid search for l1
-        [~, temp_error_l1] = DeblurStuff.utilities.grid_search('douglasrachfordprimaldual', i, ivals, 'gammal1', array_gamma, b, kernel, 'l1');
+        [~, temp_error_l1] = DeblurStuff.utilities.grid_search('ADMM', i, ivals, 'gammal1', array_gamma, b, kernel, 'l1');
         temp_error_l1 = temp_error_l1(:).'; % turn into row vector
         error_array_l1{j, k} = temp_error_l1;
 
         % Grid search for l2
-        [~, temp_error_l2] = DeblurStuff.utilities.grid_search('douglasrachfordprimaldual', i, ivals, 'gammal2', array_gamma, b, kernel, 'l2');
+        [~, temp_error_l2] = DeblurStuff.utilities.grid_search('ADMM', i, ivals, 'gammal2', array_gamma, b, kernel, 'l2');
         temp_error_l2 = temp_error_l2(:).'; % turn into row vector
         error_array_l2{j, k} = temp_error_l2;
     end
@@ -256,11 +265,14 @@ legend('show'); % Show legend to identify lines
 grid on; % Add grid
 
 % Save plot to the results folder
-saveas(gcf, '+DeblurStuff/+results//DRPD_grid_search.png');
+saveas(gcf, '+DeblurStuff/+results//ADMM_grid_search.png');
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% ChambollePolk Grid Search and Plotting %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Chambolle-Pock Grid Search and Plotting %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% initialize for DRP
+[ivals, i] = DeblurStuff.init.init_algo('chambollepock', i, b, x, kernel );
 
 % Initialize cell arrays to hold error vectors
 error_array_l1 = cell(length(array_rho), length(array_t));
@@ -273,12 +285,12 @@ for j = 1:length(array_rho)
         fprintf('iter: rho - %i ; t - %i \n', j, k);
 
         % Grid search for l1
-        [~, temp_error_l1] = DeblurStuff.utilities.grid_search('douglasrachfordprimaldual', i, ivals, 'gammal1', array_gamma, b, kernel, 'l1');
+        [~, temp_error_l1] = DeblurStuff.utilities.grid_search('chambollepock', i, ivals, 'gammal1', array_gamma, b, kernel, 'l1');
         temp_error_l1 = temp_error_l1(:).'; % turn into row vector
         error_array_l1{j, k} = temp_error_l1;
 
         % Grid search for l2
-        [~, temp_error_l2] = DeblurStuff.utilities.grid_search('douglasrachfordprimaldual', i, ivals, 'gammal2', array_gamma, b, kernel, 'l2');
+        [~, temp_error_l2] = DeblurStuff.utilities.grid_search('chambollepock', i, ivals, 'gammal2', array_gamma, b, kernel, 'l2');
         temp_error_l2 = temp_error_l2(:).'; % turn into row vector
         error_array_l2{j, k} = temp_error_l2;
     end
@@ -326,4 +338,4 @@ legend('show'); % Show legend to identify lines
 grid on; % Add grid
 
 % Save plot to the results folder
-saveas(gcf, '+DeblurStuff/+results//DRPD_grid_search.png');
+saveas(gcf, '+DeblurStuff/+results//CB_grid_search.png');

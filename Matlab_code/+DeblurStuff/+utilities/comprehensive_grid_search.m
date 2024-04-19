@@ -43,10 +43,10 @@ b = DeblurStuff.image_handling.SaltnPepper(b, 0.01);
 
 % Initialize Parameter testing
 array_gamma = [0.01, 0.025, 0.05, 0.075, 0.1];
-array_rho = [0.1, 0.25, 0.5, 1, 1.5, 2];
-array_t = [0.1, 0.25, 0.5, 1, 1.5, 2];
+array_rho = [0.1, 0.25, 0.5, 1];
+array_t = [0.1, 0.25, 0.5, 1];
 
-%{
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DRP Grid Search and Plotting %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -119,7 +119,6 @@ grid on; % Add grid
 
 % Save plot to the results folder
 saveas(gcf, '+DeblurStuff/+results//DRP_grid_search.png');
-%}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
