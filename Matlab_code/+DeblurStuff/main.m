@@ -38,9 +38,6 @@ kernelsize = 10;
 %[kernel,b] = DeblurStuff.image_handling.GaussianBlur(I,kernelsize,2);
 [kernel, b] = DeblurStuff.image_handling.MotionBlur(I,kernelsize,0);
 
-% Additive noise
-b = DeblurStuff.image_handling.SaltnPepper(b, 0.01);
-
 %figure('Name','image after blurring')
 %imshow(b,[])
 
@@ -49,30 +46,21 @@ b = DeblurStuff.image_handling.SaltnPepper(b, 0.01);
 % Algorithm setup
 %%%%%%%%%%%%%%%%%%%%
 i.verbose = 0;
-i.malength = 32;
-i.maxiter = 100;
-i.gammal1 = 0.1;
-i.gammal2 = 0.01;
-i.tprimaldr = 2;
-i.rhoprimaldr = 1.4;
-i.tprimaldualdr = 0.8;
-i.rhoprimaldualdr = 0.1;
-i.tadmm = 2.2;
-i.rhoadmm = 1.5;
-i.scp = 0.2; 
-i.tcp = 0.2;
+i.gammal1 = 0.01;
+i.tprimaldr = 0.5;
+i.rhoprimaldr = 1.5;
+
 [numRows, numCols] = size(b);
 x = zeros( numRows, numCols );
-% x = DeblurStuff.DeblurGod('l1', 'douglasrachfordprimal', x, kernel, b, i);
-x = DeblurStuff.DeblurGod('l2', 'douglasrachfordprimaldual', x, kernel, b, i);
+  x = DeblurStuff.DeblurGod('l1', 'douglasrachfordprimal', x, kernel, b, i);
+% x = DeblurStuff.DeblurGod('l2', 'douglasrachfordprimaldual', x, kernel, b, i);
 % x = DeblurStuff.DeblurGod('l2', 'admm', x, kernel, b, i);
 % x = DeblurStuff.DeblurGod('l1', 'chambollepock', x, kernel, b, i);
-
 
 figure('Name','image after deblurring')
 imshow(x,[])
 
-
+%{
 % Plotting grid_search results
 
 % Initialize Parameters for testing
@@ -107,7 +95,7 @@ error_array_l2 = DeblurStuff.utilities.grid_search('chambollepock', i, ivals, ar
 % plotting
 DeblurStuff.utilities.plot_grid(array_t, error_array_l1, error_array_l2, 'CP_grid_search.png');
 
-
+%}
 
 
 
