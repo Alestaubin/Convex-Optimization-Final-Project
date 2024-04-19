@@ -63,6 +63,9 @@ end
     fprintf("###############################################\n");
     fprintf("Running algorithm %s...\n", lower(algo));
     tic
+    
+    % Taper edges to avoid edge ringing
+    b = edgetaper (b, kernel);
 
     [ivals, i] = DeblurStuff.init.init_algo( algo, i, b, xinit, kernel );
     
