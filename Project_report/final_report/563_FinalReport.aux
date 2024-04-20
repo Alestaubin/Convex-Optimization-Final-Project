@@ -2,13 +2,10 @@
 \providecommand\hyper@newdestlabel[2]{}
 \providecommand\HyperFirstAtBeginDocument{\AtBeginDocument}
 \HyperFirstAtBeginDocument{\ifx\hyper@anchor\@undefined
-\global\let\oldcontentsline\contentsline
-\gdef\contentsline#1#2#3#4{\oldcontentsline{#1}{#2}{#3}}
 \global\let\oldnewlabel\newlabel
 \gdef\newlabel#1#2{\newlabelxx{#1}#2}
 \gdef\newlabelxx#1#2#3#4#5#6{\oldnewlabel{#1}{{#2}{#3}}}
 \AtEndDocument{\ifx\hyper@anchor\@undefined
-\let\contentsline\oldcontentsline
 \let\newlabel\oldnewlabel
 \fi}
 \fi}
@@ -37,6 +34,7 @@
 \newlabel{normprox}{{4}{2}{}{proposition.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.3}Derivations of the proximal maps}{2}{subsection.1.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {2}Algorithms}{3}{section.2}\protected@file@percent }
+\newlabel{algos}{{2}{3}{Algorithms}{section.2}{}}
 \newlabel{l1}{{9}{3}{Algorithms}{equation.2.9}{}}
 \citation{douglas_rachford_1956}
 \citation{ConnorVander}
@@ -53,34 +51,86 @@
 \newlabel{eq: CP_minmax}{{26}{8}{Chambolle-Pock}{equation.2.26}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Tuning and Results}{9}{section.3}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Default Parameters Used}}{9}{table.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Hyperparameter tuning}{9}{subsection.3.1}\protected@file@percent }
+\newlabel{hyperTuning}{{3.1}{9}{Hyperparameter tuning}{subsection.3.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Default Parameters Used for the $l_1$ Problem (left) and for the $l_2$ Problem (right)}}{10}{table.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces ADMM $l_1$ error w/ motion blur different noise and kernel sizes}}{10}{table.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces ADMM $l_1$ error w/ Gaussian blur different noise and kernel sizes}}{10}{table.4}\protected@file@percent }
+\citation{drake}
+\citation{taper}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Difference between unblurred (right) and salt and pepper Gaussian blurred image (left)}}{11}{figure.1}\protected@file@percent }
+\newlabel{fig:l1vl2}{{1}{11}{Difference between unblurred (right) and salt and pepper Gaussian blurred image (left)}{figure.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Results}{11}{subsection.3.2}\protected@file@percent }
+\newlabel{results}{{3.2}{11}{Results}{subsection.3.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Image results}{11}{subsubsection.3.2.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Original image (left) and blurred image (right) \cite  {drake}}}{12}{figure.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Deblurred (left: no edgetaper, right: edgetaper)}}{12}{figure.3}\protected@file@percent }
+\newlabel{fig:drakering}{{3}{12}{Deblurred (left: no edgetaper, right: edgetaper)}{figure.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Summary of the Algorithms}}{12}{table.5}\protected@file@percent }
+\newlabel{table:drake_results}{{5}{12}{Summary of the Algorithms}{table.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Results (top left: DRP, top right: DRPD, bottom left: ADMM, bottom right: CP)}}{13}{figure.4}\protected@file@percent }
+\newlabel{fig:drake_results}{{4}{13}{Results (top left: DRP, top right: DRPD, bottom left: ADMM, bottom right: CP)}{figure.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}$l_1$ vs $l_2$ and Early Stopping}{13}{subsubsection.3.2.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Douglas-Rachford Primal with $l_1$ (left) and $l_2$ (right)}}{14}{figure.5}\protected@file@percent }
+\newlabel{fig:l1vl2}{{5}{14}{Douglas-Rachford Primal with $l_1$ (left) and $l_2$ (right)}{figure.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Conclusion}{14}{subsection.3.3}\protected@file@percent }
 \bibstyle{plainnat}
 \bibdata{563_FinalReport.bib}
-\bibcite{douglas_rachford_1956}{{1}{1956}{{Douglas and Rachford}}{{}}}
-\bibcite{ConnorVander}{{2}{2014}{{O'Connor and Vandenberghe}}{{}}}
-\bibcite{parikh_2014}{{3}{2014}{{Parikh}}{{}}}
-\bibcite{wang2014recent}{{4}{2014}{{Wang and Tao}}{{}}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Hyperparameter tuning}{10}{subsection.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Results}{10}{subsection.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Conclusion}{10}{subsection.3.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Alexandre St-Aubin}{10}{section*.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Jonathan Campana}{10}{section*.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Elliot Forcier-Poirier}{10}{section*.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Edmund Wu}{10}{section*.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {A}Appendix}{11}{appendix.A}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}Primal Douglas-Rachford Splitting Algorithm}{11}{subsection.A.1}\protected@file@percent }
-\newlabel{algo:PRS}{{A.1}{11}{Primal Douglas-Rachford Splitting Algorithm}{subsection.A.1}{}}
-\@writefile{loa}{\contentsline {algocf}{\numberline {1}{\ignorespaces Primal Douglas-Rachford Splitting}}{11}{algocf.1}\protected@file@percent }
-\newlabel{alg: DRprimal}{{1}{11}{Primal Douglas-Rachford Splitting Algorithm}{algocf.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}Primal-dual Douglas-Rachford Splitting Algorithm }{11}{subsection.A.2}\protected@file@percent }
-\newlabel{algo:PDRS}{{A.2}{11}{Primal-dual Douglas-Rachford Splitting Algorithm}{subsection.A.2}{}}
-\@writefile{loa}{\contentsline {algocf}{\numberline {2}{\ignorespaces Primal-Dual Douglas-Rachford Splitting}}{11}{algocf.2}\protected@file@percent }
-\newlabel{alg: DRpd}{{2}{11}{Primal-dual Douglas-Rachford Splitting Algorithm}{algocf.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.3}ADMM Algorithm}{12}{subsection.A.3}\protected@file@percent }
-\newlabel{algo:ADMM}{{A.3}{12}{ADMM Algorithm}{subsection.A.3}{}}
-\@writefile{loa}{\contentsline {algocf}{\numberline {3}{\ignorespaces Alternating Direction Method of Multipliers (ADMM)}}{12}{algocf.3}\protected@file@percent }
-\newlabel{alg: ADMM}{{3}{12}{ADMM Algorithm}{algocf.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.4}Chambolle-Pock Algorithm}{12}{subsection.A.4}\protected@file@percent }
-\newlabel{algo:ChambollePock}{{A.4}{12}{Chambolle-Pock Algorithm}{subsection.A.4}{}}
-\@writefile{loa}{\contentsline {algocf}{\numberline {4}{\ignorespaces Chambolle-Pock Algorithm}}{12}{algocf.4}\protected@file@percent }
-\newlabel{alg:ChambollePock}{{4}{12}{Chambolle-Pock Algorithm}{algocf.4}{}}
-\gdef \@abspage@last{12}
+\bibcite{drake}{{1}{}{{dra}}{{}}}
+\bibcite{taper}{{2}{}{{tap}}{{}}}
+\bibcite{douglas_rachford_1956}{{3}{1956}{{Douglas and Rachford}}{{}}}
+\bibcite{ConnorVander}{{4}{2014}{{O'Connor and Vandenberghe}}{{}}}
+\bibcite{parikh_2014}{{5}{2014}{{Parikh}}{{}}}
+\bibcite{wang2014recent}{{6}{2014}{{Wang and Tao}}{{}}}
+\@writefile{toc}{\contentsline {paragraph}{Alexandre St-Aubin}{15}{section*.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Jonathan Campana}{15}{section*.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Elliot Forcier-Poirier}{15}{section*.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Edmund Wu}{15}{section*.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {A}Appendix}{16}{appendix.A}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}Pseudocode of the Algorithms}{16}{subsection.A.1}\protected@file@percent }
+\newlabel{sub:pseudo}{{A.1}{16}{Pseudocode of the Algorithms}{subsection.A.1}{}}
+\newlabel{algo:PRS}{{1}{16}{Pseudocode of the Algorithms}{algocfline.1}{}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {1}{\ignorespaces Primal Douglas-Rachford Splitting}}{16}{algocf.1}\protected@file@percent }
+\newlabel{alg: DRprimal}{{1}{16}{Pseudocode of the Algorithms}{algocf.1}{}}
+\newlabel{algo:PDRS}{{2}{16}{Pseudocode of the Algorithms}{algocfline.2}{}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {2}{\ignorespaces Primal-Dual Douglas-Rachford Splitting}}{16}{algocf.2}\protected@file@percent }
+\newlabel{alg: DRpd}{{2}{16}{Pseudocode of the Algorithms}{algocf.2}{}}
+\newlabel{algo:ADMM}{{3}{16}{Pseudocode of the Algorithms}{algocfline.3}{}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {3}{\ignorespaces Alternating Direction Method of Multipliers (ADMM)}}{16}{algocf.3}\protected@file@percent }
+\newlabel{alg: ADMM}{{3}{16}{Pseudocode of the Algorithms}{algocf.3}{}}
+\newlabel{algo:ChambollePock}{{4}{17}{Pseudocode of the Algorithms}{algocfline.4}{}}
+\@writefile{loa}{\contentsline {algocf}{\numberline {4}{\ignorespaces Chambolle-Pock Algorithm}}{17}{algocf.4}\protected@file@percent }
+\newlabel{alg:ChambollePock}{{4}{17}{Pseudocode of the Algorithms}{algocf.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}Heat Maps}{17}{subsection.A.2}\protected@file@percent }
+\newlabel{heatmaps}{{A.2}{17}{Heat Maps}{subsection.A.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Losses for ADMM with $l_1$ norm}}{17}{figure.6}\protected@file@percent }
+\newlabel{fig:admml1}{{6}{17}{Losses for ADMM with $l_1$ norm}{figure.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Losses for ADMM with $l_2$ norm}}{18}{figure.7}\protected@file@percent }
+\newlabel{fig:admml2}{{7}{18}{Losses for ADMM with $l_2$ norm}{figure.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Losses for Chambolle-Pock with $l_1$ norm (step size = t, rho = s)}}{18}{figure.8}\protected@file@percent }
+\newlabel{fig:cpl1}{{8}{18}{Losses for Chambolle-Pock with $l_1$ norm (step size = t, rho = s)}{figure.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Losses for Chambolle-Pock with $l_2$ norm (step size = t, rho = s)}}{19}{figure.9}\protected@file@percent }
+\newlabel{fig:cpl2}{{9}{19}{Losses for Chambolle-Pock with $l_2$ norm (step size = t, rho = s)}{figure.9}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Losses for Douglas-Rachford Primal with $l_1$ norm}}{19}{figure.10}\protected@file@percent }
+\newlabel{fig:drpl1}{{10}{19}{Losses for Douglas-Rachford Primal with $l_1$ norm}{figure.10}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Losses for Douglas-Rachford Primal with $l_2$ norm}}{20}{figure.11}\protected@file@percent }
+\newlabel{fig:drpl2}{{11}{20}{Losses for Douglas-Rachford Primal with $l_2$ norm}{figure.11}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Losses for Douglas-Rachford Primal-Dual with $l_1$ norm}}{20}{figure.12}\protected@file@percent }
+\newlabel{fig:drpdl1}{{12}{20}{Losses for Douglas-Rachford Primal-Dual with $l_1$ norm}{figure.12}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Losses for Douglas-Rachford Primal-Dual with $l_2$ norm}}{21}{figure.13}\protected@file@percent }
+\newlabel{fig:drpdl2}{{13}{21}{Losses for Douglas-Rachford Primal-Dual with $l_2$ norm}{figure.13}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.3}Grid Search Plots}{21}{subsection.A.3}\protected@file@percent }
+\newlabel{gridsearchplots}{{A.3}{21}{Grid Search Plots}{subsection.A.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Losses for DRP}}{22}{figure.14}\protected@file@percent }
+\newlabel{fig:drpl1}{{14}{22}{Losses for DRP}{figure.14}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces Losses for DRPD (they might be misleading so we refer to the heatmap)}}{22}{figure.15}\protected@file@percent }
+\newlabel{fig:drpdl1}{{15}{22}{Losses for DRPD (they might be misleading so we refer to the heatmap)}{figure.15}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces Losses for ADMM}}{23}{figure.16}\protected@file@percent }
+\newlabel{fig:admml1}{{16}{23}{Losses for ADMM}{figure.16}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces Losses for Chambolle-Pock (they might be misleading so we refer to the heatmap)}}{23}{figure.17}\protected@file@percent }
+\newlabel{fig:cpl1}{{17}{23}{Losses for Chambolle-Pock (they might be misleading so we refer to the heatmap)}{figure.17}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces Losses for DRP w/ gamma as x}}{24}{figure.18}\protected@file@percent }
+\newlabel{fig:admml1}{{18}{24}{Losses for DRP w/ gamma as x}{figure.18}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {19}{\ignorespaces Loss for Drake.png. Note that the above figure plots the loss for a run that does not correspond to the obtained images.}}{25}{figure.19}\protected@file@percent }
+\newlabel{fig:loss_drake}{{19}{25}{Loss for Drake.png. Note that the above figure plots the loss for a run that does not correspond to the obtained images}{figure.19}{}}
+\gdef \@abspage@last{25}

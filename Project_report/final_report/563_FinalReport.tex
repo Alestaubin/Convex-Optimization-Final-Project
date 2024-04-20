@@ -12,11 +12,11 @@
 
 % to compile a preprint version, e.g., for submission to arXiv, add add the
 % [preprint] option:
-     \usepackage[preprint]{neurips_2023}
+%     \usepackage[preprint]{neurips_2023}
 
 
 % to compile a camera-ready version, add the [final] option, e.g.:
-     %\usepackage[final]{neurips_2023}
+     \usepackage[final]{neurips_2023}
 
 
 % to avoid loading the natbib package, add option nonatbib:
@@ -32,6 +32,8 @@
 \usepackage{microtype}      % microtypography
 \usepackage{xcolor}         % colors
 \usepackage{enumitem}       % itemize
+\usepackage{multirow}
+\usepackage{multicol}
 
 
 \usepackage[mathcal]{eucal} % for the good looking mathcal
@@ -132,20 +134,21 @@
  Student ID: 261033501 \\
  \And
  Elliot Forcier-Poirier\\
- Student ID: \\  
+ Student ID: 260989602\\  
 }
 
 % import macros.tex
 \input{macros}
+
+\graphicspath{ {./images/} }
 
 \begin{document}
 
 \maketitle
 
 \begin{abstract}
-  The frustrating problem of \textit{blurry} images has persisted since the invention of cameras. Multiple types of blurs occur for different reasons, such as \textit{camera shake blur}, \textit{motion blur}, or \textit{out of focus blur}. These images are a nuisance, and pose challenges in many applications, such as image content recognition, surveillance, astronomy and many more \cite{wang2014recent}. Hence, reducing blur, or \textit{deblurring} is crucial in solving the ubiquitous problem of blurred images in a society inundated with visual media. In this continually evolving research area, many methods have been proposed, broadly categorized into those addressing the \textit{non-blind} and \textit{blind} deblurring problems. This article will primarily focus on the former, where the blur kernel is known. We will discuss four algorithms designed to tackle this challenge, highlighting their strengths and weaknesses while providing illustrative examples.
+  The frustrating problem of \textit{blurry} images has existed since the invention of cameras. Multiple types of blurs occur for different reasons, such as \textit{camera shake blur}, \textit{motion blur}, or \textit{out of focus blur}. These images are a nuisance, and pose challenges in many applications, such as image content recognition, surveillance, astronomy and many more \cite{wang2014recent}. Hence, reducing blur, or \textit{deblurring} is crucial in solving the ubiquitous problem of blurred images in a society inundated with visual media. In this continually evolving research area, many methods have been proposed, broadly categorized into those addressing the \textit{non-blind} and \textit{blind} deblurring problems. This article will primarily focus on the former, where the blur kernel is known. We will discuss four algorithms designed to tackle this challenge, highlighting their strengths and weaknesses while providing illustrative examples.
 \end{abstract}
-
 
 \section{Introduction}
 \subsection{Notation}%
@@ -276,7 +279,9 @@ We provide a quick derivation of the proximal operators of the L1 norm, the L2 n
     \begin{align*}
         \prox_{g^*}(y_1, y_2) = \argmin_{(u, v)} \bigg{\{} t \gamma \max_{1 \leq k \leq n} (u_k^2 + v_k^2)^{1/2}  + \frac{1}{2} \| (y_1, y_2) - (u, v) \|_2^2 \bigg{\}}
     \end{align*}
-    Remark that $(u_k^2 + v_k^2)^{1/2} = \| (u_k, v_k) \|^2_2$ for each $k$. The Fenchel conjugate of the L2 norm is itself (HW3). We also have that for any norm $\| \cdot \|$, the Fenchel conjugate $\| \cdot \|^*$ is the indicator of the unit ball in the dual norm $\delta_{\| \cdot \|_* \leq 1}$. The proximal mapping of the indicator of the unit ball is the projection onto the unit ball for points not in the unit ball. Hence
+    \begin{itemize}
+        Remark that $(u_k^2 + v_k^2)^{1/2} = \| (u_k, v_k) \|^2_2$ for each $k$. The Fenchel conjugate of the L2 norm is itself (HW3). We also have that for any norm $\| \cdot \|$, the Fenchel conjugate $\| \cdot \|^*$ is the indicator of the unit ball in the dual norm $\delta_{\| \cdot \|_* \leq 1}$. The proximal mapping of the indicator of the unit ball is the projection onto the unit ball for points not in the unit ball. Hence
+    \end{itemize}
     $$
     \prox_{g^*}(y_1, y_2) = t \gamma \frac{(y_1, y_2)}{\| (y_1, y_2) \|_2}
     $$
@@ -304,6 +309,7 @@ We provide a quick derivation of the proximal operators of the L1 norm, the L2 n
 
 
 \section{Algorithms}
+\label{algos}
 The algorithms we present are used to solve the non-blind image deblurring problem, which is a convex optimization problem of the form 
 \begin{equation}
   \begin{split}
@@ -475,7 +481,7 @@ where $t > 0$ is the step size and $\rho \in (0, 2)$ is a relaxation parameter. 
         \end{bmatrix}x \right)
   \end{split}
  \end{equation*}
- The algorithm is included in Appendix \ref{algo:PRS}.
+ The algorithm is included in Appendix \ref{sub:pseudo}.
 
 \subsection{Primal-Dual Douglas Rachford Splitting}\label{sub:Primal-Dual Douglas Rachford splitting}
 This second method uses both optimality conditions of the primal problem
@@ -758,7 +764,7 @@ Thus we have the solution for both $w, \ v$,
   v &= \hat{z} + tA \left(\frac{\hat{x} - tA^T \hat{z}}{(I + t^2A^T A)}\right) = \hat{z} + \frac{\hat{tAx}}{(I + t^2A^T A)} - \frac{t^2 A A^T \hat{z}}{(I + t^2A^T A)}
 \end{align}
 
-Notice in the algorithm, we will let $\hat{x} = 2x^k - p^{k-1}$ and $\hat{z} = 2z^k - p^{k-1}$. The Primal-Dual Douglas Rachford splitting algorithm is included in Appendix \ref{algo:PDRS}.
+Notice in the algorithm, we will let $\hat{x} = 2x^k - p^{k-1}$ and $\hat{z} = 2z^k - p^{k-1}$. The Primal-Dual Douglas Rachford splitting algorithm is included in Appendix \ref{sub:pseudo}.
 
 This algorithm resembles the first algorithm in section \ref{sub:PDRS}. They are both splitting algorithm that use the prox-operators of $f$ and $g$. The algorithms differ in the fact that the Primal-Dual Douglas Rachford splitting algorithm uses both the primal and dual optimality conditions, rather than uniquely using the primal as done in section \ref{sub:PDRS}. This means that we need to use Moreau decomposition for the congugate of the prox-operator of $g$. The $t$ and $\rho$ inputs play a very similar role in the algorithm as it does in the algorithms in section \ref{sub:PDRS} and \ref{sub: ADMM}. 
 
@@ -811,7 +817,7 @@ for which we have an augmented Lagrangian given as
 $$
 L(x,u, y, w, z) = f(u) + g(y) + w^T (x-u) + z^T (Ax-y) + \frac{t}{2} \left( \| x-u\|^2 + \|Ax-y\|^2 \right)
 $$
-which makes no difference in the above formulation as we alternate minimization over $x$ and minimization over $(u, y)$, so that they are constants in alternation. The pseudo code can be seen in Appendix \ref{algo:ADMM}.
+which makes no difference in the above formulation as we alternate minimization over $x$ and minimization over $(u, y)$, so that they are constants in alternation. The pseudo code can be seen in Appendix \ref{sub:pseudo}.
 
 \subsection{Chambolle-Pock}%
   \label{sub:Chambolle-Pock}
@@ -841,7 +847,7 @@ Chambolle-Pock is not based on an "optimality condition" as the previous three, 
  \frac{\| y^{k} - \hat{y}\|_{2}^{2}}{2s}  + \frac{\| x^{k} - \hat{x} \|_{2}^{2}}{2t} \leq C \left(\frac{\| y^0 - \hat{y}\|_{2}^{2}}{2s}  + \frac{\|x^0 - \hat{x}\|_{2}^{2}}{2t} \right)
 \end{equation}
 
-In summary, because the sequence of iterates $\{ (x^k, y^k) \}_k$ is bounded, by extracting subsequences, convergence to a fixed point is guarenteed.
+In summary, because the sequence of iterates $\{ (x^k, y^k) \}_k$ is bounded, by extracting subsequences, convergence to a fixed point is guaranteed.
 
 \medskip
 
@@ -849,31 +855,23 @@ Despite these differences, it is said that the Chambolle-Pock algorithm is at it
 \[ y^{k}  = (I + s\partial g^*)^{-1}(y^{k-1} + sAz^{k-1}) \qquad z^k = 2x^k - x^{k-1} \]
 due to the addition of 
 \[ \frac{1}{2}\left\langle \left(\frac{1}{s} - t AA^T\right)(y - y^{k-1}), y - y^{k-1} \right\rangle \]
-to the augmented Lagrangian at the $k$-th iteration, we see that the updates of $y^k$ and $z^k$ are exactly two of the steps of the algorithm described above. The algorithm proceeds as below. It utilizes the proximal operators of $g^*$ and $f$, resembling the primal-dual formulation. The algorithm is included in appendix \ref{algo:ChambollePock}.
+to the augmented Lagrangian at the $k$-th iteration, we see that the updates of $y^k$ and $z^k$ are exactly two of the steps of the algorithm described above. The algorithm proceeds as below. It utilizes the proximal operators of $g^*$ and $f$, resembling the primal-dual formulation. The algorithm is included in appendix \ref{sub:pseudo}.
 
 
 \section{Tuning and Results}
-In this section, we discuss on the hyperparameters and the algorithm results. To gauge the performance of the algorithms, on top of the obtained image, we use an objective function of the form $x \mapsto \| x - x_0 \|^2_2$ for some objective $x_0$. This function resembles the mean-squared error. It turns out using as objective the blurred image \texttt{b} suffices for decent results, as we will in fact use the function
+In this section, we discuss on the hyperparameters and the algorithm results. All the resulting plots and heatmaps in sections \ref{hyperTuning} and \ref{results} are from the 'cameraman.jpg' image. It could be said that a more thorough approach would involve testing for all the different parameters on a set of images instead of a single one. To gauge the performance of the algorithms, on top of the obtained image, we use an objective function of the form $x \mapsto \| x - x_0 \|^2_2$ for some objective $x_0$. This function resembles the mean-squared error. It turns out using as objective the blurred image \texttt{b} suffices for decent results, as we will in fact use the function
 $$
 x \mapsto \| K x - b \|^2_2
 $$
-as objective function, where $K$ is the blurring matrix and $b$ is the blurred image. It is evident that if the blurring matrix blurs the image in a way that does not resemble the blurred image $b$ at all, this objective function will not serve its purpose, hence the need of choosing a best $K$. Such a $K$ will naturally depend on the blurred image. So in fact, we do not want to pick a best $K$, but merely one that gives acceptable results for any blurred image $b$.
+as objective function, where $K$ is the blurring matrix and $b$ is the blurred image. It is evident that if the blurring matrix blurs the image in a way that does not resemble the blurred image $b$ at all, this objective function will not serve its purpose, hence the need of choosing a best $K$. Such a $K$ will naturally depend on the blurred image. So in fact, we do not want to pick a best $K$, but merely one that gives acceptable results for any blurred image $b$. This is the function we used in most of our tests. However, we also implemented a mean absolute value function that take the 1-norm instead to compare their performance.
 
 \medskip
 
-Other than the blurring kernel $K$, we are also interested in the effects of the additive noise $\eta$. We will try different choices of additive noise and compare the results.
+Furthermore, we are also interested in the effects of  additive noise $\eta$ and different sizes of kernels. We will try different choices of additive noise and compare the results. We also investigated the effects of the step size $t > 0$ and the relaxation parameter $\rho \in (0, 2)$. Their effects will be recorded in their subsection. A final parameter of interest is $\gamma > 0$ that appears in the expression $\gamma \| D x \|_{iso}$. As suggested by the project prompt, this $\gamma$ will depend on the choice of \texttt{problem}, either $l_1$ or $l_2$. Finally, we also need to consider the difference in performance between $l_1$ and $l_2$. 
+\medskip 
 
-\medskip
+Every time we initialized the values in our i struct which contains all the values for our hyper-parameters, we initialized them to 0. We implemented a grid search function to check the different combinations of t and $\rho$ (s, in the case of chambolle-pock). Then, we created a separate file and tested various combinations of parameters to find the best combination, ($6^3$ total to be precise). We included some heatmaps and plots to demonstrate the performance of various combination of parameters and algorithms in the appendix (\ref{heatmaps} and \ref{gridsearchplots}). The hyper parameters in the table are from the heat maps. The hyperparameter \texttt{malength} is explained in section \ref{hyperTuning}.
 
-Apart from the blurring kernel $K$ and the additive noise $\eta$, we are also interested in the effects of the step size $t > 0$ and the relaxation parameter $\rho \in (0, 2)$. Their effects will be recorded in their subsection. A final parameter of interest is $\gamma > 0$ that appears in the expression $\gamma \| D x \|_{iso}$. As suggested by the project prompt, this $\gamma$ will depend on the choice of \texttt{problem}, either L1 or L2.
-
-\medskip
-
-After appropriately-chosen hyperparameters have been set, we will present the results of the four algorithms, in particular, the obtained, hopefully deblurred, images. We will compare these results and finally, leave concluding remarks.
-
-We implemented a grid search function to check the various values of a single parameter with all the others fixed. Then, we created a separate file and tested various combinations of parameters to find the best combination, ($6^3$ total to be precise), to be precise , all the resulting plots are left in the results folder of the matlab code.
-
-\textcolor{red}{}
 \begin{table}[h!]
     \centering
     \caption{Default Parameters Used}
@@ -883,46 +881,79 @@ We implemented a grid search function to check the various values of a single pa
         \hline
         \textbf{Hyperparameter} & \textbf{In-line Name \texttt{i.}} & \textbf{Value} \\
         \hline
-        Kernel & \texttt{kernel} & \\
+        Kernel & \texttt{kernel} & Motion Blur (50, 0) \\
         \hline
-        Noise & & \\
+        Noise & $\eta$ & Salt \& Pepper (0.01) \\
         \hline
         Total Iteration & \texttt{maxiter} & 500 \\
         \hline
-        gamma L1 & \texttt{gammal1} & 0.1 \\
+        gamma $l_1$ & \texttt{gammal1} & 0.01 \\
         \hline
-        gamma L2 & \texttt{gammal2} & 0.02 \\
+        gamma $l_2$ & \texttt{gammal2} & 0.01 \\
         \hline
-        t & \texttt{tprimaldr} & \\
-        \hline
-        & \texttt{rhoprimaldr} & \\
-        \hline
-        & \texttt{tprimaldualdr} & \\
-        \hline
-        & \texttt{rhoprimaldualdr} & \\
-        \hline
-        & \texttt{tadmm} & \\
-        \hline
-        & \texttt{rhoadmm} & \\
-        \hline
-        & \texttt{scp} & \\
-        \hline
-        & \texttt{tcp} & \\
+        early stopping param & \texttt{malength} & 32 \\
         \hline
     \end{tabular}
 \end{table}
 
 
+\begin{table}[h!]
+    \caption{Default Parameters Used for the $l_1$ Problem (left) and for the $l_2$ Problem (right)}
+    \vspace{7pt} % Adjust the value as needed to control the amount of space
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Hyperparameter} & \textbf{In-line Name \texttt{i.}} & \textbf{Value} \\
+        \hline
+        Step size t & \texttt{tprimaldr} & 0.5 \\
+        \hline
+        Relaxation $\rho$ & \texttt{rhoprimaldr} & 1.5 \\
+        \hline
+        Step size t & \texttt{tprimaldualdr} & 1.0 \\
+        \hline
+        Relaxation $\rho$ & \texttt{rhoprimaldualdr} & 1.0 \\
+        \hline
+        Step size t & \texttt{tadmm} & 1.0 \\
+        \hline
+        Relaxation $\rho$ & \texttt{rhoadmm} & 0.01 \\
+        \hline
+        s & \texttt{scp} & 1.0 \\
+        \hline
+        t & \texttt{tcp} & 1.0 \\
+        \hline
+    \end{tabular}
+    \quad
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Hyperparameter} & \textbf{In-line Name \texttt{i.}} & \textbf{Value} \\
+        \hline
+        Step size t & \texttt{tprimaldr} & 0.25 \\
+        \hline
+        Relaxation $\rho$ & \texttt{rhoprimaldr} & 1.5 \\
+        \hline
+        Step size t & \texttt{tprimaldualdr} & 1.0 \\
+        \hline
+        Relaxation $\rho$ & \texttt{rhoprimaldualdr} & 1.0 \\
+        \hline
+        Step size t & \texttt{tadmm} &  0.5 \\
+        \hline
+        Relaxation $\rho$ & \texttt{rhoadmm} & 0.1\\
+        \hline
+        s & \texttt{scp} & 0.75\\
+        \hline
+        t & \texttt{tcp} & 0.75 \\
+        \hline
+    \end{tabular}
+\end{table}
 
-
-\newpage
+We notice that a few of the parameters are the same for the $l_1$ problem as for the $l_2$ problem. However, some are indeed different.
 
 
 
 
 
 \subsection{Hyperparameter tuning}
-
+\label{hyperTuning}
 \subsubsection*{Blurring kernel and noise}
 We denote the blurring kernel by $K$ and the noise by $\eta$. We will consider the following blurring kernels $K$
 
@@ -938,29 +969,163 @@ and the following additive noise $\eta$
     \item Salt and pepper noise
 \end{itemize}
 
-\textcolor{red}{add some others if u want to impress a certain prof}
+We tested varying kernel sizes and our different noise types with our fastest algorithm, ADMM with $l_1$ and similar results to DRP and DRPD. We observed that Gaussian Blur resulted in higher error than motion blur, similarly for Poisson as opposed to Salt and Pepper noise, where the latter had higher final error after deblurring, this is seen in the following table. The reason for Gaussian blur's higher error is likely due to its more diffuse nature than motion blur which is more structured. As for salt and pepper versus Poisson, the higher error of the former is likely for a similar reason as the Poisson noise follows a distribution as opposed to the salt and pepper which is uniformly random. 
 
-\subsubsection*{Gamma}
+We implemented two different types of loss functions, mean squared error and mean absolute error (MAE). For motion blur, the MSE tends to be smaller than the MAE, while for gaussian, it is the opposite. In both of the types of errors, we can see that increasing the kernel size increases the error of the final deblurred image.
+
+\begin{table}[h!]
+    \centering
+    \caption{ADMM $l_1$ error w/ motion blur different noise and kernel sizes}
+    \vspace{7pt} % Adjust the value as needed to control the amount of space
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        noise / kernel size & 5 & 10 & 20 & 50 \\
+        \hline
+        Poisson & 0.103761 & 0.433995  & 0.831227 & 1.981254 \\
+        \hline
+        Salt and Pepper & 5.456321  & 5.082865  & 4.744630 & 4.572537\\
+        \hline
+        Poisson (MAE loss) & 1.315056 & 4.478501 &  5.331412 & 8.058971  \\
+        \hline
+        Salt and Pepper (MAE loss) & 5.781919 & 5.755003 & 6.811920 & 9.185187 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[h!]
+    \centering
+    \caption{ADMM $l_1$ error w/ Gaussian blur different noise and kernel sizes}
+    \vspace{7pt} % Adjust the value as needed to control the amount of space
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        noise / kernel size & 5 & 10 & 20 & 50 \\
+        \hline
+        Poisson & 2.574415 & 5.051331  & 4.998908 & 4.998903 \\
+        \hline
+        Salt and Pepper & 5.784421 & 7.060442  & 7.054892 & 6.582341\\
+        \hline
+        Poisson (MAE loss) & 1.524611 & 4.826774  & 4.837622 & 4.837618 \\
+        \hline
+        Salt and Pepper (MAE loss) & 4.267900 & 5.838472  & 7.668699 & 7.984317\\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{figure}[!h]
+\caption{Difference between unblurred (right) and salt and pepper Gaussian blurred image (left)}
+\centerline{
+    \includegraphics[width = 75mm]{cameraman.jpeg}
+    \includegraphics[width = 75mm]{cameraman_gauss.jpeg}
+}
+\label{fig:l1vl2}
+\end{figure}
+
+\subsubsection*{Gamma} 
+For gamma, we were initially running the grid search with regards to gamma and plotting the various combinations of $\rho$ and t, it turned out that the overall best gamma for all the algorithms and the two norms was 0.01. We provided the plotting of various combinations of $\rho$ and t for DRP and gamma in the appendix to show that they all tend to have lowest error when gamma is very low (\ref{gridsearchplots}). The graphs from other algorithms were similar.
 
 \subsubsection*{Step size and relaxation parameter}
 
-\subsection{Results}
+As mentioned previously, for the step size and relaxation parameters we implemented a grid search to graph out the different combinations of $\rho$ and t. We also implemented a heat map to better visualize the data, which shows the errors of various combinations of $\rho$ and t (s and t for Chambolle-Pock) and attributes colours to contrast (\ref{heatmaps}). All the plots and heatmaps are with regards to the mean squared error.
+
+\subsection{Results}\label{results}
+We will present the results of the four algorithms with the default parameters. For this, we have chosen to proceed with \textit{motion blur} with a length of 50 and $\sigma=0$, and a Salt and Pepper additive noise with a density of $0.01$. We also consider the $l_1$ problem as it seems to be more accurate. For the objective function, we are using the mean squared error.
+
+
+\begin{figure}[!h]
+\caption{Original image (left) and blurred image (right) \cite{drake}}
+\centerline{
+    \includegraphics[width = 75mm]{drake.jpg}
+    \includegraphics[width = 75mm]{drake/drake_motion_blurred.png}
+}
+\end{figure}
+
+\subsubsection{Image results}
+
+The results were as follows. The summaries of the algorithms are as in the following table (\ref{table:drake_results}). The output images are as in figure (\ref{fig:drake_results}). The results are comparable, however algorithm 1 and algorithm 3 seem to perform the best. One other comment is that in the original image, Drake is dripped in formal wear that is stripped and in a sense sort of resembles noise. This has an impact on the deblurred image, and indeed makes it harder to recover something super clear. In particular, without including MATLAB's function \texttt{edgetaper} \cite{taper}, the obtained image would have had an even worse ringing effect, as seen in figure (\ref{fig:drakering}). 
+
+\begin{figure}[!h]
+\caption{Deblurred (left: no edgetaper, right: edgetaper)}
+\centerline{
+    \includegraphics[width = 75mm]{drake_motion_notaper_unblurred.png}
+    \includegraphics[width = 75mm]{drake_motion_taper_unblurred.png}
+}
+\label{fig:drakering}
+\end{figure}
+
+\begin{table}[h!]
+    \centering
+    \caption{Summary of the Algorithms}
+    \label{table:drake_results}
+    \vspace{7pt} % Adjust the value as needed to control the amount of space
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \textbf{Algorithm} & \textbf{\# of Iterations} & \textbf{Run Time} & \textbf{Final Objective} \\
+        \hline
+        DRP & 200& 35.09&17.99   \\
+        \hline
+        DRPD & 170 &41.25 & 16.94 \\
+        \hline
+        ADMM &79 & 15.85&21.82 \\
+        \hline
+        CP & 34 & 10.11 & 179.56 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+We notice that the run time for DRPD is longer than that of DRP and CP. Observing the iterations of the DRPD algorithm, the error would be monotonically decreasing but would do so by a very small amount. Thus it would do the full 500 iterations before coming to a stop. The result, however, was favourable, where the deblurred image was fairly clear. The ADMM algorithm shared a similar property, but the for loop would end up stopping and we would get the desired result. 
+
+The two algorithms with the lowest final objective value were that of DRP and DRPD. This can be seen by figure (\ref{table:drake_results}). Furthermore, we observe that the loss updates of Chambolle-Pock is the smoothest, while DRPD is relatively smooth. The updates for DRP and ADMM are relatively choppy as shown in figure (\ref{fig:loss_drake}). The results of each of the algorithm is as in figure (\ref{fig:drake_results}).
+
+
+\begin{figure}[!h]
+\caption{Results (top left: DRP, top right: DRPD, bottom left: ADMM, bottom right: CP)}
+\centerline{
+    \includegraphics[width = 75mm]{drake/DRP_l1.png}
+    \includegraphics[width = 75mm]{drake/DRPD_l1.png}
+}
+\centerline{
+    \includegraphics[width = 75mm]{drake/ADMM_l1.png}
+    \includegraphics[width = 75mm]{drake/CP_l1.jpg}
+}
+\label{fig:drake_results}
+\end{figure}
+
+\subsubsection{$l_1$ vs $l_2$ and Early Stopping}
+
+We found that $l_1$ almost always performs better than $l_2$ (\ref{heatmaps} \ref{gridsearchplots}). Also, $l_2$ displays much more sensitivity to outliers. This can be explained by the squaring of the terms and the facts that n-norms tend to augment their largest elements disproportionately  as they n increases.
+
+Moreover, the $l_1$ norm is known to induce sparsity. It therefore induces more clearer edges as approximately close values become the same, while the $l_2$ norm as a penalty does not clips values to 0, or in this case to say $b$.  In some sense, when we implement the proximal operators, the problem "$l_1$" or "$l_2$" sort of becomes the penalty, and the $\frac{1}{2} \| y - u \|_2^2$ sort of becomes our actual function. In addition, because we are in a non-blind framework, we have knowledge of the blurring kernel $K$ and therefore know of the map say $x \mapsto \|K x - b\|_1$. Clipping to $0$ when $u = b$ as shown in the derivation of the proximal operator of the $l_1$ norm reminds the sparsity-inducing feature of this map. It naturally leads to clearer edges. As an example, see figure (\ref{fig:l1vl2}).
+
+\begin{figure}[!h]
+\caption{Douglas-Rachford Primal with $l_1$ (left) and $l_2$ (right)}
+\centerline{
+    \includegraphics[width = 75mm]{drake/DRP_l1.png}
+    \includegraphics[width = 75mm]{drake/DRP_l2.png}
+}
+\label{fig:l1vl2}
+\end{figure}
+
+\medskip
+
+We are also implementing a form of early stopping based on a moving average. That is, we are keeping a history of the previous \texttt{i.malength} number of previous objective value, then taking the sample average, and stopping if the current objective value is greater than that of the sample mean.
+
+
 
 \subsection{Conclusion}
 
+We experienced a few problems when completing the project, which first and foremost included learning the programming language. With our group having little to no experience with Matlab, we had to familiarize ourselves with the syntax of the language. With syntax resembling a mix of python and R, and plenty of helpful functions with insightful documentation/instructions, we were quickly able to adjust. We had issues that had us scratching our heads caused by not using $clearvals$. Another task that posed a challenge was parameter tuning. With four algorithms to adjust and 2 norms to choose from in each algorithm, we had to spend sometime optimizing parameters. Implementing heat maps made it easier to find the parameters for the respective algorithms. 
 
+The winner of the algorithms would be between the DRP and ADMM algorithms. They both worked quickly and had very nice results. In terms of which algorithm was easier to code, it is tricky to say, as we had very little experience with Matlab when coding the first algorithm, DRP, but we built up experience in time for writing ADMM. However, DRP algorithm is objectively easier to understand and code when comparing it to the implementation of the ADMM algorithm. With that being said, we would recommend the DRP algorithm to an individual with less experience with Matlab and convex optimization, and recommend the ADMM algorithm the seasoned veterans of the subject. 
+\newpage 
 \section*{Acknowledgments}
-Please include a list of each person (with student ID) in your group
-and write a paragraph \textbf{for each person} with exactly what they
-did. Note that the Acknowledgment section does not count towards the
-page limit.
 
-Example Acknowledgments would look like:
-
-\paragraph{Alexandre St-Aubin} (Student ID: 261115785) We ball.
-\paragraph{Jonathan Campana} (Student ID: 260985613) We ball. 
-\paragraph{Elliot Forcier-Poirier} (Student ID: ) We ball. 
-\paragraph{Edmund Wu} (Student ID: 261033501) We ball. 
+\paragraph{Alexandre St-Aubin} (Student ID: 261115785) I wrote the initial code to get everyone started, including some proximal and image handling functions, as well as the main function. I wrote code of the Chambolle-Pock algorithm. I wrote the introduction section, appart from the \textit{Derivations of the proximal maps}, which Edmund did. I also wrote the abstract and the entire section on Primal Douglas-Rachford (\ref{sub:PDRS}), along with the introduction to the algorithm section (\ref{algos}). Finally, I was the one who made the heat maps.
+\paragraph{Jonathan Campana} (Student ID: 260985613) I was in charge of everything related to algorithm 2, the Primal Dual Douglas-Rachford algorithm. Coding the algorithm, the code for computing the conjugate of the prox of a function, and the derivation and explanation of the algorithm in the project report. I also wrote the conclusion on the project report. 
+\paragraph{Elliot Forcier-Poirier} (Student ID: 260989602 ) I worked on the proof of the Proximal operator of the Iso-Norm and the $l_1$ norm. I also implemented the grid search for $\rho$ and t (s and t for Chambolle-Pock) and plotted their results, also tested different Kernel sizes, motion vs gaussian blur and poisson vs saltandpepper noise. I wrote part of the results section in the report. I compared the performance between the $l_1$ and $l_2$ implementations of the problem and the MAE vs MSE loss functions.
+\paragraph{Edmund Wu} (Student ID: 261033501) I mainly implemented algorithm 1 and algorithm 3, the initialization of the algorithms, some of the code for the proximal maps, the code to evaluate the objective value, and the plot loss function. I also commented most of the code, wrote the proofs for the proximal operators, wrote the summaries for algorithm 3 and algorithm 4, contributed in the grid search and in the heat map, and contributed in the results section.
 \bibliographystyle{plainnat}
 \bibliography{563_FinalReport.bib}
 
@@ -975,9 +1140,10 @@ Example Acknowledgments would look like:
 
 
 \section{Appendix}
-\subsection{Primal Douglas-Rachford Splitting Algorithm}%
-  \label{algo:PRS}
+\subsection{Pseudocode of the Algorithms}%
+\label{sub:pseudo}
 \begin{algorithm}[H]
+  \label{algo:PRS}
  \SetKw{Null}{NULL}
  \SetKw{Return}{return}
  \Input{ Blurred image $b$, step size $t$, relaxation parameter $\rho$}
@@ -997,9 +1163,8 @@ Example Acknowledgments would look like:
 \Return $x\text{Sol} = \prox_{tf}(z^k)$\;
 \caption{Primal Douglas-Rachford Splitting}\label{alg: DRprimal} 
 \end{algorithm}
-\subsection{Primal-dual Douglas-Rachford Splitting Algorithm }%
-  \label{algo:PDRS}
 \begin{algorithm}[h!]
+  \label{algo:PDRS}
   \SetKw{Null}{NULL}
   \SetKw{Return}{return}
   \Input{ Blurred image $b$, step size $t$, relaxation parameter $\rho$}
@@ -1019,10 +1184,8 @@ Example Acknowledgments would look like:
  \caption{Primal-Dual Douglas-Rachford Splitting}\label{alg: DRpd} 
  \end{algorithm}
 
-\newpage
-\subsection{ADMM Algorithm}%
-  \label{algo:ADMM}
 \begin{algorithm}[h!]
+  \label{algo:ADMM}
  \SetKw{Null}{NULL}
  \SetKw{Return}{return}
  \Input{ Blurred image $b$, step size $t$, relaxation parameter $\rho$}
@@ -1039,10 +1202,8 @@ Example Acknowledgments would look like:
 \Return $x\text{Sol} =  (I+A^TA)^{-1} \left( u^{k} + A^T y^{k} - \frac{1}{t} (w^{k} + A^T z^{k} )\right) $\;
 \caption{Alternating Direction Method of Multipliers (ADMM)}\label{alg: ADMM} 
 \end{algorithm}
-
-\subsection{Chambolle-Pock Algorithm}%
-    \label{algo:ChambollePock}
 \begin{algorithm}[h!]
+    \label{algo:ChambollePock}
  \SetKw{Null}{NULL}
  \SetKw{Return}{return}
  \Input{ Blurred image $b$, step sizes $t$, $s$}
@@ -1057,6 +1218,102 @@ Example Acknowledgments would look like:
 \Return $x\text{Sol} = x^{k}$\;
 \caption{Chambolle-Pock Algorithm}\label{alg:ChambollePock} 
 \end{algorithm}
+\newpage
+\subsection{Heat Maps}
+\label{heatmaps}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{ADMM_l1.png}
+    \caption{Losses for ADMM with $l_1$ norm}
+    \label{fig:admml1}
+\end{figure}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{ADMM_l2.png}
+    \caption{Losses for ADMM with $l_2$ norm}
+    \label{fig:admml2}
+\end{figure}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{CP_l1.png}
+    \caption{Losses for Chambolle-Pock with $l_1$ norm (step size = t, rho = s)}
+    \label{fig:cpl1}
+\end{figure}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{CP_l2.png}
+    \caption{Losses for Chambolle-Pock with $l_2$ norm (step size = t, rho = s)}
+    \label{fig:cpl2}
+\end{figure}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{DRP_l1.png}
+    \caption{Losses for Douglas-Rachford Primal with $l_1$ norm}
+    \label{fig:drpl1}
+\end{figure}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{DRP_l2.png}
+    \caption{Losses for Douglas-Rachford Primal with $l_2$ norm}
+    \label{fig:drpl2}
+\end{figure}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{DRPD_l1.png}
+    \caption{Losses for Douglas-Rachford Primal-Dual with $l_1$ norm}
+    \label{fig:drpdl1}
+\end{figure}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{DRPD_l2.png}
+    \caption{Losses for Douglas-Rachford Primal-Dual with $l_2$ norm}
+    \label{fig:drpdl2}
+\end{figure}
+
+\pagebreak
+
+\subsection{Grid Search Plots}
+(next page)
+
+\label{gridsearchplots}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{DRP_grid_search.png.png}
+    \caption{Losses for DRP}
+    \label{fig:drpl1}
+\end{figure}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{DRPD_grid_search.png.png}
+    \caption{Losses for DRPD (they might be misleading so we refer to the heatmap)}
+    \label{fig:drpdl1}
+\end{figure}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{ADMM_grid_search.png.png}
+    \caption{Losses for ADMM}
+    \label{fig:admml1}
+\end{figure}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{CP_grid_search_2.png.png}
+    \caption{Losses for Chambolle-Pock (they might be misleading so we refer to the heatmap)}
+    \label{fig:cpl1}
+\end{figure}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{DRP_grid_search_w_gamma.png}
+    \caption{Losses for DRP w/ gamma as x}
+    \label{fig:admml1}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{loss1.jpg}
+    \includegraphics[width=0.8\textwidth]{loss2.jpg}
+    \caption{Loss for Drake.png. Note that the above figure plots the loss for a run that does not correspond to the obtained images.}
+    \label{fig:loss_drake}
+\end{figure}
 
   
 \end{document}

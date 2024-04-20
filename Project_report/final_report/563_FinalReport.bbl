@@ -1,34 +1,38 @@
-\begin{thebibliography}{4}
+\begin{thebibliography}{6}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
+\bibitem[dra()]{drake}
+Check your neck: A gq dress-shirt primer.
+\newblock URL \url{https://www.gq.com/gallery/drake-collar-dress-shirt-primer-slideshow}.
+\newblock Accessed: 2024-04-19.
+
+\bibitem[tap()]{taper}
+Avoid ringing in deblurred images.
+\newblock URL \url{https://www.mathworks.com/help/images/avoid-ringing-in-deblurred-images.html#}.
+\newblock Accessed: 2024-04-19.
+
 \bibitem[Douglas and Rachford(1956)]{douglas_rachford_1956}
 Jim Douglas and H.~H. Rachford.
-\newblock On the numerical solution of heat conduction problems in two and
-  three space variables.
-\newblock \emph{Transactions of the American Mathematical Society}, 82\penalty0
-  (2):\penalty0 421, Jul 1956.
+\newblock On the numerical solution of heat conduction problems in two and three space variables.
+\newblock \emph{Transactions of the American Mathematical Society}, 82\penalty0 (2):\penalty0 421, Jul 1956.
 \newblock \doi{https://doi.org/10.2307/1993056}.
-\newblock URL
-  \url{https://typeset.io/pdf/on-the-numerical-solution-of-heat-conduction-problems-in-two-4lbdiqc5i8.pdf}.
+\newblock URL \url{https://typeset.io/pdf/on-the-numerical-solution-of-heat-conduction-problems-in-two-4lbdiqc5i8.pdf}.
 
 \bibitem[O'Connor and Vandenberghe(2014)]{ConnorVander}
 Daniel O'Connor and Lieven Vandenberghe.
-\newblock Primal-dual decomposition by operator splitting and applications to
-  image deblurring.
-\newblock \emph{SIAM Journal on Imaging Sciences}, 7\penalty0 (3):\penalty0
-  1724--1754, 2014.
+\newblock Primal-dual decomposition by operator splitting and applications to image deblurring.
+\newblock \emph{SIAM Journal on Imaging Sciences}, 7\penalty0 (3):\penalty0 1724--1754, 2014.
 \newblock \doi{10.1137/13094671X}.
 \newblock URL \url{https://doi.org/10.1137/13094671X}.
 
 \bibitem[Parikh(2014)]{parikh_2014}
 Neal Parikh.
 \newblock Proximal algorithms.
-\newblock \emph{Foundations and Trends in Optimization}, 1\penalty0
-  (3):\penalty0 127–239, 2014.
+\newblock \emph{Foundations and Trends in Optimization}, 1\penalty0 (3):\penalty0 127–239, 2014.
 \newblock \doi{https://doi.org/10.1561/2400000003}.
 
 \bibitem[Wang and Tao(2014)]{wang2014recent}
