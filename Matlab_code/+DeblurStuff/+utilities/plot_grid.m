@@ -1,14 +1,16 @@
 % Grid search Implementation %
 function plot_grid(array_x, matrix_y_l1, matrix_y_l2, filename)
-%   We perform grid search keeping one parameter fixed
-%   z
+%   PLOT_GRID reates the plot from grid search
+%   
 %   Input Parameters:
 %       array_x      : X indices
-%       matrix_y     : cells of Y values
+%       matrix_y_l1  : cells of Y values
+%       matrix_y_l2  : cells of Y values
+%       filename     : name of file to be saved as
 %   
 %   No output, only saves the plot
-
-
+%
+%
     % Create figure for subplots
     figure;
     

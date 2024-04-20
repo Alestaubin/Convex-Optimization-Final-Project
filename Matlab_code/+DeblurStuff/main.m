@@ -38,10 +38,17 @@ kernelsize = 20;
 [kernel, b] = DeblurStuff.image_handling.MotionBlur(I,50,0);
 
 % Additive Noise
+<<<<<<< HEAD
 b = DeblurStuff.image_handling.SaltnPepper(b, 0.01);
 
 %figure('Name','image after blurring')
 %imshow(b,[])
+=======
+b = DeblurStuff.image_handling.SaltnPepper(b, 0.05);
+
+% figure('Name','image after blurring')
+% imshow(b,[])
+>>>>>>> refs/remotes/origin/main
 
 
 %%%%%%%%%%%%%%%%%%%%
@@ -53,15 +60,26 @@ i.maxiter = 200;
 [numRows, numCols] = size(b);
 x = zeros( numRows, numCols );
 % x = DeblurStuff.DeblurGod('l1', 'douglasrachfordprimal', x, kernel, b, i);
+<<<<<<< HEAD
 % x = DeblurStuff.DeblurGod('l1', 'douglasrachfordprimaldual', x, kernel, b, i);
 % x = DeblurStuff.DeblurGod('l1', 'admm', x, kernel, b, i);
  x = DeblurStuff.DeblurGod('l1', 'chambollepock', x, kernel, b, i);
+=======
+% x = DeblurStuff.DeblurGod('l2', 'douglasrachfordprimaldual', x, kernel, b, i);
+% x = DeblurStuff.DeblurGod('l2', 'admm', x, kernel, b, i);
+x = DeblurStuff.DeblurGod('l1', 'chambollepock', x, kernel, b, i);
+>>>>>>> refs/remotes/origin/main
 
 figure('Name','image after deblurring')
 imshow(x,[])
 
+
+
 %{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Plotting grid_search results
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This was the code for grid search.
 
 % Initialize Parameters for testing
 array_rho = [0.01, 0.05, 0.1, 0.25, 0.5, 0.75, 1.0, 1.5]; %list of places to search for first parameter

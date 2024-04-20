@@ -2,6 +2,8 @@
 % the objective values for each algorithm, used in the final report. We
 % plot the mse loss be default.
 %
+
+
 clc, clearvars;
 %%%%%%%%%%%%%
 %   blur    %
@@ -34,12 +36,12 @@ b = DeblurStuff.image_handling.Poisson(b);
 %   plots    %
 %%%%%%%%%%%%%%
 
-
+% Initialization
 [numRows, numCols] = size(b);
-
 problem = 'l1';
 i = struct;
 
+% Run algorithms and get the loss arrays
 x = zeros( numRows, numCols );
 [ivals, i] = DeblurStuff.init.init_algo(problem, 'douglasrachfordprimal', i, b, x, kernel );
 [ ~, summary1 ] = DeblurStuff.algorithms.DRP(ivals, b, i, problem);
@@ -56,17 +58,18 @@ x = zeros( numRows, numCols );
 [ivals, i] = DeblurStuff.init.init_algo(problem, 'chambollepock', i, b, x, kernel );
 [ ~, summary4 ] = DeblurStuff.algorithms.CP(ivals, b, i, problem);
 
-
+% Plot
 figure;
-plot(1:summary1.iter, summary1.e_arr);
+plot(1:summary1.iter, summary1.e_arr, 'LineWidth', 2);
 hold on 
-plot(1:summary2.iter, summary2.e_arr);
+plot(1:summary2.iter, summary2.e_arr, 'LineWidth', 2);
 hold on 
-plot(1:summary3.iter, summary3.e_arr);
+plot(1:summary3.iter, summary3.e_arr, 'LineWidth', 2);
 hold on 
-plot(1:summary4.iter, summary4.e_arr);
+plot(1:summary4.iter, summary4.e_arr, 'LineWidth', 2);
 hold off
 
+legend('DRP','DRPD', 'ADMM', 'CP');
 
 
 
